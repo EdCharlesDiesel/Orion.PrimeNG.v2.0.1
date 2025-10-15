@@ -1,0 +1,118 @@
+<div class="checkout-container">
+    <p-card class="checkout-card">
+        <ng-template pTemplate="header">
+            <div class="card-header">
+                <i class="pi pi-credit-card"></i>
+                <span class="header-title">Checkout</span>
+            </div>
+        </ng-template>
+
+        <div class="checkout-layout">
+            <!-- Left: Shipping Details -->
+            <div class="checkout-section shipping-section">
+                <h3 class="section-title">Shipping Details</h3>
+
+                <form [formGroup]="shippingForm" class="shipping-form">
+                    <div class="field">
+                        <label for="fullName">Full Name</label>
+                        <input
+                            pInputText
+                            id="fullName"
+                            formControlName="fullName"
+                            placeholder="Enter full name"
+                            required
+                        />
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input
+                            pInputText
+                            id="email"
+                            type="email"
+                            formControlName="email"
+                            placeholder="Enter email"
+                            required
+                        />
+                    </div>
+
+                    <div class="field">
+                        <label for="address">Address</label>
+                        <textarea
+                            pInputTextarea
+                            id="address"
+                            rows="2"
+                            formControlName="address"
+                            placeholder="Enter address"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input
+                                pInputText
+                                id="city"
+                                formControlName="city"
+                                placeholder="Enter city"
+                                required
+                            />
+                        </div>
+
+                        <div class="field">
+                            <label for="postalCode">Postal Code</label>
+                            <input
+                                pInputText
+                                id="postalCode"
+                                formControlName="postalCode"
+                                placeholder="Enter postal code"
+                                required
+                            />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Order Summary -->
+            <div class="checkout-section summary-section">
+                <h3 class="section-title">Order Summary</h3>
+
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <strong>{{ subtotal | currency }}</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <strong>{{ tax | currency }}</strong>
+                    </div>
+
+                    <p-divider></p-divider>
+
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span class="total-amount">{{ total | currency }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <div class="card-footer">
+                <p-button
+                    label="Back to Cart"
+                    icon="pi pi-arrow-left"
+                    styleClass="p-button-outlined p-button-secondary"
+                    routerLink="/cart"
+                ></p-button>
+                <p-button
+                    label="Confirm Order"
+                    icon="pi pi-check-circle"
+                    (onClick)="placeOrder()"
+                ></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

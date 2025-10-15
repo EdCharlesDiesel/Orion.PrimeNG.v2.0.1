@@ -1,0 +1,91 @@
+<div class="trading-economics-container">
+    <p-card>
+        <ng-template pTemplate="header">
+            <div class="card-header">
+                <h2>Trading Economics Dashboard</h2>
+                <p>Real-time economic indicators and statistics</p>
+            </div>
+        </ng-template>
+
+        <div class="controls-section">
+            <div class="p-field">
+                <label for="country">Select Country</label>
+                <p-dropdown
+                    [options]="countries"
+                    [(ngModel)]="selectedCountry"
+                    (onChange)="onCountryChange($event)"
+                    placeholder="Select a Country"
+                    [showClear]="false"
+                    id="country">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <p-table
+            [value]="data"
+            [loading]="loading"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} indicators"
+            styleClass="p-datatable-gridlines p-datatable-striped"
+            responsiveLayout="scroll">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="indicator">
+                        Indicator <p-sortIcon field="indicator"></p-sortIcon>
+                    </th>
+                    <th>Current Value</th>
+                    <th>Previous Value</th>
+                    <th pSortableColumn="date">
+                        Date <p-sortIcon field="date"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="change">
+                        Change <p-sortIcon field="change"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-row>
+                <tr>
+                    <td><strong>{{ row.indicator }}</strong></td>
+                    <td>
+                        <p-tag [value]="row.value" severity="info"></p-tag>
+                    </td>
+                    <td>{{ row.previous }}</td>
+                    <td>{{ row.date }}</td>
+                    <td>
+            <span [class]="getChangeClass(row.change)">
+              <i [class]="getChangeIcon(row.change)"></i>
+                {{ row.change > 0 ? '+' : '' }}{{ row.change }}
+            </span>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" style="text-align: center;">No data available</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <ng-template pTemplate="footer">
+            <div class="footer-info">
+                <i class="pi pi-info-circle"></i>
+                Data updated: {{ today | date:'medium' }} | Source: Trading Economics (Mock Data)
+            </div>
+        </ng-template>
+    </p-card>
+
+    <p-card class="info-card">
+        <div class="info-content">
+            <i class="pi pi-exclamation-triangle"></i>
+            <div>
+                <strong>Note:</strong> This component uses mock data. To connect to the real Trading Economics API,
+                obtain an API key from tradingeconomics.com and uncomment the API call code in the component.
+            </div>
+        </div>
+    </p-card>
+</div>

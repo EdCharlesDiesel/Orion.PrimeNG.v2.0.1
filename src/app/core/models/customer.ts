@@ -22,6 +22,7 @@ export class Customer {
   store?: StoreModel;
   salesTerritory?: SalesTerritory;
   salesOrderHeaders?: SalesOrderHeader[] | undefined;
+  representative: any;
 
 }
 

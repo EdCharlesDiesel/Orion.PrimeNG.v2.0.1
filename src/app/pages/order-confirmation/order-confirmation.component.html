@@ -1,0 +1,26 @@
+<div class="order-confirmation">
+  <h2>Thank you for your order!</h2>
+
+  <h3>Order Summary</h3>
+  <div class="summary-item">
+    <span>Subtotal:</span>
+    <span>{{ subtotal() | currency:'USD' }}</span>
+  </div>
+  <div class="summary-item">
+    <span>Tax (15%):</span>
+    <span>{{ tax() | currency:'USD' }}</span>
+  </div>
+  <div class="summary-item total">
+    <span>Total:</span>
+    <strong>{{ total() | currency:'USD' }}</strong>
+  </div>
+
+  <h3>Items Purchased</h3>
+  <ul class="item-list">
+    <li *ngFor="let item of cartItems()">
+      {{ item.product.title }} × {{ item.quantity }}
+    </li>
+  </ul>
+
+  <button class="btn btn-primary" (click)="confirmOrder()">Confirm & Complete</button>
+</div>

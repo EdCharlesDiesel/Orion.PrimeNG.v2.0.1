@@ -1,0 +1,293 @@
+// Variables
+$primary-color: #3b82f6;
+$secondary-color: #6b7280;
+$border-color: #e5e7eb;
+$background-light: #f9fafb;
+$text-dark: #1f2937;
+$text-muted: #6b7280;
+$shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// Mixins
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == mobile {
+        @media (max-width: 768px) {
+            @content;
+        }
+    } @else if $breakpoint == tablet {
+        @media (min-width: 769px) and (max-width: 1024px) {
+            @content;
+        }
+    } @else if $breakpoint == desktop {
+        @media (min-width: 1025px) {
+            @content;
+        }
+    }
+}
+
+// Full Page Container
+.checkout-container {
+    min-height: 100vh;
+    width: 100%;
+    //padding: 2rem;
+    //background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond-to(mobile) {
+        padding: 1rem;
+    }
+
+    // Card Styling
+    .checkout-card {
+        width: 100%;
+        //max-width: 1200px;
+        border-radius: 16px;
+        box-shadow: $shadow-lg;
+        overflow: hidden;
+        margin-top: -275px;
+        ::ng-deep {
+            .p-card-header {
+                //background: linear-gradient(135deg, $primary-color 0%, #2563eb 100%);
+                padding: 1.5rem 2rem;
+                border-bottom: none;
+
+                @include respond-to(mobile) {
+                    padding: 1rem 1.5rem;
+                }
+            }
+
+            .p-card-body {
+                padding: 2rem;
+
+                @include respond-to(mobile) {
+                    padding: 1.5rem;
+                }
+            }
+
+            .p-card-footer {
+                background-color: $background-light;
+                padding: 1.5rem 2rem;
+                border-top: 1px solid $border-color;
+
+                @include respond-to(mobile) {
+                    padding: 1rem 1.5rem;
+                }
+            }
+        }
+    }
+
+    // Header
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        //color: white;
+
+        i {
+            font-size: 1.5rem;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+
+            @include respond-to(mobile) {
+                font-size: 1.25rem;
+            }
+        }
+    }
+
+    // Layout
+    .checkout-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+
+        @include respond-to(mobile) {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+    }
+
+    // Section
+    .checkout-section {
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: $text-dark;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid $primary-color;
+        }
+    }
+
+    // Shipping Form
+    .shipping-form {
+        .field {
+            margin-bottom: 1.5rem;
+
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: $text-dark;
+                font-size: 0.875rem;
+            }
+
+            input,
+            textarea {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid $border-color;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                }
+
+                &::placeholder {
+                    color: #9ca3af;
+                }
+            }
+
+            textarea {
+                resize: vertical;
+                min-height: 80px;
+            }
+        }
+
+        .field-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+
+            @include respond-to(mobile) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    // Order Summary
+    .order-summary {
+        background-color: $background-light;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: $text-muted;
+
+            span {
+                &:first-child {
+                    color: $text-muted;
+                }
+            }
+
+            strong {
+                color: $text-dark;
+                font-weight: 600;
+            }
+
+            &.total {
+                margin-top: 1rem;
+                padding-top: 1rem;
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: $text-dark;
+
+                .total-amount {
+                    color: $primary-color;
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        ::ng-deep .p-divider {
+            margin: 1rem 0;
+        }
+    }
+
+    // Footer
+    .card-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        @include respond-to(mobile) {
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+
+            ::ng-deep .p-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+// PrimeNG Overrides
+::ng-deep {
+    .p-button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:not(.p-button-outlined) {
+            background: linear-gradient(135deg, $primary-color 0%, #2563eb 100%);
+            border: none;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            }
+        }
+
+        &.p-button-outlined {
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.04);
+            }
+        }
+    }
+
+    .p-inputtext,
+    .p-inputtextarea {
+        &:enabled:focus {
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
+        }
+    }
+}
+
+// Additional responsive adjustments
+@include respond-to(mobile) {
+    .checkout-container {
+        align-items: flex-start;
+    }
+}
+
+// Animation
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.checkout-card {
+    animation: fadeIn 0.5s ease-out;
+}

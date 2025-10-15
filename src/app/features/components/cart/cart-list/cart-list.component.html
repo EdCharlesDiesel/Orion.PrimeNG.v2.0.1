@@ -1,60 +1,61 @@
-<!--<div class="cart-container" *ngIf="vm$ | async as vm">-->
-<!--  &lt;!&ndash; Header &ndash;&gt;-->
-<!--  <div class="cart-header">-->
-<!--    <h2>-->
-<!--      <mat-icon>shopping_cart</mat-icon>-->
-<!--      Shopping Cart-->
-<!--    </h2>-->
-<!--    <button-->
-<!--      mat-stroked-button-->
-<!--      color="warn"-->
-<!--      (click)="clearCart()"-->
-<!--      *ngIf="vm.items.length > 0">-->
-<!--      <mat-icon>delete_sweep</mat-icon>-->
-<!--      Clear Cart-->
-<!--    </button>-->
-<!--  </div>-->
+<div class="cart-container" *ngIf="vm$ | async as vm">
 
-<!--  <mat-divider></mat-divider>-->
+    <!-- Header -->
+    <div class="cart-header">
+        <h2>
+            <i class="pi pi-shopping-cart"></i>
+            Shopping Cart
+        </h2>
+        <button
+            pButton
+            type="button"
+            label="Clear Cart"
+            icon="pi pi-trash"
+            class="p-button-outlined p-button-danger"
+            (click)="clearCart()"
+            *ngIf="vm.items.length > 0">
+        </button>
+    </div>
 
-<!--  &lt;!&ndash; Cart Items &ndash;&gt;-->
-<!--  <div class="cart-items" *ngIf="vm.items.length > 0">-->
-<!--    <app-cart-item-->
-<!--      *ngFor="let item of vm.items; trackBy: trackByProductId"-->
-<!--      [cartItem]="item">-->
-<!--    </app-cart-item>-->
-<!--  </div>-->
+    <p-divider></p-divider>
 
-<!--  &lt;!&ndash; Empty Cart &ndash;&gt;-->
-<!--  <div class="empty-cart" *ngIf="vm.items.length === 0">-->
-<!--    <mat-icon>shopping_cart</mat-icon>-->
-<!--    <h3>Your cart is empty</h3>-->
-<!--    <p>Add some products to get started!</p>-->
-<!--    <button mat-raised-button color="primary" routerLink="/products-all">-->
-<!--      Browse Products-->
-<!--    </button>-->
-<!--  </div>-->
+    <!-- Cart Items -->
+    <div class="cart-items" *ngIf="vm.items.length > 0">
+        <app-cart-item
+            *ngFor="let item of vm.items; trackBy: trackByProductId"
+            [cartItem]="item">
+        </app-cart-item>
+    </div>
 
-<!--  &lt;!&ndash; Cart Summary &ndash;&gt;-->
-<!--  <mat-card class="cart-summary" *ngIf="vm.items.length > 0">-->
-<!--    <mat-card-content>-->
-<!--      <div class="summary-row">-->
-<!--        <span>Total Items:</span>-->
-<!--        <strong>{{ vm.totalItems }}</strong>-->
-<!--      </div>-->
-<!--      <mat-divider></mat-divider>-->
-<!--      <div class="summary-row total">-->
-<!--        <span>Total Price:</span>-->
-<!--        <strong class="total-amount">{{ vm.totalPrice | currency }}</strong>-->
-<!--      </div>-->
-<!--      <button-->
-<!--        mat-raised-button-->
-<!--        color="primary"-->
-<!--        class="checkout-button"-->
-<!--        (click)="checkout()">-->
-<!--        <mat-icon>payment</mat-icon>-->
-<!--        Proceed to Checkout-->
-<!--      </button>-->
-<!--    </mat-card-content>-->
-<!--  </mat-card>-->
-<!--</div>-->
+    <!-- Empty Cart -->
+    <div class="empty-cart" *ngIf="vm.items.length === 0">
+        <i class="pi pi-shopping-cart" style="font-size: 3rem;"></i>
+        <h3>Your cart is empty</h3>
+        <p>Add some products to get started!</p>
+        <button pButton type="button" label="Browse Products" routerLink="/products-all" class="p-button-raised p-button-primary"></button>
+    </div>
+
+    <!-- Cart Summary -->
+    <p-card class="cart-summary" *ngIf="vm.items.length > 0">
+        <ng-template pTemplate="content">
+            <div class="summary-row">
+                <span>Total Items:</span>
+                <strong>{{ vm.totalItems }}</strong>
+            </div>
+            <p-divider></p-divider>
+            <div class="summary-row total">
+                <span>Total Price:</span>
+                <strong class="total-amount">{{ vm.totalPrice | currency }}</strong>
+            </div>
+            <button
+                pButton
+                type="button"
+                label="Proceed to Checkout"
+                icon="pi pi-credit-card"
+                class="checkout-button p-button-raised p-button-primary"
+                (click)="checkout()">
+            </button>
+        </ng-template>
+    </p-card>
+
+</div>

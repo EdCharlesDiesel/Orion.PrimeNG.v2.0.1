@@ -16,6 +16,7 @@ import { Password } from 'primeng/password';
 import { InputSwitch } from 'primeng/inputswitch';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
+import { Card } from 'primeng/card';
 
 interface ProfileStats {
     loginCount: number;
@@ -29,19 +30,8 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FileUpload,
-        Tag,
-        DatePipe,
-        TabView,
-        TabPanel,
-        ReactiveFormsModule,
-        Button,
-        DropdownModule,
-        Password,
-        InputSwitch,
-        ConfirmDialog,
-        Toast,
-        CommonModule]
+    imports: [FileUpload, Tag, DatePipe, TabView, TabPanel, ReactiveFormsModule, Button, DropdownModule, Password, InputSwitch, ConfirmDialog, Toast, CommonModule],
+    providers: [ConfirmationService, MessageService]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
     user: any | null = null;
@@ -225,9 +215,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     error: (error) => {
                         this.loading = false;
 
-                        const errorMessage = error?.error?.message
-                            || error?.message
-                            || 'Failed to update profile';
+                        const errorMessage = error?.error?.message || error?.message || 'Failed to update profile';
 
                         this.messageService.add({
                             severity: 'error',

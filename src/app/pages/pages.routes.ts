@@ -1,14 +1,20 @@
 import { Documentation } from '../core/admin/documentation/documentation';
 import { Empty } from './empty/empty';
-import { Departments } from '../core/admin/human-resources/departments/departments';
-import { EmployeePayHistory } from '../core/models/employee-pay-history.model';
 import { Routes } from '@angular/router';
+import { AllProductsComponent } from './all-products/all-products.component';
+import { TradingEconomicsDashboard } from './trading-economics-dashboard/trading-economics-dashboard';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { CheckOutPage } from './check-out-page/check-out-page';
 
 
 export default [
+    { path: 'products', component: AllProductsComponent },
+    { path: 'shopping-cart', component: ShoppingCartComponent },
+    { path: 'check-out', component: CheckOutPage },
+    { path: 'order-confirmation', component: OrderConfirmationComponent },
     { path: 'documentation', component: Documentation },
+    { path: 'trading-economics-dashboard', component: TradingEconomicsDashboard },
     { path: 'empty', component: Empty },
-    { path: 'departments', component: Departments },
-    { path: 'employee-pay-history', component: EmployeePayHistory },
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;

@@ -4,7 +4,7 @@ import { Ripple } from 'primeng/ripple';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-access',
+    selector: 'app-mail',
     templateUrl: './mail.component.html',
     imports: [ButtonDirective, Ripple, NgOptimizedImage]
 })

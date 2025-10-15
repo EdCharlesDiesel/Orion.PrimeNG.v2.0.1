@@ -3,7 +3,7 @@ import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CountryRegionCurrencyService } from './country-region-currency.service';
 import { StateProvince } from '../../../models/state-province.model';
 import { Table } from 'primeng/table';
-import { tap } from 'rxjs/operators';
+
 
 
 interface Column {

@@ -1,57 +1,54 @@
-<mat-card class="cart-item-card">
-  <mat-card-content>
-    <div class="cart-item-row">
-      <!-- Product Image -->
-      <div class="item-image">
-        <img [src]="cartItem.product.image" [alt]="cartItem.product.title">
-      </div>
+<p-card class="cart-item-card">
+    <ng-template pTemplate="content">
+        <div class="cart-item-row">
 
-      <!-- Product Title -->
-      <div class="item-title">
-        {{ cartItem.product.title }}
-        <div class="item-category">{{ cartItem.product.category }}</div>
-      </div>
+            <!-- Product Image -->
+            <div class="item-image">
+                <img [src]="cartItem.product.image" [alt]="cartItem.product.title">
+            </div>
 
-      <!-- Price -->
-      <div class="item-price">
-        <span class="price-label">Unit Price:</span>
-        {{ cartItem.product.price | currency }}
-      </div>
+            <!-- Product Title -->
+            <div class="item-title">
+                {{ cartItem.product.title }}
+                <div class="item-category">{{ cartItem.product.category }}</div>
+            </div>
 
-      <!-- Quantity Selector -->
-      <div class="item-quantity">
-        <mat-form-field appearance="outline" class="quantity-field">
-          <mat-label>Qty</mat-label>
-          <mat-select
-            [ngModel]="cartItem.quantity"
-            (ngModelChange)="onQuantitySelected($event)"
-            aria-label="Select quantity">
-            <mat-option *ngFor="let q of qtyArr()" [value]="q">
-              {{ q }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <span class="stock-info" *ngIf="availableStock() > 0">
+            <!-- Price -->
+            <div class="item-price">
+                <span class="price-label">Unit Price:</span>
+                {{ cartItem.product.price | currency }}
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="item-quantity">
+                <p-dropdown
+                    [options]="qtyArr()"
+                    [(ngModel)]="cartItem.quantity"
+                    (onChange)="onQuantitySelected($event.value)"
+                    placeholder="Qty">
+                </p-dropdown>
+
+                <span class="stock-info" *ngIf="availableStock() > 0">
           {{ availableStock() }} more available
         </span>
-        <span class="stock-info warning" *ngIf="availableStock() === 0">
+                <span class="stock-info warning" *ngIf="availableStock() === 0">
           No more in stock
         </span>
-      </div>
+            </div>
 
-      <!-- Extended Price -->
-      <div class="item-extended-price">
-        <span class="price-label">Total:</span>
-        <span class="total-price">{{ exPrice() | currency }}</span>
-      </div>
+            <!-- Extended Price -->
+            <div class="item-extended-price">
+                <span class="price-label">Total:</span>
+                <span class="total-price">{{ exPrice() | currency }}</span>
+            </div>
 
-      <!-- Delete Button -->
-      <div class="item-actions">
-        <button mat-raised-button color="warn" (click)="removeFromCart()">
-          <mat-icon>delete</mat-icon>
-          Remove
-        </button>
-      </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+            <!-- Delete Button -->
+            <div class="item-actions">
+                <button pButton type="button" icon="pi pi-trash" label="Remove" class="p-button-danger"
+                        (click)="removeFromCart()">
+                </button>
+            </div>
+
+        </div>
+    </ng-template>
+</p-card>

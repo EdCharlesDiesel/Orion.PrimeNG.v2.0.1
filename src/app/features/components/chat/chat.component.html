@@ -1,44 +1,88 @@
 <p-toast position="top-center" key="toast"></p-toast>
 <p-menu #cornerMenu [popup]="true" [model]="cornerMenuItems"></p-menu>
+
 <div class="container">
-  <div class="users">
-    <div class="p-inputgroup corner-menu">
-      <input type="text" pInputText
-             [(ngModel)]="nick"
-             (ngModelChange)="nickChanged.next($event)"
-             pTooltip="Your nick"
-      >
-<!--      <button pButton pRipple type="button" icon="pi pi-bars" class="p-button-info"-->
-<!--              (click)="cornerMenu.toggle($event)"-->
-<!--              pTooltip="User menu"-->
-<!--      ></button>-->
+    <div class="users">
+        <div class="p-inputgroup corner-menu">
+            <input
+                type="text"
+                pInputText
+                [(ngModel)]="nick"
+                (ngModelChange)="nickChanged.next($event)"
+                pTooltip="Your nick"
+                placeholder="Enter your nickname"
+            >
+            <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-bars"
+                class="p-button-info"
+                (click)="cornerMenu.toggle($event)"
+                pTooltip="User menu"
+            ></button>
+        </div>
+
+        <div class="users-list">
+            <div
+                class="users-list-entry"
+                [ngClass]="{'typing': user.isTyping, 'online': user.isOnline}"
+                *ngFor="let user of users">
+                <i class="pi pi-circle-fill" [ngClass]="user.isOnline ? 'text-green-500' : 'text-gray-400'"></i>
+                {{user.nick}}
+                <span class="typing-indicator" *ngIf="user.isTyping">typing...</span>
+            </div>
+        </div>
     </div>
-    <div class="users-list-entry"
-         [ngClass]="{'typing': user.isTyping}"
-         *ngFor="let user of users">{{user.nick}}</div>
-  </div>
-  <div class="users-shad"></div>
-  <div class="messages">
-    <div class="scroll-button" *ngIf="fixedScroll">
-      <button pButton pRipple type="button" icon="pi pi-chevron-down"
-              class="p-button-rounded p-button-outlined" (click)="scrollToBottom(true)"></button>
+
+    <div class="users-shad"></div>
+
+    <div class="messages">
+        <div class="scroll-button" *ngIf="fixedScroll">
+            <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-chevron-down"
+                class="p-button-rounded p-button-outlined"
+                (click)="scrollToBottom(true)"
+                pTooltip="Scroll to bottom"
+            ></button>
+        </div>
+
+        <div #messagesScroll (scroll)="onScroll()" class="msg-list-scroll-container">
+            <ul class="msg-list">
+                <li class="msg-list-entry" *ngFor='let message of messages' [id]="'m'+message.id">
+                    <app-message-entry
+                        [principal]="principal"
+                        [message]="message"
+                        [thumbsUrl]="thumbsUrl"
+                        [videoSourceUpdates$]="videoSourceUpdates$"
+                        (attachmentRequest)="downloadAttachment($event)">
+                    </app-message-entry>
+                </li>
+            </ul>
+
+            <div class="empty-state" *ngIf="messages.length === 0">
+                <i class="pi pi-comments" style="font-size: 3rem; color: var(--text-color-secondary);"></i>
+                <p>No messages yet. Start the conversation!</p>
+            </div>
+        </div>
     </div>
-    <div #messagesScroll (scroll)="onScroll()" class="msg-list-scroll-container">
-      <ul class="msg-list">
-        <li class="msg-list-entry" *ngFor='let message of messages' [id]="'m'+message.id">
-          <app-message-entry
-            [principal]="principal" [message]="message" [thumbsUrl]="thumbsUrl"
-            [videoSourceUpdates$]="videoSourceUpdates$"
-            (attachmentRequest)="downloadAttachment($event)"></app-message-entry>
-        </li>
-      </ul>
+
+    <div class="footer flex-parent">
+        <div class="centered-child">
+            <p-progressBar
+                *ngIf="progress !== null"
+                [value]="progress"
+                [showValue]="true">
+            </p-progressBar>
+
+            <app-message-input
+                *ngIf="progress === null"
+                (userTyping)="userTyping()"
+                (newMessage)="sendMessage($event)">
+            </app-message-input>
+        </div>
     </div>
-  </div>
-  <div class="footer flex-parent">
-    <div class="centered-child">
-      <p-progressBar *ngIf="progress" [value]="progress"></p-progressBar>
-      <app-message-input *ngIf="!progress" (userTyping)="userTyping()"
-                         (newMessage)="sendMessage($event)"></app-message-input>
-    </div>
-  </div>
 </div>

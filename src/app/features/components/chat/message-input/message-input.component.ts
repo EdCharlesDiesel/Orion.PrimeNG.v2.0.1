@@ -1,90 +1,105 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FileSizePipe} from '../file-size.pipe';
-import {throttleTime} from 'rxjs/operators';
-import {MenuItem} from 'primeng/api';
-import { FormsModule } from '@angular/forms';
-import { Tooltip } from 'primeng/tooltip';
-import { Menu } from 'primeng/menu';
-import { ButtonDirective } from 'primeng/button';
-import { Ripple } from 'primeng/ripple';
-import { InputText } from 'primeng/inputtext';
-
-export interface MessageWithAttachment {
-  message: string;
-  files: File[];
-}
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-message-input',
-    templateUrl: './message-input.component.html',
-    imports: [FormsModule, Tooltip, Menu, ButtonDirective, Ripple, InputText],
-    styleUrls: ['./message-input.component.scss']
-})
-export class MessageInputComponent implements OnInit {
-    filesMenuItems!: MenuItem[];
-    filesList: File[] = [];
-    filesToolTipText = '';
-    inputText = '';
+    template: `
+    <div class="message-input-container">
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="messageText"
+          (keyup.enter)="send()"
+          (input)="onTyping()"
+          placeholder="Type a message..."
+        >
+        <p-fileUpload
+          mode="basic"
+          chooseIcon="pi pi-paperclip"
+          [auto]="false"
+          [multiple]="true"
+          accept="image/*,video/*,.pdf,.doc,.docx"
+          (onSelect)="onFileSelect($event)"
+          #fileUpload>
+        </p-fileUpload>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-send"
+          class="p-button-primary"
+          (click)="send()"
+          [disabled]="!messageText?.trim() && selectedFiles.length === 0">
+        </button>
+      </div>
 
-    userTypingRaw = new EventEmitter<void>();
-
-    @Output() newMessage = new EventEmitter<MessageWithAttachment>();
-    @Output() userTyping = this.userTypingRaw.pipe(throttleTime(2000));
-
-    constructor() {}
-
-    ngOnInit(): void {}
-
-    filesEqual(f1: File, f2: File): boolean {
-        return f1.name === f2.name && f1.lastModified === f2.lastModified && f1.type === f2.type && f1.size === f2.size;
+      <div class="selected-files" *ngIf="selectedFiles.length > 0">
+        <div class="file-chip" *ngFor="let file of selectedFiles; let i = index">
+          <span>{{ file.name }}</span>
+          <i class="pi pi-times" (click)="removeFile(i)"></i>
+        </div>
+      </div>
+    </div>
+  `,
+    styles: [`
+    .message-input-container {
+      width: 100%;
     }
 
-    newFilesAdded(event: any) {
-        Array.from(event.target.files as FileList).forEach((file) => {
-            if (this.filesList.filter((f) => this.filesEqual(f, file)).length === 0) {
-                this.filesList.push(file);
-            }
-        });
-        this.updateFilesMenu();
+    .selected-files {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
     }
 
-    removeFile(idx: number) {
-        this.filesList.splice(idx, 1);
-        this.updateFilesMenu();
-    }
+    .file-chip {
+      background: var(--primary-color);
+      color: var(--primary-color-text);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
 
-    private removeAll() {
-        this.filesList = [];
-        this.updateFilesMenu();
-    }
-
-    updateFilesMenu() {
-        let s = 0;
-        this.filesMenuItems = this.filesList.map((file, i) => {
-            s += file.size;
-            return {
-                label: FileSizePipe.prototype.transform(file.size, '(', ') ') + file.name,
-                icon: 'pi pi-times',
-                command: () => this.removeFile(i)
-            };
-        });
-        const fn = this.filesList.length;
-        this.filesToolTipText = `${FileSizePipe.prototype.transform(s)} in ${fn} file${fn === 1 ? '' : 's'}`;
-        if (this.filesList.length > 1) {
-            this.filesMenuItems.push({
-                label: this.filesToolTipText,
-                icon: 'pi pi-times',
-                command: () => this.removeAll()
-            });
+      i {
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
         }
+      }
+    }
+  `]
+})
+export class MessageInputComponent {
+    @Output() newMessage = new EventEmitter<any>();
+    @Output() userTyping = new EventEmitter<void>();
+
+    messageText = '';
+    selectedFiles: File[] = [];
+
+    onTyping() {
+        this.userTyping.emit();
+    }
+
+    onFileSelect(event: any) {
+        this.selectedFiles = [...this.selectedFiles, ...event.files];
+    }
+
+    removeFile(index: number) {
+        this.selectedFiles.splice(index, 1);
     }
 
     send() {
-        if (this.inputText === '' && this.filesList.length === 0) {
-            return;
+        if (this.messageText.trim() || this.selectedFiles.length > 0) {
+            this.newMessage.emit({
+                text: this.messageText,
+                files: this.selectedFiles,
+                type: this.selectedFiles.length > 0 ? 'file' : 'text'
+            });
+            this.messageText = '';
+            this.selectedFiles = [];
         }
-        this.newMessage.emit({ message: this.inputText, files: this.filesList });
-        this.inputText = '';
-        this.removeAll();
     }
 }
