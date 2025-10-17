@@ -17,7 +17,20 @@ import { FormsModule } from '@angular/forms';
     imports: [Card, Button, TableModule, DatePipe, Checkbox, FormsModule]
 })
 export class TaskListComponent implements OnInit {
-    tasks: Task[] = [];
+
+    id?: number;
+
+    tasks: Task[] = [
+         {
+            id: 1,
+            title: "Programming",
+            description: "Programing Angular",
+            priority:'High',
+            dueDate: new Date(), // ISO string
+            completed: true,
+            category: "string"
+        }
+    ];
     selectedTask: Task | null = null;
     displayDialog = false;
 

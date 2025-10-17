@@ -272,21 +272,21 @@ export class AppMenu {
                 items: [
                     {
                         label: 'Forecast',
-                        icon: 'pi pi-fw pi-flag',
+                        icon: 'pi pi-fw pi-chevron-up',
                         routerLink: ['/gdp-per-country/gdp']
                     },
                     {
                         label: 'Calendar',
-                        icon: 'pi pi-fw pi-flag',
+                        icon: 'pi pi-fw pi-calendar-times',
                         routerLink: ['/gdp-per-country/gdp']
                     },
                     {
                         label: 'News',
-                        icon: 'pi pi-fw pi-flag',
+                        icon: 'pi pi-fw pi-history',
                         routerLink: ['/gdp-per-country/gdp']
                     },     {
                         label: 'GDP Per Country',
-                        icon: 'pi pi-fw pi-flag',
+                        icon: 'pi pi-fw pi-map-marker',
                         routerLink: ['/gdp-per-country/gdp']
                     },
                 ]

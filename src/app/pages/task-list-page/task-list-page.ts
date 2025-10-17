@@ -12,9 +12,9 @@ import { TaskListComponent } from '../../features/components/task-list/task-list
     standalone: true,
     imports: [Card, TaskListComponent],
     template: `
-        <p-card>
+
       <app-task-list></app-task-list>
-        </p-card>
+
     `
 })
 export class TaskListPagePage {}
