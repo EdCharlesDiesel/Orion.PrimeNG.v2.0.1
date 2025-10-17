@@ -48,47 +48,4 @@
             </div>
         </div>
     </div>
-
-    <div class="col-span-full lg:col-span-6">
-        <div class="card">
-            <div class="font-semibold text-xl mb-4">Basic Upload</div>
-            <div class="flex flex-col gap-4 items-center justify-center">
-                <p-fileupload
-                    #fu
-                    mode="basic"
-                    chooseLabel="Choose"
-                    chooseIcon="pi pi-upload"
-                    name="demo[]"
-                    [url]="'http://localhost:3000/api/images/upload'"
-                    accept="image/*"
-                    [maxFileSize]="10000000"
-                    (onUpload)="onUpload($event)" />
-                <p-button
-                    label="Upload"
-                    (onClick)="fu.upload()"
-                    severity="secondary"
-                    [loading]="loading$ | async" />
-            </div>
-        </div>
-
-        <!-- Display all images from database -->
-        <div class="card mt-4" *ngIf="(images$ | async)?.length">
-            <div class="font-semibold text-xl mb-4">All Images</div>
-            <div class="grid grid-cols-2 gap-4">
-                <div *ngFor="let image of images$ | async" class="relative">
-                    <img [src]="'http://localhost:3000/api/images/' + image.id"
-                         [alt]="image.filename"
-                         class="w-full h-48 object-cover rounded">
-                    <button
-                        pButton
-                        icon="pi pi-trash"
-                        class="p-button-danger p-button-sm absolute top-2 right-2"
-                        (click)="deleteImage(image.id)">
-                    </button>
-                    <p class="text-sm mt-2 truncate">{{ image.originalName }}</p>
-                    <p class="text-xs text-gray-500">{{ (image.size / 1024).toFixed(2) }} KB</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

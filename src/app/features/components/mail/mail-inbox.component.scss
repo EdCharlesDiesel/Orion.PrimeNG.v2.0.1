@@ -1,0 +1,14 @@
+:host {
+    display: block;
+}
+
+.card {
+    background: var(--surface-card);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+p-table tr.font-semibold {
+    font-weight: 600;
+    background-color: var(--surface-hover);
+}

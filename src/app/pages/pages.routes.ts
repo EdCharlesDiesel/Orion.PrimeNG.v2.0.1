@@ -8,11 +8,20 @@ import { OrderConfirmationComponent } from './order-confirmation/order-confirmat
 import { CheckOutPage } from './check-out-page/check-out-page';
 import { ChatPage } from './chat-page/chat-page';
 import { BlogPage } from './blog/blog-page';
+import { FilesPage } from './files-page/files-upload-page';
+import { TaskListPagePage } from './task-list-page/task-list-page';
+import { MailPage } from './mail-page/mail-page';
+import { Calendar } from 'primeng/calendar';
+import { CalendarPage } from './calendar/calendar-page';
 
 
 export default [
     { path: 'blog', component: BlogPage },
     { path: 'chat', component: ChatPage },
+    { path: 'files', component: FilesPage },
+    { path: 'task-list', component: TaskListPagePage },
+    { path: 'mail', component: MailPage },
+    { path: 'calendar', component: CalendarPage },
     { path: 'products', component: AllProductsComponent },
     { path: 'shopping-cart', component: ShoppingCartComponent },
     { path: 'check-out', component: CheckOutPage },

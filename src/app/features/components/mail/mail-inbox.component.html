@@ -1,0 +1,76 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar>
+        <div class="p-toolbar-group-left">
+            <span class="text-xl font-semibold">Mail Inbox</span>
+        </div>
+        <div class="p-toolbar-group-right">
+            <p-button
+                label="Refresh"
+                icon="pi pi-refresh"
+                (click)="loadMails()"
+                styleClass="p-button-text p-button-sm">
+            </p-button>
+        </div>
+    </p-toolbar>
+
+<!--    <p-tabMenu-->
+<!--        [model]="folders.map(f => ({ label: f, command: () => switchFolder(f) }))"-->
+<!--        [activeItem]="{ label: activeFolder() }"-->
+<!--        class="mb-4">-->
+<!--    </p-tabMenu>-->
+
+    <p-tabMenu
+        [activeItem]="{ label: activeFolder() }"
+        class="mb-4">
+    </p-tabMenu>
+
+    <div class="grid grid-cols-12 gap-4">
+        <!-- Mail List -->
+        <div class="col-span-12 lg:col-span-12">
+            <p-table
+                [value]="mails"
+                selectionMode="single"
+                [(selection)]="selectedMail"
+                (onRowSelect)="openMail($event.data)"
+                [paginator]="true"
+                [rows]="5"
+                dataKey="id">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>From</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-mail>
+                    <tr [ngClass]="{ 'font-semibold': !mail.read }">
+                        <td>{{ mail.sender }}</td>
+                        <td>{{ mail.subject }}</td>
+                        <td>{{ mail.date | date:'short' }}</td>
+                        <td>
+                            <p-button
+                                icon="pi pi-trash"
+                                class="p-button-text p-button-danger p-button-sm"
+                                (click)="deleteMail(mail)">
+                            </p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- Mail Preview -->
+        <div class="col-span-12 lg:col-span-7" *ngIf="selectedMail">
+            <div class="card p-4">
+                <h2 class="text-lg font-semibold">{{ selectedMail.subject }}</h2>
+                <p class="text-sm text-gray-500">From: {{ selectedMail.sender }}</p>
+                <p class="text-sm text-gray-400">{{ selectedMail.date | date:'short' }}</p>
+                <hr class="my-2" />
+                <p>{{ selectedMail.content }}</p>
+            </div>
+        </div>
+    </div>
+</div>

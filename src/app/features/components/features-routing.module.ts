@@ -12,7 +12,7 @@ export default [
     {path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)},
     {path: 'reports', loadChildren: () => import('./reports/reports-routing.module').then(m => m.ReportsRoutingModule)},
     {path: 'files', loadChildren: () => import('./files/files.module').then(m => m.FilesModule)},
-    {path: 'mail', loadChildren: () => import('./mail/mail-routing.module').then(m => m.MailRoutingModule)},
+    // {path: 'mail', loadChildren: () => import('./mail/mail-routing.module').then(m => m.MailRoutingModule)},
     {path: 'task-list', loadChildren: () => import('./task-list/task-list.module').then(m => m.TaskListModule)},
 
     {path: '**', redirectTo: '/notfound'}
