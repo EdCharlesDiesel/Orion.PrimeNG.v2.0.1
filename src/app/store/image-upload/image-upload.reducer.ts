@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as ImageUploadActions from './image-upload.actions';
 import { initialState } from './image-upload.state';
 
-export const imageUploadReducer = createReducer(
+export const ImageUploadReducer = createReducer(
     initialState,
     on(ImageUploadActions.uploadImage, (state) => ({
         ...state,

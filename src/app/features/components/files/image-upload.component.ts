@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import * as ImageUploadActions from './store/image-upload.actions';
-import * as ImageUploadSelectors from './store/image-upload.selectors';
+import * as ImageUploadActions from '../../../store/image-upload/image-upload.actions';
+import * as ImageUploadSelectors from '../../../store/image-upload/image-upload.selectors';
+import { Toast } from 'primeng/toast';
+import { FileUpload } from 'primeng/fileupload';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { Button, ButtonDirective } from 'primeng/button';
 
 @Component({
     selector: 'app-image-upload',
     templateUrl: './image-upload.component.html',
+    imports: [Toast, FileUpload, NgIf, AsyncPipe, NgForOf, ButtonDirective, Button],
     providers: [MessageService]
 })
 export class ImageUploadComponent implements OnInit {

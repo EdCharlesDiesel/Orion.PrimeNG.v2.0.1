@@ -3,13 +3,25 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { MessageService, MenuItem } from 'primeng/api';
-import * as ChatActions from './store/chat.actions';
-import * as ChatSelectors from './store/chat.selectors';
+import * as ChatActions from '../../../store/chat/chat.actions';
+import * as ChatSelectors from '../../../store/chat/chat.selectors';
+import { ProgressBar } from 'primeng/progressbar';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { MessageInputComponent } from './message-input/message-input.component';
+import { MessageEntryComponent } from './message-entry/message-entry.component';
+import { ButtonDirective } from 'primeng/button';
+import { Ripple } from 'primeng/ripple';
+import { Tooltip } from 'primeng/tooltip';
+import { Toast } from 'primeng/toast';
+import { Menu } from 'primeng/menu';
+import { FormsModule } from '@angular/forms';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss'],
+    imports: [ProgressBar, NgIf, MessageInputComponent, MessageEntryComponent, NgForOf, ButtonDirective, Ripple, Tooltip, NgClass, Toast, Menu, FormsModule, InputText],
     providers: [MessageService]
 })
 export class ChatComponent implements OnInit, OnDestroy {
@@ -70,18 +82,16 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.store.dispatch(ChatActions.loadUsers());
 
         // Subscribe to observables
-        this.users$.subscribe(users => this.users = users);
-        this.messages$.subscribe(messages => {
+        this.users$.subscribe((users) => (this.users = users));
+        this.messages$.subscribe((messages) => {
             this.messages = messages;
             setTimeout(() => this.scrollToBottom(false), 100);
         });
-        this.principal$.subscribe(principal => this.principal = principal);
-        this.progress$.subscribe(progress => this.progress = progress);
+        this.principal$.subscribe((principal) => (this.principal = principal));
+        this.progress$.subscribe((progress) => (this.progress = progress));
 
         // Handle nick changes with debounce
-        this.nickChanged.pipe(
-            debounceTime(500)
-        ).subscribe(nick => {
+        this.nickChanged.pipe(debounceTime(500)).subscribe((nick) => {
             this.store.dispatch(ChatActions.setNick({ nick }));
         });
 
@@ -118,22 +128,26 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     userTyping() {
         if (this.principal) {
-            this.store.dispatch(ChatActions.userTyping({
-                userId: this.principal.id,
-                isTyping: true
-            }));
+            this.store.dispatch(
+                ChatActions.userTyping({
+                    userId: this.principal.id,
+                    isTyping: true
+                })
+            );
 
             // Reset typing indicator after 3 seconds
             setTimeout(() => {
-                this.store.dispatch(ChatActions.userTyping({
-                    userId: this.principal.id,
-                    isTyping: false
-                }));
+                this.store.dispatch(
+                    ChatActions.userTyping({
+                        userId: this.principal.id,
+                        isTyping: false
+                    })
+                );
             }, 3000);
         }
     }
 
-    downloadAttachment(attachmentId: number) {
+    downloadAttachment(attachmentId: any) {
         this.store.dispatch(ChatActions.downloadAttachment({ attachmentId }));
     }
 

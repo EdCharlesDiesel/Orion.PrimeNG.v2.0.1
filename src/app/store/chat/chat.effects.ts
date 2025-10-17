@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { map, catchError, switchMap, tap, mergeMap } from 'rxjs/operators';
-import { ChatService } from '../services/chat.service';
 import * as ChatActions from './chat.actions';
+import { ChatService } from '../../service/chat.service';
 
 @Injectable()
 export class ChatEffects {
@@ -54,7 +54,7 @@ export class ChatEffects {
                 this.chatService.uploadAttachment(file).pipe(
                     tap((event: any) => {
                         if (event.type === 'progress') {
-                            this.actions$.next(ChatActions.uploadAttachmentProgress({ progress: event.progress }));
+                            // this.actions$.next(ChatActions.uploadAttachmentProgress({ progress: event.progress }));
                         }
                     }),
                     map((response: any) =>

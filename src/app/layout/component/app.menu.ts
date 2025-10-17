@@ -68,7 +68,7 @@ export class AppMenu {
                 items: [
                     {
                         label: 'Human Resources',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-user-plus',
                         items: [
                             {
                                 label: 'Departments',
@@ -109,7 +109,7 @@ export class AppMenu {
                     },
                     {
                         label: 'Person',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-user',
                         items: [
                             {
                                 label: 'Addresses',
@@ -169,7 +169,7 @@ export class AppMenu {
                     },
                     {
                         label: 'Production',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-warehouse',
                         items: [
                             {
                                 label: 'Country Region Currency',
@@ -190,7 +190,7 @@ export class AppMenu {
                     },
                     {
                         label: 'Purchasing',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-sync',
                         items: [
                             {
                                 label: 'Country Region Currency',
@@ -211,7 +211,7 @@ export class AppMenu {
                     },
                     {
                         label: 'Sales',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-qrcode',
                         items: [
                             {
                                 label: 'Country Region Currency',
@@ -230,6 +230,41 @@ export class AppMenu {
                             }
                         ]
                     },
+                ]
+            },
+            {
+                label: 'Apps',
+                items: [
+                    {
+                        label: 'Blog',
+                        icon: 'pi pi-fw pi-check-circle',
+                        routerLink: ['/blog']
+                    },
+                    {
+                        label: 'Chat',
+                        icon: 'pi pi-fw pi-check-square',
+                        routerLink: ['/chat']
+                    },
+                    {
+                        label: 'Mail',
+                        icon: 'pi pi-fw pi-inbox',
+                        routerLink: ['/mail']
+                    },
+                    {
+                        label: 'Calendar',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/calendar']
+                    },
+                    {
+                        label: 'Tasks',
+                        icon: 'pi pi-fw pi-list-check',
+                        routerLink: ['/task-list']
+                    }                    ,
+                    {
+                        label: 'Reports',
+                        icon: 'pi pi-fw pi-verified',
+                        routerLink: ['/reports']
+                    }
                 ]
             },
             {
@@ -254,36 +289,6 @@ export class AppMenu {
                         icon: 'pi pi-fw pi-flag',
                         routerLink: ['/gdp-per-country/gdp']
                     },
-                ]
-            },
-            {
-                label: 'Apps',
-                items: [
-                    {
-                        label: 'Blog',
-                        icon: 'pi pi-fw pi-check-circle',
-                        routerLink: ['/blog']
-                    },
-                    {
-                        label: 'Chat',
-                        icon: 'pi pi-fw pi-check-square',
-                        routerLink: ['/chat']
-                    },
-                    {
-                        label: 'Mail',
-                        icon: 'pi pi-fw pi-inbox',
-                        routerLink: ['/documentation']
-                    },
-                    {
-                        label: 'Calendar',
-                        icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/documentation']
-                    },
-                    {
-                        label: 'Tasks',
-                        icon: 'pi pi-fw pi-list-check',
-                        routerLink: ['/documentation']
-                    }
                 ]
             },
             {

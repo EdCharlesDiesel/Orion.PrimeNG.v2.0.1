@@ -1,19 +1,37 @@
-<p-menu #filesMenu [popup]="true" [model]="filesMenuItems"></p-menu>
-<div class="p-inputgroup">
-  <button pButton pRipple type="button" icon="pi pi-paperclip" class="p-button-info"
-          (click)="fileInputDialog.click()"
-          pTooltip="Attach files" >
-    <input type="file" style="display:none" #fileInputDialog multiple (change)="newFilesAdded($event)">
-  </button>
-  <button *ngIf="filesList.length>0" pButton pRipple class="p-button-info" (click)="filesMenu.toggle($event)"
-          [label]="filesList.length.toString()" [style]="{marginLeft: '1px'}"
-          pTooltip="{{filesToolTipText}}"
-  ></button>
-  <input type="text" pInputText placeholder="Public message" [(ngModel)]="inputText"
-         (input)="userTypingRaw.emit()"
-         (keyup.enter)="send()"
-         pTooltip="Message text" >
-  <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-info"
-          (click)="send()"
-  ></button>
+<div class="message-input-container">
+    <div class="p-inputgroup">
+        <input
+            type="text"
+            pInputText
+            [(ngModel)]="messageText"
+            (keyup.enter)="send()"
+            (input)="onTyping()"
+            placeholder="Type a message..."
+        >
+        <p-fileUpload
+            mode="basic"
+            chooseIcon="pi pi-paperclip"
+            [auto]="false"
+            [multiple]="true"
+            accept="image/*,video/*,.pdf,.doc,.docx"
+            (onSelect)="onFileSelect($event)"
+            #fileUpload>
+        </p-fileUpload>
+        <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-send"
+            class="p-button-primary"
+            (click)="send()"
+            [disabled]="!messageText?.trim() && selectedFiles.length === 0">
+        </button>
+    </div>
+
+    <div class="selected-files" *ngIf="selectedFiles.length > 0">
+        <div class="file-chip" *ngFor="let file of selectedFiles; let i = index">
+            <span>{{ file.name }}</span>
+            <i class="pi pi-times" (click)="removeFile(i)"></i>
+        </div>
+    </div>
 </div>

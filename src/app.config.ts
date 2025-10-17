@@ -13,15 +13,14 @@ import { InMemoryDataService } from './app/service/in-memory-data.service';
 import { appRoutes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { ImageUploadEffects } from './app/store/image-upload/image-upload.effects';
+import { ImageUploadReducer } from './app/store/image-upload/image-upload.reducer';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         // NgRx Store setup
-        provideStore({ products: productReducer, cart: cartReducer }),
+        provideStore({ products: productReducer, cart: cartReducer,imageUpload: ImageUploadReducer  }),
         provideEffects([ProductEffects]),
-        StoreModule.forRoot({ imageUpload: imageUploadReducer }),
-        EffectsModule.forRoot([ImageUploadEffects]),
-        StoreDevtoolsModule.instrument({ maxAge: 25 })
 
         // NgRx DevTools (optional for dev)
         provideStoreDevtools({

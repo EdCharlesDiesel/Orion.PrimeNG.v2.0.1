@@ -1,5 +1,28 @@
-::ng-deep.p-menu {
-  width: auto;
-  overflow-y: auto;
-  max-height: 80%;
+.message-input-container {
+    width: 100%;
+}
+
+.selected-files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.file-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+
+    i {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
 }

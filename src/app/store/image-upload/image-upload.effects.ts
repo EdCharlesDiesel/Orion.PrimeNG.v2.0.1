@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
-import { ImageUploadService } from '../services/image-upload.service';
 import * as ImageUploadActions from './image-upload.actions';
+import { ImageUploadService } from '../../service/image-upload.service';
 
 @Injectable()
 export class ImageUploadEffects {
