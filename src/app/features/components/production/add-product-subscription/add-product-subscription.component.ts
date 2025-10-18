@@ -1,16 +1,16 @@
 import { Component, Input} from '@angular/core';
 import { OnChanges } from '@angular/core';
-import { Product } from '../../../models/product';
 import { ProductSubscriptionService } from '../../../../service/product-subscription.service';
 import { SubscriptionService } from '../../../../service/subscription.service';
 import { SnackbarService } from '../../../../service/snackbar.service';
+import { Product } from '../../../../core/models/product';
 
 @Component({
-  selector: 'app-addtoProductSubscription',
-  templateUrl: './addtoproductsubscription.component.html',
-  styleUrls: ['./addtoproductsubscription.component.scss']
+  selector: 'app-add-product-subscription',
+  templateUrl: './app-add-product-subscription.component.html',
+  styleUrls: ['./app-add-product-subscription.component.scss']
 })
-export class AddtoProductSubscriptionComponentComponent implements OnChanges {
+export class AddToProductSubscriptionComponentComponent implements OnChanges {
 
 
   @Input() productId?: any;

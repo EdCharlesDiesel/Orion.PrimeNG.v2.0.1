@@ -1,4 +1,3 @@
-
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -32,10 +31,9 @@ import { Table, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductVendorService } from '../../../../service/product-vendor.service';
-import { tap } from 'rxjs';
-import { ProductVendor } from '../../../models/product-vendor.model';
-
+import { ProductService } from '../../../../service/product.service';
+import { Product } from '../../../models/product';
+import { tap } from 'rxjs/operators';
 
 interface Column {
     field: string;
@@ -49,7 +47,7 @@ interface ExportColumn {
 }
 
 @Component({
-    selector: 'app-product-vendors',
+    selector: 'app-product',
     standalone: true,
   imports: [
     CommonModule,
@@ -79,21 +77,22 @@ interface ExportColumn {
     ListboxModule,
     InputGroupAddonModule,
     TextareaModule,
+    Toolbar,
     TableModule,
     ConfirmDialogModule,
     DialogModule
   ],
-    templateUrl: 'product-vendors.component.html',
-    providers: [MessageService, ProductVendorService, ConfirmationService]
+    templateUrl: 'product.component.html',
+    providers: [MessageService, ProductService, ConfirmationService]
 })
-export class ProductVendorComponent implements OnInit {
-    productVendorDialog: boolean = false;
+export class ProductComponent implements OnInit {
+    productDialog: boolean = false;
 
-    productVendors = signal<ProductVendorComponent[]>([]);
+    products = signal<Product[]>([]);
 
-    productVendor!: ProductVendor;
+    product!: Product;
 
-    selectedProductVendors!: ProductVendorComponent[] | null;
+    selectedProducts!: ProductComponent[] | null;
 
     submitted: boolean = false;
 
@@ -106,7 +105,7 @@ export class ProductVendorComponent implements OnInit {
     cols!: Column[];
 
     constructor(
-        private productVendorService: ProductVendorService,
+        private productService: ProductService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {}
@@ -120,13 +119,13 @@ export class ProductVendorComponent implements OnInit {
     }
 
     loadDemoData() {
-        this.productVendorService.getProductVendors().pipe(
+        this.productService.getProducts().pipe(
             tap((p) => console.log(JSON.stringify(p))),
-        ).subscribe((data) => {
-                // this.productVendors.set(data);
+        ).subscribe((data: any) => {
+                // this.products.set(data);
 
                 //
-                // this.product-vendorService.getProductVendors().then((data) => {
+                // this.product-vendorService.getProducts().then((data) => {
                 //     this.product-vendors.set(data);
                 // });
 
@@ -143,7 +142,7 @@ export class ProductVendorComponent implements OnInit {
         ];
 
         this.cols = [
-            { field: 'ProductVendor ID', header: 'Code', customExportHeader: 'ProductVendor Code' },
+            { field: 'Product ID', header: 'Code', customExportHeader: 'Product Code' },
             { field: 'Name', header: 'Name' },
             { field: 'GroupName', header: 'Group Name' },
             { field: 'ModifiedDate', header: 'Modified Date' },
@@ -157,41 +156,67 @@ export class ProductVendorComponent implements OnInit {
     }
 
     public openNew() {
-        this.productVendor = {
-            businessEntityID : 0,
+        this.product = {
             productID:0,
-            averageLeadTime: 0,
-            standardPrice:0,
-            lastReceiptCost:0,
-            lastReceiptDate: new Date(),
-            minOrderQty: 0,
-            maxOrderQty:0,
-            onOrderQty:0,
-            unitMeasureCode: '0',
+            inventoryStatus: "",
+            code: 0,
+            productSubcategoryID: 0,
+            rowguid: "",
+            discontinuedDate: new Date(),
+            sellEndDate: new Date(),
+            sellStartDate: new Date(),
+            productLine: "",
+            style: "",
+            weight: 0,
+            productNumber: "",
+            class: "",
+            size: "",
+            safetyStockLevel: 0,
+            listPrice: 0,
+            daysToManufacture: 0,
+            reorderPoint: 0,
+            color: "",
+            makeFlag: false,
+            name: "",
+            image: "",
+            standardCost: 0,
+            price: 0,
+            category: "0",
+            weightUnitMeasureCode: "",
+            sizeUnitMeasureCode: "",
+            finishedGoodsFlag: false,
+            description: "",
+            productModelID: 0,
+            quantityInStock: 0,
+            title: "",
+            rating: {
+                rate: 0,
+                count: 0
+            },
             modifiedDate: new Date(),
 
         };
         this.submitted = false;
-        this.productVendorDialog = true;
+        this.productDialog = true;
     }
 
-    public editProductVendor(productVendor: ProductVendor) {
-        this.productVendor = { ...productVendor };
-        this.productVendorDialog = true;
+    public editProduct(product: Product) {
+        this.product = { ...product };
+        this.productDialog = true;
     }
 
-    public deleteSelectedProductVendors() {
+    public deleteSelectedProducts() {
         this.confirmationService.confirm({
-            message: 'Are you sure you want to delete the selected productVendors?',
+            message: 'Are you sure you want to delete the selected products?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.productVendors.set(this.productVendors().filter((val) => !this.selectedProductVendors?.includes(val)));
-                this.selectedProductVendors = null;
+                // this.products.set(this.products().filter((val) => !this.selectedProducts?.includes(val)));
+                this.selectedProducts = null;
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'ProductVendors Deleted',
+                    detail: 'Products Deleted',
                     life: 3000
                 });
             }
@@ -199,34 +224,60 @@ export class ProductVendorComponent implements OnInit {
     }
 
     public hideDialog() {
-        this.productVendorDialog = false;
+        this.productDialog = false;
         this.submitted = false;
     }
 
-    public deleteProductVendor(productVendor: ProductVendor) {
+    public deleteProduct(product: Product) {
         this.confirmationService.confirm({
-            message: 'Are you sure you want to delete ' + productVendor.businessEntityID + '?',
+            message: 'Are you sure you want to delete ' + product.productID + '?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.productVendors.set(this.productVendors().filter((val) => val.productID !== productVendor.productID));
-                this.productVendor = {
-                    businessEntityID : 0,
+                // this.products.set(this.products().filter((val) => val.productID !== product.productID));
+                this.product = {
                     productID:0,
-                    averageLeadTime: 0,
-                    standardPrice:0,
-                    lastReceiptCost:0,
-                    lastReceiptDate: new Date(),
-                    minOrderQty: 0,
-                    maxOrderQty:0,
-                    onOrderQty:0,
-                    unitMeasureCode: '0',
+                    inventoryStatus: "",
+                    code: 0,
+                    productSubcategoryID: 0,
+                    rowguid: "",
+                    discontinuedDate: new Date(),
+                    sellEndDate: new Date(),
+                    sellStartDate: new Date(),
+                    productLine: "",
+                    style: "",
+                    weight: 0,
+                    productNumber: "",
+                    class: "",
+                    size: "",
+                    safetyStockLevel: 0,
+                    listPrice: 0,
+                    daysToManufacture: 0,
+                    reorderPoint: 0,
+                    color: "",
+                    makeFlag: false,
+                    name: "",
+                    image: "",
+                    standardCost: 0,
+                    price: 0,
+                    category: "0",
+                    weightUnitMeasureCode: "",
+                    sizeUnitMeasureCode: "",
+                    finishedGoodsFlag: false,
+                    description: "",
+                    productModelID: 0,
+                    quantityInStock: 0,
+                    title: "",
+                    rating: {
+                        rate: 0,
+                        count: 0
+                    },
                     modifiedDate: new Date(),
                 };
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'ProductVendor Deleted',
+                    detail: 'Product Deleted',
                     life: 3000
                 });
             }
@@ -235,8 +286,8 @@ export class ProductVendorComponent implements OnInit {
 
     private findIndexById(id: number): number {
         let index = -1;
-        for (let i = 0; i < this.productVendors().length; i++) {
-            // if (this.productVendors()[i].productID === id) {
+        for (let i = 0; i < this.products().length; i++) {
+            // if (this.products()[i].productID === id) {
             //     index = i;
             //     break;
             // }
@@ -263,38 +314,38 @@ export class ProductVendorComponent implements OnInit {
         }
     }
 
-    public saveProductVendor() {
+    public saveProduct() {
         this.submitted = true;
-        let _productVendors = this.productVendors();
-        if (this.productVendor.productID) {
-            if (this.productVendor.productID) {
-                // _productVendors[this.findIndexById(this.productVendor.productID)] = this.productVendor;
-                this.productVendors.set([..._productVendors]);
+        let _products = this.products();
+        if (this.product.productID) {
+            if (this.product.productID) {
+                // _products[this.findIndexById(this.product.productID)] = this.product;
+                this.products.set([..._products]);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'ProductVendor Updated',
+                    detail: 'Product Updated',
                     life: 3000
                 });
             } else {
-                this.productVendor.businessEntityID = this.createId();
-                this.productVendorService.createProductVendor(this.productVendor);
+                this.product.productID = this.createId();
+                this.productService.addProduct(this.product);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'ProductVendor Created',
+                    detail: 'Product Created',
                     life: 3000
                 });
-                // this.productVendors.set([..._productVendors, this.productVendor]);
+                // this.products.set([..._products, this.product]);
             }
 
-            this.productVendorDialog = false;
-            // this.productVendor = {
-            //     ProductVendorID : 0,
+            this.productDialog = false;
+            // this.product = {
+            //     ProductID : 0,
             //     Name : "",
             //     GroupName :"",
             //     ModifiedDate: new Date(),
-            //     EmployeeProductVendorHistories: []
+            //     EmployeeProductHistories: []
             //  };
         }
     }

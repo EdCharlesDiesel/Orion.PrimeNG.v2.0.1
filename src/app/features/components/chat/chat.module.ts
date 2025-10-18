@@ -1,4 +1,4 @@
-import { ChatRoutingModule } from './chat.routing.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelModule } from 'primeng/panel';
@@ -19,7 +19,6 @@ import { RippleModule } from 'primeng/ripple';
   ],
   imports: [
     CommonModule,
-    ChatRoutingModule,
     PanelModule,
     ButtonModule,
     InputTextModule,

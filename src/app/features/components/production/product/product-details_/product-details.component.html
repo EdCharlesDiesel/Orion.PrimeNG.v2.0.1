@@ -1,48 +1,48 @@
-<div class="docs-example-viewer-wrapper">
-    <div class="docs-example-viewer-title mat-elevation-z2">
-        <div class="docs-example-viewer-title-spacer">
-            <h2>Product Details</h2>
-        </div>
-    </div>
+<!--<div class="docs-example-viewer-wrapper">-->
+<!--    <div class="docs-example-viewer-title mat-elevation-z2">-->
+<!--        <div class="docs-example-viewer-title-spacer">-->
+<!--            <h2>Product Details</h2>-->
+<!--        </div>-->
+<!--    </div>-->
 
-  <p>Products Details </p>
-    <div class="docs-example-viewer-body" *ngIf="productDetails$ | async as product">
-        <div class="left-div">
-            <mat-card-content class="image-card">
-                <img class="preview-image" mat-card-image src="/assets/Upload/{{product.coverFileName}}.jpg" alt="No image available">
-            </mat-card-content>
-        </div>
-        <div class="right-div">
-            <table class="table">
-                <tr>
-                    <td><strong>Title</strong></td>
-                    <td>{{product.title}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Retail Price</strong></td>
-                    <td>{{product.retailPrice}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Cover File Name</strong></td>
-                    <td>{{product.coverFileName}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Cost</strong></td>
-                    <!-- <td>{{product?.cost | currency : 'ZAR '}}</td> -->
-                </tr>
-            </table>
-            <div fxLayoutGap="10px grid">
-                <app-add-to-cart class="mr-2" [productId]="id"></app-add-to-cart>
-                <app-addtowishlist *ngIf="(userData$ | async).isLoggedIn" [productId]="id" [showButton]="true">
-                </app-addtowishlist>
-                 <app-addtoProductSubscription *ngIf="(userData$ | async).isLoggedIn" [productId]="id" [showButton]="true">
-                </app-addtoProductSubscription>
+<!--  <p>Products Details </p>-->
+<!--    <div class="docs-example-viewer-body" *ngIf="productDetails$ | async as product">-->
+<!--        <div class="left-div">-->
+<!--            <mat-card-content class="image-card">-->
+<!--                <img class="preview-image" mat-card-image src="/assets/Upload/{{product.coverFileName}}.jpg" alt="No image available">-->
+<!--            </mat-card-content>-->
+<!--        </div>-->
+<!--        <div class="right-div">-->
+<!--            <table class="table">-->
+<!--                <tr>-->
+<!--                    <td><strong>Title</strong></td>-->
+<!--                    <td>{{product.title}}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td><strong>Retail Price</strong></td>-->
+<!--                    <td>{{product.retailPrice}}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td><strong>Cover File Name</strong></td>-->
+<!--                    <td>{{product.coverFileName}}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td><strong>Cost</strong></td>-->
+<!--                    &lt;!&ndash; <td>{{product?.cost | currency : 'ZAR '}}</td> &ndash;&gt;-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--            <div fxLayoutGap="10px grid">-->
+<!--                <app-add-to-cart class="mr-2" [productId]="id"></app-add-to-cart>-->
+<!--                <app-addtowishlist *ngIf="(userData$ | async).isLoggedIn" [productId]="id" [showButton]="true">-->
+<!--                </app-addtowishlist>-->
+<!--                 <app-addtoProductSubscription *ngIf="(userData$ | async).isLoggedIn" [productId]="id" [showButton]="true">-->
+<!--                </app-addtoProductSubscription>-->
 
-              <app-addtowishlist *ngIf="(userData$ | async)" [productId]="id" [showButton]="true">
-              </app-addtowishlist>
-              <app-addtoproductsubscription *ngIf="(userData$ | async)" [productId]="id" [showButton]="true">
-              </app-addtoproductsubscription>
-            </div>
-        </div>
-    </div>
-</div>
+<!--              <app-addtowishlist *ngIf="(userData$ | async)" [productId]="id" [showButton]="true">-->
+<!--              </app-addtowishlist>-->
+<!--              <app-addtoproductsubscription *ngIf="(userData$ | async)" [productId]="id" [showButton]="true">-->
+<!--              </app-addtoproductsubscription>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

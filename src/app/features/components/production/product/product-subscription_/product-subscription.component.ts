@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SnackbarService } from '../../../../../service/snackbar.service';
-import { Product } from '../../../../models/product';
 import { SubscriptionService } from '../../../../../service/subscription.service';
 import { ProductSubscriptionService } from '../../../../../service/product-subscription.service';
+import { Product } from '../../../../../core/models/product';
 
 @Component({
   selector: 'app-product-subscription',

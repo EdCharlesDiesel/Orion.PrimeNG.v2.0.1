@@ -12,8 +12,8 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { User } from '../user.model';
 import { UserDialogComponent } from './user-dialog.component';
-import { AuthService } from '../../../../core/authentication/services/auth.service';
-import { UserService } from '../../../../service/user.service';
+import { UserService } from '../../../../../service/user.service';
+import { AuthService } from '../../../../authentication/services/auth.service';
 
 @Component({
     selector: 'app-user-crud',

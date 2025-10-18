@@ -4,12 +4,8 @@ import { CommonModule, NgClass } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { PrimeTemplate } from 'primeng/api';
+import { UserService } from '../../../../service/user.service';
 
-class UserService {
-    isUserLoggedIn() {
-
-    }
-}
 
 @Component({
     selector: 'app-product-card',

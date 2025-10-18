@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
-import { Categories } from '../../../../models/order';
 import { ProductService } from '../../../../../service/product.service';
+import { Categories } from '../../../../../core/models/order';
 
 @Component({
   selector: 'app-product-filter',

@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from '../authentication/register/register.component';
-import { AccessDeniedComponent } from '../authentication/access-denied/access-denied.component';
-import { ErrorComponent } from '../authentication/error/error.component';
-import { LoginComponent } from '../authentication/login/login.component';
-import { ProfileComponent } from '../authentication/profile/profile.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { ErrorComponent } from './error/error.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+
 
 
 export default [

@@ -24,7 +24,7 @@
             icon="pi pi-send"
             class="p-button-primary"
             (click)="send()"
-            [disabled]="!messageText?.trim() && selectedFiles.length === 0">
+            [disabled]="!messageText && selectedFiles.length === 0">
         </button>
     </div>
 

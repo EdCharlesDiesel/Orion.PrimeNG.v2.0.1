@@ -13,16 +13,13 @@ import { InMemoryDataService } from './app/service/in-memory-data.service';
 import { appRoutes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { ImageUploadEffects } from './app/store/image-upload/image-upload.effects';
 import { ImageUploadReducer } from './app/store/image-upload/image-upload.reducer';
+import { ImageUploadEffects } from './app/store/image-upload/image-upload.effects';
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        // NgRx Store setup
         provideStore({ products: productReducer, cart: cartReducer,imageUpload: ImageUploadReducer  }),
-        provideEffects([ProductEffects]),
-
-        // NgRx DevTools (optional for dev)
+        provideEffects([ProductEffects,ImageUploadEffects]),
         provideStoreDevtools({
             name: 'Orion ERP',
             maxAge: 25,
