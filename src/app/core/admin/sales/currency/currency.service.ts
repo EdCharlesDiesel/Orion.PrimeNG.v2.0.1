@@ -56,7 +56,8 @@ export class CurrencyService {
             .pipe(tap((data) => console.log(data)))
             .subscribe({
                 next: (newCurrency) => {
-                    this.currencysSignal.update((currencysComputed) => [...currencysComputed, newCurrency]);
+                    // this.currencysSignal.
+                    // this.currencysSignal.update((currencysComputed) => [...currencysComputed, newCurrency]);
                 },
                 error: (err: any) => {
                     this.errorSignal.set(err.message);

@@ -9,17 +9,7 @@ import { ManageOrders } from './app/core/admin/manage-orders/manage-orders';
 import { ProfileComponent } from './app/core/authentication/profile/profile.component';
 import { Documentation } from './app/core/admin/documentation/documentation';
 import { AppLayout } from './app/layout/component/app.layout';
-import { BlogPage } from './app/pages/blog-page/blog-page';
-import { ChatPage } from './app/pages/chat-page/chat-page';
-import { FilesPage } from './app/pages/files-page/files-upload-page';
-import { TaskListPagePage } from './app/pages/task-list-page/task-list-page';
-import { MailPage } from './app/pages/mail-page/mail-page';
-import { CalendarPage } from './app/pages/calendar-page/calendar-page';
-import { AllProductsComponent } from './app/pages/product-page/all-products.component';
-import { ShoppingCartComponent } from './app/pages/shopping-cart/shopping-cart.component';
-import { CheckOutPage } from './app/pages/check-out-page/check-out-page';
-import { OrderConfirmationComponent } from './app/pages/order-confirmation-page/order-confirmation.component';
-import { Empty } from './app/pages/empty/empty';
+
 
 export const appRoutes: Routes = [
     { path: '', component: Landing },
@@ -46,21 +36,7 @@ export const appRoutes: Routes = [
         path: 'pages',
         component: AppLayout,
         //canActivate: [AdminGuard],
-        children: [
-            { path: 'blog', component: BlogPage },
-            { path: 'chat', component: ChatPage },
-            { path: 'files', component: FilesPage },
-            { path: 'task-list', component: TaskListPagePage },
-            { path: 'mail', component: MailPage },
-            { path: 'calendar', component: CalendarPage },
-            { path: 'products', component: AllProductsComponent },
-            { path: 'shopping-cart', component: ShoppingCartComponent },
-            { path: 'check-out', component: CheckOutPage },
-            { path: 'order-confirmation', component: OrderConfirmationComponent },
-            { path: 'documentation', component: Documentation },
-            { path: 'empty', component: Empty },
-            { path: '**', redirectTo: '/notfound' }
-        ]
+        loadChildren: () => import('./app/pages/pages.routes'),
     },
     {
         //lazy load

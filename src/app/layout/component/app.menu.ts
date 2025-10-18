@@ -37,27 +37,27 @@ export class AppMenu {
                     {
                         label: 'Products',
                         icon: 'pi pi-fw pi-shop',
-                        routerLink: ['./pages/products']
+                        routerLink: ['./products']
                     },
                     {
                         label: 'Today Special',
                         icon: 'pi pi-fw pi-sparkles',
-                        routerLink: ['./pages/product-demo']
+                        routerLink: ['./today-special']
                     },
                     {
                         label: 'WishList',
                         icon: 'pi pi-fw pi-shopping-bag',
-                        routerLink: ['./pages/all-product']
+                        routerLink: ['./wish-list']
                     },
                     {
                         label: 'Shopping Cart',
                         icon: 'pi pi-fw pi-cart-arrow-down',
-                        routerLink: ['./pages/shopping-cart']
+                        routerLink: ['./shopping-cart']
                     },
                     {
                         label: 'Check-out',
                         icon: 'pi pi-fw pi-cart-plus',
-                        routerLink: ['./pages/check-out']
+                        routerLink: ['./check-out']
                     }
                 ]
             },
@@ -227,6 +227,11 @@ export class AppMenu {
                                 label: 'Currencies',
                                 icon: 'pi pi-fw pi-bookmark',
                                 routerLink: ['/sales/currency']
+                            },
+                            {
+                                label: 'Currency Rate',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/currency-rate']
                             }
                         ]
                     },
@@ -238,56 +243,62 @@ export class AppMenu {
                     {
                         label: 'Blog',
                         icon: 'pi pi-fw pi-check-circle',
-                        routerLink: ['/blog']
+                        routerLink: ['/pages/blog']
                     },
                     {
                         label: 'Chat',
                         icon: 'pi pi-fw pi-check-square',
-                        routerLink: ['/chat']
+                        routerLink: ['/pages/chat']
                     },
                     {
                         label: 'Mail',
                         icon: 'pi pi-fw pi-inbox',
-                        routerLink: ['/mail']
+                        routerLink: ['/pages/mail']
                     },
                     {
                         label: 'Calendar',
                         icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/calendar']
+                        routerLink: ['/pages/calendar']
                     },
                     {
                         label: 'Tasks',
                         icon: 'pi pi-fw pi-list-check',
-                        routerLink: ['/task-list']
+                        routerLink: ['/pages/task-list']
                     }                    ,
                     {
                         label: 'Reports',
                         icon: 'pi pi-fw pi-verified',
-                        routerLink: ['/reports']
+                        routerLink: ['/pages/reports']
                     }
                 ]
             },
             {
                 label: 'Trading Economics',
+                routerLink: ['trading-economics'],
                 items: [
+                    {
+                        label: 'Dashboard',
+                        icon: 'pi pi-fw pi-gauge',
+                        routerLink: ['trading-economics-dashboard']
+                    },
                     {
                         label: 'Forecast',
                         icon: 'pi pi-fw pi-chevron-up',
-                        routerLink: ['/gdp-per-country/gdp']
+                        routerLink: ['forecast']
                     },
                     {
                         label: 'Calendar',
                         icon: 'pi pi-fw pi-calendar-times',
-                        routerLink: ['/gdp-per-country/gdp']
+                        routerLink: ['calendar']
                     },
                     {
                         label: 'News',
                         icon: 'pi pi-fw pi-history',
-                        routerLink: ['/gdp-per-country/gdp']
+                        routerLink: ['news']
                     },     {
                         label: 'GDP Per Country',
                         icon: 'pi pi-fw pi-map-marker',
-                        routerLink: ['/gdp-per-country/gdp']
+                        routerLink: ['gdp-per-country']
                     },
                 ]
             },

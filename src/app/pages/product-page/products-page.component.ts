@@ -8,11 +8,14 @@ import { ProductsComponent } from '../../features/components/products/products/p
 import { GdpPerCountryComponent } from '../../trading-economics/gdp-per-country/gdp-per-country.component';
 
 @Component({
-    selector: 'app-products',
-    templateUrl: './all-products.component.html',
+    selector: 'app-products-page',
+    template: `
+        <div class="card">
+            <app-product></app-product>
+        </div>
+    `,
     imports: [ ProductsComponent],
-    styleUrls: ['./all-products.component.scss']
 })
-export class AllProductsComponent {
+export class ProductsPageComponent {
 
 }

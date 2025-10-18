@@ -6,14 +6,16 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { Tag } from 'primeng/tag';
-import {EconomicIndicator} from '../../core/models/economic-indicator.model'
+import { EconomicIndicator } from '../../core/models/economic-indicator.model';
+
+
 @Component({
-    selector: 'app-gdp-per-country',
-    templateUrl: './gdp-per-country.component.html',
+    selector: 'app-forecast',
+    templateUrl: './forecast.component.html',
     imports: [Card, DatePipe, TableModule, DropdownModule, FormsModule, Tag],
-    styleUrls: ['./gdp-per-country.component.scss']
+    styleUrls: ['./forecast.component.scss']
 })
-export class GdpPerCountryComponent implements OnInit {
+export class ForecastComponent implements OnInit {
     data: EconomicIndicator[] = [];
     loading: boolean = true;
     countries: any[] = [];

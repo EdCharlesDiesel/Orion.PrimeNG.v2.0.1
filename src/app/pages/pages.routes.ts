@@ -5,11 +5,11 @@ import { FilesPage } from './files-page/files-upload-page';
 import { TaskListPagePage } from './task-list-page/task-list-page';
 import { MailPage } from './mail-page/mail-page';
 import { CalendarPage } from './calendar-page/calendar-page';
-import { AllProductsComponent } from './product-page/all-products.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { CheckOutPage } from './check-out-page/check-out-page';
 import { Empty } from './empty/empty';
 import { Routes } from '@angular/router';
+import { ProductsPageComponent } from './product-page/products-page.component';
+import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
+import { CheckOutPage } from './check-out-page/check-out-page';
 
 export default [
     { path: 'blog', component: BlogPage },
@@ -18,10 +18,10 @@ export default [
     { path: 'task-list', component: TaskListPagePage },
     { path: 'mail', component: MailPage },
     { path: 'calendar', component: CalendarPage },
-    { path: 'products', component: AllProductsComponent },
-    { path: 'shopping-cart', component: ShoppingCartComponent },
+    { path: 'products', component: ProductsPageComponent },
+    { path: 'shopping-cart', component: ShoppingCartPageComponent },
     { path: 'check-out', component: CheckOutPage },
-    // { path: 'order-confirmation', component: OrderConfirmation },
+    { path: 'order-confirmation', component: OrderConfirmationComponent },
     { path: 'empty', component: Empty },
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;
