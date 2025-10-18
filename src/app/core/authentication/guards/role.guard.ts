@@ -1,13 +1,13 @@
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AdminGuard implements CanActivate, CanActivateChild {
+export class RoleGuard implements CanActivate, CanActivateChild {
 
     constructor(
         private authService: AuthService,
@@ -18,17 +18,17 @@ export class AdminGuard implements CanActivate, CanActivateChild {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        return this.checkAdmin();
+        return this.checkRole(route);
     }
 
     canActivateChild(
         childRoute: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        return this.checkAdmin();
+        return this.checkRole(childRoute);
     }
 
-    private checkAdmin(): Observable<boolean | UrlTree> {
+    private checkRole(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
         return this.authService.isAuthenticated$.pipe(
             take(1),
             map(isAuthenticated => {
@@ -36,16 +36,23 @@ export class AdminGuard implements CanActivate, CanActivateChild {
                     return this.router.createUrlTree(['/login']);
                 }
 
-                const isAdmin = this.authService.hasRole('admin');
-                if (!isAdmin) {
-                    console.warn('Access denied: Admin role required');
+                const requiredRoles = route.data?.['roles'] as string[] | string;
+                if (!requiredRoles) {
+                    return true; // No role requirement
+                }
+
+                const roles = Array.isArray(requiredRoles) ? requiredRoles : [requiredRoles];
+                const hasRole = this.authService.hasAnyRole(roles);
+
+                if (!hasRole) {
+                    console.warn(`Access denied. Required roles: ${roles.join(', ')}`);
                     return this.router.createUrlTree(['/access-denied']);
                 }
 
                 return true;
             }),
             catchError(error => {
-                console.error('Admin guard error:', error);
+                console.error('Role guard error:', error);
                 return of(this.router.createUrlTree(['/access-denied']));
             })
         );

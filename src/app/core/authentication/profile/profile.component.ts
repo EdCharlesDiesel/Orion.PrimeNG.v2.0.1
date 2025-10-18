@@ -140,15 +140,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.profileForm.patchValue({
                 name: this.user.name,
                 email: this.user.username,
-                // Mock additional data - in real app, fetch from API
-                phone: '+1 (555) 123-4567',
-                bio: 'Software developer passionate about creating amazing user experiences.',
-                company: 'Tech Corp',
-                position: 'Senior Developer',
-                location: 'San Francisco, CA',
-                website: 'https://johndoe.dev',
-                timezone: 'America/Los_Angeles',
-                language: 'en'
+                // // Mock additional data - in real app, fetch from API
+                // phone: '+1 (555) 123-4567',
+                // bio: 'Software developer passionate about creating amazing user experiences.',
+                // company: 'Tech Corp',
+                // position: 'Senior Developer',
+                // location: 'San Francisco, CA',
+                // website: 'https://johndoe.dev',
+                // timezone: 'America/Los_Angeles',
+                // language: 'en'
             });
         }
     }
@@ -283,6 +283,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
             };
             reader.readAsDataURL(file);
         }
+
+        this.onAvatarUpload();
     }
 
     onAvatarUpload(): void {
@@ -291,6 +293,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.uploadingAvatar = true;
 
         // Simulate upload - in real app, upload to server
+
         setTimeout(() => {
             this.messageService.add({
                 severity: 'success',

@@ -1,0 +1,116 @@
+<div class="card">
+    <div class="font-semibold text-xl mb-4">Shifts</div>
+</div>
+
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedShifts()" [disabled]="!selectedShifts || !selectedShifts.length" />
+    </ng-template>
+
+    <ng-template #end>
+        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+    </ng-template>
+</p-toolbar>
+
+<p-table
+    #dt
+    [value]="shifts()"
+    [rows]="10"
+    [columns]="cols"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedShifts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} shifts"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]"
+>
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Manage Shifts</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th style="min-width: 16rem">Shift ID</th>
+            <th pSortableColumn="name" style="min-width:16rem">
+                Name
+                <p-sortIcon field="Name" />
+            </th>
+            <th pSortableColumn="startTime" style="min-width:16rem">
+                Start Time
+                <p-sortIcon field="startTime" />
+            </th>
+            <th pSortableColumn="endTime" style="min-width:16rem">
+                End Time
+                <p-sortIcon field="endTime" />
+            </th>
+            <th pSortableColumn="ModifiedDate" style="min-width:16rem">
+                Modified Date
+                <p-sortIcon field="ModifiedDate" />
+            </th>
+            <th style="min-width: 12rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-shift>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="shift" />
+            </td>
+            <td style="min-width: 12rem">{{ shift.shiftID }}</td>
+            <td style="min-width: 16rem">{{ shift.name }}</td>
+            <td style="min-width: 16rem">{{ shift.startTime }}</td>
+            <td style="min-width: 16rem">{{ shift.endTime }}</td>
+            <td style="min-width: 16rem">{{ shift.modifiedDate }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editShift(shift)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteShift(shift)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="shiftDialog" [style]="{ width: '450px' }" header="Shift Details" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+
+            <div>
+                <label for="name" class="block font-bold mb-3">Name</label>
+                <input type="text" pInputText id="name" [(ngModel)]="shift.name" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !shift.name">Name is required.</small>
+            </div>
+            <div>
+                <label for="name" class="block font-bold mb-3">Start Time</label>
+                <input type="text" pInputText id="Start Time" [(ngModel)]="shift.startTime" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !shift.startTime">Start Time is required.</small>
+            </div>
+            <div>
+                <label for="name" class="block font-bold mb-3">End Time</label>
+                <input type="text" pInputText id="GroupName" [(ngModel)]="shift.endTime" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !shift.endTime">End Time is required.</small>
+            </div>
+            <div>
+                <label for="name" class="block font-bold mb-3">Modified Date</label>
+                <input type="text" pInputText id="GroupName" [(ngModel)]="shift.modifiedDate" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !shift.modifiedDate">ModifiedDate is required.</small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Save" icon="pi pi-check" (click)="saveShift()" />
+    </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

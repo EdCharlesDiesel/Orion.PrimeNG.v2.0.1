@@ -1,13 +1,13 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
-export class OwnershipGuard implements CanActivate {
+export class AdminGuard implements CanActivate, CanActivateChild {
 
     constructor(
         private authService: AuthService,
@@ -18,6 +18,17 @@ export class OwnershipGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return this.checkAdmin();
+    }
+
+    canActivateChild(
+        childRoute: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return this.checkAdmin();
+    }
+
+    private checkAdmin(): Observable<boolean | UrlTree> {
         return this.authService.isAuthenticated$.pipe(
             take(1),
             map(isAuthenticated => {
@@ -25,24 +36,16 @@ export class OwnershipGuard implements CanActivate {
                     return this.router.createUrlTree(['/login']);
                 }
 
-                const currentUser = this.authService.getCurrentUser();
-                const resourceUserId = route.params['userId'] || route.data?.['userId'];
-
-                // Allow if user is admin
-                if (this.authService.hasRole('admin')) {
-                    return true;
-                }
-
-                // Check if user owns the resource
-                if (currentUser?.id !== resourceUserId) {
-                    console.warn('Access denied: User does not own this resource');
+                const isAdmin = this.authService.hasRole('admin');
+                if (!isAdmin) {
+                    console.warn('Access denied: Admin role required');
                     return this.router.createUrlTree(['/access-denied']);
                 }
 
                 return true;
             }),
             catchError(error => {
-                console.error('Ownership guard error:', error);
+                console.error('Admin guard error:', error);
                 return of(this.router.createUrlTree(['/access-denied']));
             })
         );
