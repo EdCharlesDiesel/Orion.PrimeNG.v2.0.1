@@ -1,9 +1,11 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { Observable, tap } from 'rxjs';
-import { EmailAddress } from '../../../core/models/email-address.model';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { EmailAddress } from '../../../models/email-address.model';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root'

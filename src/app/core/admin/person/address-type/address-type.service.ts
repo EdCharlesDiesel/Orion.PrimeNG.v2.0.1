@@ -1,10 +1,10 @@
 import { Observable,tap } from 'rxjs';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { environment } from '../../../../environments/environment';
-import { Address } from '../../../core/models/address.model';
-import { AddressType } from '../../../core/models/address-type.model';
+import { environment } from '../../../../../environments/environment';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { AddressType } from '../../../models/address-type.model';
+
 
 
 @Injectable({
@@ -79,7 +79,7 @@ export class AddressTypeService {
 
     deleteAddresss(addressTypeId: number) {
         this.loadingSignal.set(true);
-        this.http.delete<Address>(`${this.apiUrl}/${addressTypeId}`).subscribe({
+        this.http.delete<AddressType>(`${this.apiUrl}/${addressTypeId}`).subscribe({
             next: () => {
                 this.addresssSignal.update((addresss) => addresss.filter((x) => x.addressTypeId !== addressTypeId));
             },

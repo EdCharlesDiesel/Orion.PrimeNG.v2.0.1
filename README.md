@@ -1,6 +1,6 @@
 # Orion PrimeNG v2.0.1
 
-## Theme Further help
+## Further help
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version CLI: 19.0.6
 

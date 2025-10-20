@@ -1,39 +1,39 @@
-<div class="container">
-  <div class="layout">
-    <!-- Left Column - Product List -->
-    <div class="product-list-column">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{pageTitle}}</mat-card-title>
-        </mat-card-header>
+<!--<div class="container">-->
+<!--  <div class="layout">-->
+<!--    &lt;!&ndash; Left Column - Product List &ndash;&gt;-->
+<!--    <div class="product-list-column">-->
+<!--      <mat-card>-->
+<!--        <mat-card-header>-->
+<!--          <mat-card-title>{{pageTitle}}</mat-card-title>-->
+<!--        </mat-card-header>-->
 
-        <mat-card-content *ngIf="products() as products">
-          <mat-selection-list [multiple]="false">
-            <mat-list-option
-              *ngFor="let product of products"
-              [value]="product.id"
-              [selected]="product.id === selectedProductId()"
-              (click)="onSelected(product.id)">
-              {{ product.title }}
-            </mat-list-option>
-          </mat-selection-list>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Error Message -->
-<!--      <mat-card *ngIf="errorMessage()" class="error-card">-->
-<!--        <mat-card-content>-->
-<!--          <div class="error-content">-->
-<!--            <mat-icon>error</mat-icon>-->
-<!--            <span>{{errorMessage()}}</span>-->
-<!--          </div>-->
+<!--        <mat-card-content *ngIf="products() as products">-->
+<!--          <mat-selection-list [multiple]="false">-->
+<!--            <mat-list-option-->
+<!--              *ngFor="let product of products"-->
+<!--              [value]="product.id"-->
+<!--              [selected]="product.id === selectedProductId()"-->
+<!--              (click)="onSelected(product.id)">-->
+<!--              {{ product.title }}-->
+<!--            </mat-list-option>-->
+<!--          </mat-selection-list>-->
 <!--        </mat-card-content>-->
 <!--      </mat-card>-->
-    </div>
 
-    <!-- Right Column - Product Detail -->
-    <div class="product-detail-column">
-<!--      <app-product-detail></app-product-detail>-->
-    </div>
-  </div>
-</div>
+<!--      &lt;!&ndash; Error Message &ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-card *ngIf="errorMessage()" class="error-card">&ndash;&gt;-->
+<!--&lt;!&ndash;        <mat-card-content>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="error-content">&ndash;&gt;-->
+<!--&lt;!&ndash;            <mat-icon>error</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span>{{errorMessage()}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </mat-card-content>&ndash;&gt;-->
+<!--&lt;!&ndash;      </mat-card>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Right Column - Product Detail &ndash;&gt;-->
+<!--    <div class="product-detail-column">-->
+<!--&lt;!&ndash;      <app-product-detail></app-product-detail>&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

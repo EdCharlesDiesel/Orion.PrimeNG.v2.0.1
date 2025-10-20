@@ -1,16 +1,18 @@
 // shared/components/task-dialog/task-dialog.component.ts
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../../core/models/task.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { Checkbox } from 'primeng/checkbox';
 import { Calendar } from 'primeng/calendar';
+import { Textarea } from 'primeng/textarea';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-task-dialog',
-    imports: [DropdownModule, Dialog, Button, Checkbox, Calendar],
+    imports: [DropdownModule, Dialog, Button, Checkbox, Calendar, ReactiveFormsModule, Textarea, InputText],
     templateUrl: './task-dialog.component.html'
 })
 export class TaskDialogComponent implements OnInit {
@@ -18,6 +20,7 @@ export class TaskDialogComponent implements OnInit {
     @Input() displayDialog = false;
     @Output() save = new EventEmitter<Task>();
     @Output() close = new EventEmitter<void>();
+
 
     taskForm!: FormGroup;
 

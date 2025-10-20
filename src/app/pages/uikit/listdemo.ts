@@ -7,7 +7,9 @@ import { OrderListModule } from 'primeng/orderlist';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import ProductService, { Product } from '../../service/product.service';
+import { ProductService } from '../../service/product.service';
+import { Product } from '../../core/models/product';
+
 
 @Component({
     selector: 'app-list-demo',
@@ -168,7 +170,7 @@ export class ListDemo {
     constructor(private productService: ProductService) {}
 
     ngOnInit() {
-        this.productService.getProductsSmall().then((data) => (this.products = data.slice(0, 6)));
+        // this.productService.getProductsSmall().then((data: any) => (this.products = data.slice(0, 6)));
 
         this.sourceCities = [
             { name: 'San Francisco', code: 'SF' },

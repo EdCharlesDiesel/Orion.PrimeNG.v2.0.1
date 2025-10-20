@@ -1,10 +1,12 @@
+import { environment } from '../../../../../environments/environment';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { BusinessEntity } from '../../../core/models/business-entity.model';
-import { Observable, tap } from 'rxjs';
-import { BusinessEntityContact } from '../../../core/models/business-entity-contact.model';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { BusinessEntity } from '../../../models/business-entity.model';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { BusinessEntityContact } from '../../../models/business-entity-contact.model';
+
 
 @Injectable({
     providedIn: 'root'

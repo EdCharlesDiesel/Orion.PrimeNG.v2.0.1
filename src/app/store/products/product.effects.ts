@@ -4,10 +4,12 @@ import { of } from 'rxjs';
 import { map, catchError, switchMap, tap } from 'rxjs/operators';
 import * as ProductActions from './product.actions';
 import { InventoryService } from '../../service/inventory.service';
+import { ProductService } from '../../service/product.service';
 
 @Injectable()
 export class ProductEffects {
   private actions$ = inject(Actions);
+  private productService = inject(ProductService);
   private inventoryService = inject(InventoryService);
 
   loadProducts$ = createEffect(() =>
@@ -24,20 +26,20 @@ export class ProductEffects {
               return ProductActions.loadProductsSuccess({
                 products: products.map(p => ({
                   ...p,
-                  quantityInStock: savedQuantities[p.id] ?? Math.floor(Math.random() * 50) + 10
+                  quantityInStock: savedQuantities[p.safetyStockLevel] ?? Math.floor(Math.random() * 50) + 10
                 }))
               });
             } else {
               // Generate new quantities
               const quantities = this.inventoryService.generateInitialQuantities(
-                products.map(p => p.id)
+                products.map(p => p.productID)
               );
               this.inventoryService.saveQuantities(quantities);
 
               return ProductActions.loadProductsSuccess({
                 products: products.map(p => ({
                   ...p,
-                  quantityInStock: quantities[p.id]
+                  quantityInStock: quantities[p.safetyStockLevel]
                 }))
               });
             }

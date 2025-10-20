@@ -1,5 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
-import {IEnvConfig} from "../../features/env.injector";
+import { Injectable} from '@angular/core';
 
 
 @Injectable({
@@ -7,17 +6,17 @@ import {IEnvConfig} from "../../features/env.injector";
 })
 export class AppPropertiesService {
 
-  constructor(@Inject('ENV_CONFIG') private envConfig: IEnvConfig) {
-    if (envConfig.override) {
-      const override = envConfig.override;
-      for (const key in override) {
-        if (this.hasOwnProperty(key)) {
-          //TODO Fix this and research
-       //   this.[key] = override[key];
-        }
-      }
-    }
-  }
+  // constructor(@Inject('ENV_CONFIG') private envConfig: enviroment) {
+  //   if (envConfig.override) {
+  //     const override = envConfig.override;
+  //     for (const key in override) {
+  //       if (this.hasOwnProperty(key)) {
+  //         //TODO Fix this and research
+  //      //   this.[key] = override[key];
+  //       }
+  //     }
+  //   }
+  // }
 
   API_URI_PREFIX = '/api';
   API_PORT = 8080; // if null then the location.port will be taken

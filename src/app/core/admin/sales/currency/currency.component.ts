@@ -10,10 +10,10 @@ import { DatePipe, NgIf } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { CurrencyService } from './currency.service';
-import { Currency } from '../../../core/models/currency.model';
+import { CurrencyService } from '../../../../service/currency.service';
 import { tap } from 'rxjs';
 import { DatePicker } from 'primeng/datepicker';
+import { Currency } from '../../../models/currency.model';
 
 interface Column {
     field: string;

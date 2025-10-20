@@ -12,7 +12,7 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { StateProvinceService } from './state-province.service';
 import { tap } from 'rxjs';
-import { StateProvince } from '../../../core/models/state-province.model';
+import { StateProvince } from '../../../models/state-province.model';
 
 
 interface Column {

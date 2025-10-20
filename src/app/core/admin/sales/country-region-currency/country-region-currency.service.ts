@@ -1,42 +1,45 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { Observable, tap } from 'rxjs';
-import { StateProvince } from '../../../core/models/state-province.model';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { CountryRegionCurrency } from '../../../models/country-region-currency.model';
+import { StateProvince } from '../../../models/state-province.model';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class CountryRegionCurrencyService {
-    private apiUrl = environment.salesBaseURL + 'stateProvince';
+    private apiUrl = environment.salesBaseURL + 'countryRegionCurrency';
     private http = inject(HttpClient);
     private errorService = inject(HttpErrorService);
 
     //Signal state
-    private stateProvincesSignal = signal<StateProvince[]>([]);
+    private countryRegionCurrencysSignal = signal<CountryRegionCurrency[]>([]);
     private loadingSignal = signal<boolean>(false);
     private errorSignal = signal<string | null>(null);
 
     //public computed signals
-    stateProvincesComputed = computed(() => this.stateProvincesSignal);
+    countryRegionCurrencysComputed = computed(() => this.countryRegionCurrencysSignal);
     isLoadingComputed = computed(() => this.loadingSignal);
     errorComputed = computed(() => this.errorSignal);
 
     // constructor() {
     //   effect(() => {
-    //     console.log('StateProvince changes: ', this.stateProvincesComputed)
+    //     console.log('CountryRegionCurrency changes: ', this.countryRegionCurrencysComputed)
     //   });
     // }
 
-    public loadStateProvince() {
+    public loadCountryRegionCurrency() {
         this.loadingSignal.set(true);
         this.http
-            .get<StateProvince[]>(this.apiUrl)
+            .get<CountryRegionCurrency[]>(this.apiUrl)
             .pipe(
                 tap({
                     next: (data) => {
-                        this.stateProvincesSignal.set(data);
+                        this.countryRegionCurrencysSignal.set(data);
                         this.errorSignal.set(null);
                     },
                     error: (err) => this.errorSignal.set(err.message),
@@ -46,17 +49,17 @@ export class CountryRegionCurrencyService {
             ).subscribe();
     }
 
-    public getStateProvince(): Observable<StateProvince[]> {
-        return this.http.get<StateProvince[]>(this.apiUrl)
+    public getCountryRegionCurrency(): Observable<CountryRegionCurrency[]> {
+        return this.http.get<CountryRegionCurrency[]>(this.apiUrl)
     }
 
-    public addStateProvince(stateProvince: StateProvince) {
+    public addCountryRegionCurrency(countryRegionCurrency: CountryRegionCurrency) {
         this.http
-            .post<StateProvince>(this.apiUrl, stateProvince)
+            .post<CountryRegionCurrency>(this.apiUrl, countryRegionCurrency)
             .pipe(tap((data) => console.log(data)))
             .subscribe({
-                next: (newStateProvince) => {
-                    this.stateProvincesSignal.update((stateProvincesComputed) => [...stateProvincesComputed, newStateProvince]);
+                next: (newCountryRegionCurrency) => {
+                    this.countryRegionCurrencysSignal.update((countryRegionCurrencysComputed) => [...countryRegionCurrencysComputed, newCountryRegionCurrency]);
                 },
                 error: (err: any) => {
                     this.errorSignal.set(err.message);
@@ -64,10 +67,10 @@ export class CountryRegionCurrencyService {
             });
     }
 
-    public updateStateProvince(stateProvince: StateProvince) {
-        this.http.put<StateProvince>(this.apiUrl, stateProvince).subscribe({
-            next: (updatedStateProvince) => {
-                this.stateProvincesSignal.update((stateProvince) => stateProvince.map((x) => (x.stateProvinceID === updatedStateProvince.stateProvinceID ? updatedStateProvince : x)));
+    public updateCountryRegionCurrency(countryRegionCurrency: CountryRegionCurrency) {
+        this.http.put<CountryRegionCurrency>(this.apiUrl, countryRegionCurrency).subscribe({
+            next: (updatedCountryRegionCurrency) => {
+                // this.countryRegionCurrencysSignal.update((countryRegionCurrency) => countryRegionCurrency.map((x) => (x.countryRegionCurrencyID === updatedCountryRegionCurrency.countryRegionCurrencyID ? updatedCountryRegionCurrency : x)));
             },
             error: (err: any) => {
                 this.errorSignal.set(err.message);
@@ -75,15 +78,19 @@ export class CountryRegionCurrencyService {
         });
     }
 
-    deleteStateProvince(stateProvinceID: number) {
+    deleteCountryRegionCurrency(countryRegionCurrencyID: number) {
         this.loadingSignal.set(true);
-        this.http.delete<StateProvince>(`${this.apiUrl}/${stateProvinceID}`).subscribe({
+        this.http.delete<CountryRegionCurrency>(`${this.apiUrl}/${countryRegionCurrencyID}`).subscribe({
             next: () => {
-                this.stateProvincesSignal.update((stateProvinces) => stateProvinces.filter((x) => x.stateProvinceID !== stateProvinceID));
+                // this.countryRegionCurrencysSignal.update((countryRegionCurrencys) => countryRegionCurrencys.filter((x) => x.countryRegionCode !== CountryRegionCurrency));
             },
             error: (err: any) => {
                 this.errorSignal.set(err.message);
             }
         });
+    }
+
+    addStateProvince(stateProvince: StateProvince) {
+
     }
 }

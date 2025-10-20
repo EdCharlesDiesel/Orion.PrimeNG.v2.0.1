@@ -1,84 +1,109 @@
-<div class="container" *ngIf="vm$ | async as vm">
-  <!-- Header with total inventory -->
-  <div class="header" *ngIf="!vm.isLoading && vm.products.length > 0">
-    <h2>Products</h2>
-    <p class="inventory-total">
-      <mat-icon>inventory</mat-icon>
-      Total Stock: {{ vm.totalInventory }} items
-    </p>
-  </div>
+<div  *ngIf="vm$ | async as vm">
 
-  <!-- Loading State -->
-  <div class="loading-container" *ngIf="vm.isLoading">
-    <mat-spinner></mat-spinner>
-    <p>Loading products...</p>
-  </div>
-
-  <!-- Error State -->
-  <div class="error-container" *ngIf="vm.error">
-    <mat-icon color="warn">error</mat-icon>
-    <p>{{ vm.error }}</p>
-    <button mat-raised-button color="primary" (click)="loadProducts()">
-      <mat-icon>refresh</mat-icon> Retry
-    </button>
-  </div>
-
-  <!-- Products Grid -->
-  <div class="products-container" *ngIf="!vm.isLoading && vm.products.length > 0">
-    <div class="products-grid">
-      <mat-card
-        class="product-card"
-        [class.out-of-stock]="isOutOfStock(product)"
-        [class.low-stock]="isLowStock(product)"
-        *ngFor="let product of vm.products; trackBy: trackByProductId">
-
-        <!-- Stock badge -->
-        <div class="stock-badge"
-             [class.out-of-stock-badge]="isOutOfStock(product)"
-             [class.low-stock-badge]="isLowStock(product)">
-          <mat-icon>inventory_2</mat-icon>
-          <span>{{ product.quantityInStock }} in stock</span>
-        </div>
-
-        <img mat-card-image [src]="product.image" [alt]="product.title" class="product-image">
-
-        <mat-card-header>
-          <mat-card-title class="product-title">{{ product.title }}</mat-card-title>
-          <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div class="rating">
-            <mat-icon class="star-icon">star</mat-icon>
-            <span>{{ product.rating.rate }} ({{ product.rating.count }} reviews)</span>
-          </div>
-          <p class="price">{{ product.price | currency:'USD' }}</p>
-          <p class="description">{{ product.description | slice:0:100 }}...</p>
-        </mat-card-content>
-
-        <mat-card-actions>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="addToCart(product)"
-            [disabled]="isOutOfStock(product)">
-            <mat-icon>shopping_cart</mat-icon>
-            {{ isOutOfStock(product) ? 'Out of Stock' : 'Add to Cart' }}
-          </button>
-          <button mat-icon-button color="warn" (click)="removeProductNow(product.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <!-- Header with total inventory -->
+    <div class="header" *ngIf="!vm.isLoading && vm.products.length > 0">
+        <h2>All Products</h2>
+        <p class="inventory-total">
+            <i class="pi pi-box"></i>
+            Total Stock: {{ vm.totalInventory }} items
+        </p>
     </div>
-  </div>
 
-  <!-- No Products State -->
-  <div class="no-products" *ngIf="!vm.isLoading && vm.products.length === 0 && !vm.error">
-    <mat-icon>inventory_2</mat-icon>
-    <p>No products available at the moment.</p>
-    <button mat-raised-button color="primary" (click)="loadProducts()">
-      <mat-icon>refresh</mat-icon> Retry
-    </button>
-  </div>
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="vm.isLoading">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-container" *ngIf="vm.error">
+        <i class="pi pi-exclamation-triangle" style="color: red;"></i>
+        <p>{{ vm.error }}</p>
+        <button
+            pButton
+            type="button"
+            label="Retry"
+            icon="pi pi-refresh"
+            class="p-button-raised p-button-primary"
+            (click)="loadProducts()">
+        </button>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-container" *ngIf="!vm.isLoading && vm.products.length > 0">
+        <div class="products-grid">
+            <p-card
+                class="product-card"
+                [ngClass]="{
+          'out-of-stock': isOutOfStock(product),
+          'low-stock': isLowStock(product)
+        }"
+                *ngFor="let product of vm.products; trackBy: trackByProductId">
+
+                <!-- Stock badge -->
+                <span
+                    class="stock-badge"
+                    [ngClass]="{
+            'out-of-stock-badge': isOutOfStock(product),
+            'low-stock-badge': isLowStock(product)
+          }">
+          <i class="pi pi-box"></i>
+                    {{ product.quantityInStock }} in stock
+        </span>
+
+                <!-- Product Image -->
+                <img [src]="product.image" [alt]="product.title" class="product-image">
+
+                <!-- Product Header -->
+                <ng-template pTemplate="title">
+                    <span class="product-title">{{ product.title }}</span>
+                    <small class="product-category">{{ product.category }}</small>
+                </ng-template>
+
+                <!-- Card Content -->
+                <ng-template pTemplate="content">
+                    <div class="rating">
+                        <i class="pi pi-star star-icon"></i>
+                        <span>{{ product.rating?.rate }} ({{ product.rating?.count }} reviews)</span>
+                    </div>
+                    <p class="price">{{ product.price | currency:'USD' }}</p>
+                    <p class="description">{{ product.description | slice:0:100 }}...</p>
+                </ng-template>
+
+                <!-- Card Actions -->
+                <ng-template pTemplate="footer">
+                    <button
+                        pButton
+                        type="button"
+                        label="{{ isOutOfStock(product) ? 'Out of Stock' : 'Add to Cart' }}"
+                        icon="pi pi-shopping-cart"
+                        class="p-button-raised p-button-primary"
+                        [disabled]="isOutOfStock(product)"
+                        (click)="addToCart(product)">
+                    </button>
+                    <button
+                        pButton
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger"
+                        (click)="removeProductNow(product.productID)">
+                    </button>
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
+
+    <!-- No Products State -->
+    <div class="no-products" *ngIf="!vm.isLoading && vm.products.length === 0 && !vm.error">
+        <i class="pi pi-box"></i>
+        <p>No products available at the moment.</p>
+        <button
+            pButton
+            type="button"
+            label="Retry"
+            icon="pi pi-refresh"
+            class="p-button-raised p-button-primary"
+            (click)="loadProducts()">
+        </button>
+    </div>
+
 </div>

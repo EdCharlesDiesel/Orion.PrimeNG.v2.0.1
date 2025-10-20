@@ -1,70 +1,70 @@
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <form (ngSubmit)="addProduct()">
-          <div class="mb-3">
-            <label for="productTitle" class="form-label">Title</label>
-            <input
-              type="text"
-              class="form-control"
-              id="productTitle"
-              placeholder="Enter the product title"
-              [(ngModel)]="product.title"
-              name="productTitle"
-              required>
-          </div>
+<!--<div class="container">-->
+<!--    <div class="row justify-content-center">-->
+<!--      <div class="col-md-3"></div>-->
+<!--      <div class="col-md-6">-->
+<!--        <form (ngSubmit)="addProduct()">-->
+<!--          <div class="mb-3">-->
+<!--            <label for="productTitle" class="form-label">Title</label>-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              class="form-control"-->
+<!--              id="productTitle"-->
+<!--              placeholder="Enter the product title"-->
+<!--              [(ngModel)]="product.title"-->
+<!--              name="productTitle"-->
+<!--              required>-->
+<!--          </div>-->
 
-          <div class="mb-3">
-            <label for="productPrice" class="form-label">Price</label>
-            <input
-              type="text"
-              class="form-control"
-              id="productPrice"
-              placeholder="Enter the product price"
-              [(ngModel)]="product.price"
-              name="productPrice"
-              required>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="productPrice" class="form-label">Price</label>-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              class="form-control"-->
+<!--              id="productPrice"-->
+<!--              placeholder="Enter the product price"-->
+<!--              [(ngModel)]="product.price"-->
+<!--              name="productPrice"-->
+<!--              required>-->
+<!--          </div>-->
 
-          <div class="mb-3">
-            <label for="productDescription" class="form-label">Product description</label>
-            <textarea
-              class="form-control"
-              id="productDescription"
-              rows="4"
-              placeholder="Enter the product description"
-              [(ngModel)]="product.description"
-              name="productDescription"
-              required>
-          </textarea>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="productDescription" class="form-label">Product description</label>-->
+<!--            <textarea-->
+<!--              class="form-control"-->
+<!--              id="productDescription"-->
+<!--              rows="4"-->
+<!--              placeholder="Enter the product description"-->
+<!--              [(ngModel)]="product.description"-->
+<!--              name="productDescription"-->
+<!--              required>-->
+<!--          </textarea>-->
+<!--          </div>-->
 
-          <div class="mb-3">
-            <label for="imageUrl" class="form-label">Image URL</label>
-            <input
-              type="text"
-              class="form-control"
-              id="imageUrl"
-              placeholder="Paste image URL here"
-              [(ngModel)]="product.image"
-              name="imageUrl"
-              required>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="imageUrl" class="form-label">Image URL</label>-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              class="form-control"-->
+<!--              id="imageUrl"-->
+<!--              placeholder="Paste image URL here"-->
+<!--              [(ngModel)]="product.image"-->
+<!--              name="imageUrl"-->
+<!--              required>-->
+<!--          </div>-->
 
-           <!-- Dropdown for Product Category -->
-        <div class="mb-3">
-          <label for="productCategory" class="form-label">Product Category</label>
-          <select class="form-control" id="productCategory" [(ngModel)]="product.category" name="productCategory" required>
-            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-          </select>
-        </div>
+<!--           &lt;!&ndash; Dropdown for Product Category &ndash;&gt;-->
+<!--        <div class="mb-3">-->
+<!--          <label for="productCategory" class="form-label">Product Category</label>-->
+<!--          <select class="form-control" id="productCategory" [(ngModel)]="product.category" name="productCategory" required>-->
+<!--            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>-->
+<!--          </select>-->
+<!--        </div>-->
 
-          <button type="submit" class="btn btn-primary">Place Order</button>
-        </form>
-      </div>
-      <div class="col-md-3"></div> <!-- 3 empty columns on the right -->
-    </div>
-  </div>
+<!--          <button type="submit" class="btn btn-primary">Place Order</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--      <div class="col-md-3"></div> &lt;!&ndash; 3 empty columns on the right &ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <hr>
+<!--  <hr>-->

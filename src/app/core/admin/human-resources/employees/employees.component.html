@@ -108,9 +108,9 @@
 <!--            </div>-->
             <div>
             <label for="name" class="block font-bold mb-3">Modified Date</label>
-              <p-datepicker [showIcon]="true" pInputText id="ModifiedDate" [showButtonBar]="true" [(ngModel)]="employee.ModifiedDate"></p-datepicker>
+              <p-datepicker [showIcon]="true" pInputText id="ModifiedDate" [showButtonBar]="true" [(ngModel)]="employee.modifiedDate"></p-datepicker>
 <!--              <input type="text" pInputText id="ModifiedDate" [(ngModel)]="employee.ModifiedDate" required autofocus fluid />-->
-              <small class="text-red-500" *ngIf="submitted && !employee.ModifiedDate">ModifiedDate is required.</small>
+              <small class="text-red-500" *ngIf="submitted && !employee.modifiedDate">ModifiedDate is required.</small>
             </div>
         </div>
     </ng-template>

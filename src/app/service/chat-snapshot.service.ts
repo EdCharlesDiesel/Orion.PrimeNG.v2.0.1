@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {ChatClientModel} from "../../core/models/chat-client.model";
-import {ServerMessageModel} from "../../core/models/server-message.model";
-import {ChatSnapshotUpdateModel} from "../../core/models/chat-snapshot-update.model";
-import {ChatSnapshotModel} from "../../core/models/chat-snapshot.model";
+import { ChatClientModel } from '../core/models/chat-client.model';
+import { ServerMessageModel } from '../core/models/server-message.model';
+import { ChatSnapshotModel } from '../core/models/chat-snapshot.model';
+import { ChatSnapshotUpdateModel } from '../core/models/chat-snapshot-update.model';
+
 
 
 @Injectable({

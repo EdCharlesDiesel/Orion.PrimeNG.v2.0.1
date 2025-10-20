@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
 import { Landing } from './app/pages/landing/landing';
-import { AppLayout } from './app/layout/component/app.layout';
-import { Dashboard } from './app/core/admin/dashboard/dashboard';
-import { Documentation } from './app/core/admin/documentation/documentation';
-import { DatabaseLog } from './app/core/admin/database-log/database-log';
 import { Notfound } from './app/pages/notfound/notfound';
-import { AuthGuard } from './app/core/authentication/auth.guard';
-import { RoleGuard } from './app/core/authentication/role.guard';
-import { AdminGuard } from './app/core/authentication/admin.guard';
+import { AdminLayout } from './app/layout/component/admin.layout';
+import { AdminGuard } from './app/core/authentication/guards/admin.guard';
+import { Dashboard } from './app/core/admin/dashboard/dashboard';
+import { DatabaseLog } from './app/core/admin/database-log/database-log';
+import { ManageOrders } from './app/core/admin/manage-orders/manage-orders';
+import { ProfileComponent } from './app/core/authentication/profile/profile.component';
+import { Documentation } from './app/core/admin/documentation/documentation';
+import { AppLayout } from './app/layout/component/app.layout';
 
 
 export const appRoutes: Routes = [
@@ -16,70 +17,33 @@ export const appRoutes: Routes = [
     { path: 'notfound', component: Notfound },
     {
         path: 'admin',
-        component: AppLayout,
-        canActivate: [AdminGuard],
+        component: AdminLayout,
+        // canActivate: [AdminGuard],
         children: [
             { path: 'dashboard', component: Dashboard },
+            { path: 'database-log', component: DatabaseLog },
+            { path: 'manage-orders', component: ManageOrders },
+            { path: 'profile', component: ProfileComponent },
+            { path: 'documentation', component: Documentation },
             { path: 'human-resources', loadChildren: () => import('./app/core/admin/human-resources/human-resources.routes') },
             { path: 'person', loadChildren: () => import('./app/core/admin/person/person.routes') },
+            { path: 'production', loadChildren: () => import('./app/core/admin/production/production.routes') },
+            { path: 'purchasing', loadChildren: () => import('./app/core/admin/purchasing/purchasing.routes') },
             { path: 'sales', loadChildren: () => import('./app/core/admin/sales/sales.routes') },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
-            { path: 'database-log', component: DatabaseLog }
         ]
     },
     {
-        path: 'superUser',
+        path: 'pages',
         component: AppLayout,
-        canActivate: [AuthGuard],
-        children: [
-            { path: 'dashboard', component: Dashboard },
-            { path: 'human-resources', loadChildren: () => import('./app/core/admin/human-resources/human-resources.routes') },
-            { path: 'person', loadChildren: () => import('./app/core/admin/person/person.routes') },
-            { path: 'sales', loadChildren: () => import('./app/core/admin/sales/sales.routes') },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
-            { path: 'database-log', component: DatabaseLog }
-        ]
+        //canActivate: [AdminGuard],
+        loadChildren: () => import('./app/pages/pages.routes'),
     },
     {
-        path: 'customer',
+        //lazy load
+        path: 'trading-economics',
         component: AppLayout,
-        canActivate: [AuthGuard],
-        children: [
-            { path: 'dashboard', component: Dashboard },
-            { path: 'human-resources', loadChildren: () => import('./app/core/admin/human-resources/human-resources.routes') },
-            { path: 'person', loadChildren: () => import('./app/core/admin/person/person.routes') },
-            { path: 'sales', loadChildren: () => import('./app/core/admin/sales/sales.routes') },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
-            { path: 'database-log', component: DatabaseLog }
-        ]
-    },
-    {
-        path: 'internal-employee',
-        component: AppLayout,
-        canActivate: [RoleGuard],
-        children: [
-            { path: 'dashboard', component: Dashboard },
-            { path: 'human-resources', loadChildren: () => import('./app/core/admin/human-resources/human-resources.routes') },
-            { path: 'person', loadChildren: () => import('./app/core/admin/person/person.routes') },
-            { path: 'sales', loadChildren: () => import('./app/core/admin/sales/sales.routes') },
-            { path: 'documentation', component: Documentation },
-
-        ]
-    },
-    {
-        path: 'external-employee',
-        component: AppLayout,
-        canActivate: [RoleGuard],
-        children: [
-            { path: 'sales', loadChildren: () => import('./app/core/admin/sales/sales.routes') },
-            { path: 'documentation', component: Documentation },
-        ]
+        //canActivate: [AdminGuard],
+        loadChildren: () => import('./app/trading-economics/trading-economics.routes'),
     },
     { path: '**', redirectTo: '/notfound' }
 ];

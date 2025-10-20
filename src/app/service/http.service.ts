@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UrlFactoryService} from './url-factory.service';
-import {ServerMessageModel} from "../api/server-message.model";
+import { ServerMessageModel } from '../core/models/server-message.model';
 
 @Injectable({
   providedIn: 'root'

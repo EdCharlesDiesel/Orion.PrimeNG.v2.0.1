@@ -1,19 +1,18 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
 import { Button } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from 'primeng/dialog';
 import { Table, TableModule } from 'primeng/table';
-import { Card } from 'primeng/card';
-import { EmployeePayHistory } from '../../../core/models/employee-pay-history.model';
-import { EmployeePayHistoryService } from './employee-pay-history.service';
-import { tap } from 'rxjs';
-import { Employee } from '../../../core/models/employee.model';
 import { Toolbar } from 'primeng/toolbar';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { NgIf } from '@angular/common';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { EmployeePayHistoryService } from './employee-pay-history.service';
+import { EmployeePayHistory } from '../../../models/employee-pay-history.model';
+import { tap } from 'rxjs/operators';
+import { Employee } from '../../../models/employee.model';
+
 
 interface Column {
     field: string;

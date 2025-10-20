@@ -8,7 +8,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+// import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
     selector: 'app-settings',
@@ -18,7 +18,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
         ReactiveFormsModule,
         CardModule,
         InputTextModule,
-        InputTextareaModule,
+        // InputTextareaModule,
         ButtonModule,
         MessageModule,
         MessagesModule,

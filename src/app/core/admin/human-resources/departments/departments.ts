@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { CurrencyPipe, NgIf } from '@angular/common';
+import {  NgIf } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { IconField } from 'primeng/iconfield';

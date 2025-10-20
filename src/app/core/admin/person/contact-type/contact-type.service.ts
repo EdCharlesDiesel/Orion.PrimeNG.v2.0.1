@@ -1,10 +1,11 @@
-
-import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { Observable, tap } from 'rxjs';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { ContactType } from '../../../core/models/contact-type.model';
+import { environment } from '../../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { ContactType } from '../../../models/contact-type.model';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root'

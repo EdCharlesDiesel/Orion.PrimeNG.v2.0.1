@@ -12,7 +12,7 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PersonPhoneService } from './person-phone.service';
 import { tap } from 'rxjs';
-import { PersonPhone } from '../../../core/models/person-phone.model';
+import { PersonPhone } from '../../../models/person-phone.model';
 
 
 interface Column {

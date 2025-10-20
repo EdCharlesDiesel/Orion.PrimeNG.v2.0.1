@@ -1,96 +1,96 @@
-<div class="card">
-    <div class="font-semibold text-xl mb-4">State Provinces</div>
-</div>
+<!--<div class="card">-->
+<!--    <div class="font-semibold text-xl mb-4">State Provinces</div>-->
+<!--</div>-->
 
-<p-toolbar styleClass="mb-6">
-    <ng-template #start>
-        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
-        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedStateProvinces()" [disabled]="!selectedStateProvinces || !selectedStateProvinces.length" />
-    </ng-template>
+<!--<p-toolbar styleClass="mb-6">-->
+<!--    <ng-template #start>-->
+<!--        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />-->
+<!--        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedCountryRegionCurrencys()" [disabled]="!selectedCountryRegionCurrencys || !selectedCountryRegionCurrencys.length" />-->
+<!--    </ng-template>-->
 
-    <ng-template #end>
-        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
-    </ng-template>
-</p-toolbar>
+<!--    <ng-template #end>-->
+<!--        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />-->
+<!--    </ng-template>-->
+<!--</p-toolbar>-->
 
-<p-table
-    #dt
-    [value]="stateProvinces()"
-    [rows]="10"
-    [columns]="cols"
-    [paginator]="true"
-    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedStateProvinces"
-    [rowHover]="true"
-    dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} stateProvinces"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30]"
->
-    <ng-template #caption>
-        <div class="flex items-center justify-between">
-            <h5 class="m-0">Manage State Provinces</h5>
-            <p-iconfield>
-                <p-inputicon styleClass="pi pi-search" />
-                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
-            </p-iconfield>
-        </div>
-    </ng-template>
-    <ng-template #header>
-        <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox />
-            </th>
-            <th style="min-width: 16rem">StateProvince ID</th>
-            <th pSortableColumn="name" style="min-width:16rem">
-                Name
-                <p-sortIcon field="Name" />
-            </th>
-            <th pSortableColumn="groupName" style="min-width:16rem">
-                Group Name
-                <p-sortIcon field="GroupName" />
-            </th>
-            <th pSortableColumn="ModifiedDate" style="min-width:16rem">
-                Modified Date
-                <p-sortIcon field="ModifiedDate" />
-            </th>
-            <th style="min-width: 12rem"></th>
-        </tr>
-    </ng-template>
-    <ng-template #body let-stateProvince>
-        <tr>
-           <td style="width: 3rem">
-                <p-tableCheckbox [value]="stateProvince" />
-          </td>
-           <td style="min-width: 12rem">{{ stateProvince.stateProvinceID }}</td>
-            <td style="min-width: 16rem">{{ stateProvince.name }}</td>
-            <td style="min-width: 16rem">{{ stateProvince.groupName }}</td>
-            <td style="min-width: 16rem">{{ stateProvince.modifiedDate }}</td>
-            <td>
-                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editStateProvince(stateProvince)" />
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteStateProvince(stateProvince)" />
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+<!--<p-table-->
+<!--    #dt-->
+<!--    [value]="countryRegionCurrencys()"-->
+<!--    [rows]="10"-->
+<!--    [columns]="cols"-->
+<!--    [paginator]="true"-->
+<!--    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"-->
+<!--    [tableStyle]="{ 'min-width': '75rem' }"-->
+<!--    [(selection)]="selectedCountryRegionCurrencys"-->
+<!--    [rowHover]="true"-->
+<!--    dataKey="id"-->
+<!--    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} countryRegionCurrencys"-->
+<!--    [showCurrentPageReport]="true"-->
+<!--    [rowsPerPageOptions]="[10, 20, 30]"-->
+<!--&gt;-->
+<!--    <ng-template #caption>-->
+<!--        <div class="flex items-center justify-between">-->
+<!--            <h5 class="m-0">Manage State Provinces</h5>-->
+<!--            <p-iconfield>-->
+<!--                <p-inputicon styleClass="pi pi-search" />-->
+<!--                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />-->
+<!--            </p-iconfield>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--    <ng-template #header>-->
+<!--        <tr>-->
+<!--            <th style="width: 3rem">-->
+<!--                <p-tableHeaderCheckbox />-->
+<!--            </th>-->
+<!--            <th style="min-width: 16rem">CountryRegionCurrency ID</th>-->
+<!--            <th pSortableColumn="name" style="min-width:16rem">-->
+<!--                Name-->
+<!--                <p-sortIcon field="Name" />-->
+<!--            </th>-->
+<!--            <th pSortableColumn="groupName" style="min-width:16rem">-->
+<!--                Group Name-->
+<!--                <p-sortIcon field="GroupName" />-->
+<!--            </th>-->
+<!--            <th pSortableColumn="ModifiedDate" style="min-width:16rem">-->
+<!--                Modified Date-->
+<!--                <p-sortIcon field="ModifiedDate" />-->
+<!--            </th>-->
+<!--            <th style="min-width: 12rem"></th>-->
+<!--        </tr>-->
+<!--    </ng-template>-->
+<!--    <ng-template #body let-countryRegionCurrency>-->
+<!--        <tr>-->
+<!--           <td style="width: 3rem">-->
+<!--                <p-tableCheckbox [value]="countryRegionCurrency" />-->
+<!--          </td>-->
+<!--           <td style="min-width: 12rem">{{ countryRegionCurrency.countryRegionCurrencyID }}</td>-->
+<!--            <td style="min-width: 16rem">{{ countryRegionCurrency.name }}</td>-->
+<!--            <td style="min-width: 16rem">{{ countryRegionCurrency.groupName }}</td>-->
+<!--            <td style="min-width: 16rem">{{ countryRegionCurrency.modifiedDate }}</td>-->
+<!--            <td>-->
+<!--                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editCountryRegionCurrency(countryRegionCurrency)" />-->
+<!--                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteCountryRegionCurrency(countryRegionCurrency)" />-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </ng-template>-->
+<!--</p-table>-->
 
-<p-dialog [(visible)]="stateProvinceDialog" [style]="{ width: '450px' }" header="StateProvince Details" [modal]="true">
-    <ng-template #content>
-        <div class="flex flex-col gap-6">
+<!--<p-dialog [(visible)]="countryRegionCurrencyDialog" [style]="{ width: '450px' }" header="CountryRegionCurrency Details" [modal]="true">-->
+<!--    <ng-template #content>-->
+<!--        <div class="flex flex-col gap-6">-->
 
-            <div>
-                <label for="name" class="block font-bold mb-3">Modified Date</label>
-                <input type="text" pInputText id="GroupName" [(ngModel)]="stateProvince.modifiedDate" required autofocus fluid />
-                <small class="text-red-500" *ngIf="submitted && !stateProvince.modifiedDate">ModifiedDate is required.</small>
-            </div>
-        </div>
-    </ng-template>
+<!--            <div>-->
+<!--                <label for="name" class="block font-bold mb-3">Modified Date</label>-->
+<!--                <input type="text" pInputText id="GroupName" [(ngModel)]="countryRegionCurrency.modifiedDate" required autofocus fluid />-->
+<!--                <small class="text-red-500" *ngIf="submitted && !countryRegionCurrency.modifiedDate">ModifiedDate is required.</small>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </ng-template>-->
 
-    <ng-template #footer>
-        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-        <p-button label="Save" icon="pi pi-check" (click)="saveStateProvince()" />
-    </ng-template>
-</p-dialog>
+<!--    <ng-template #footer>-->
+<!--        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />-->
+<!--        <p-button label="Save" icon="pi pi-check" (click)="saveCountryRegionCurrency()" />-->
+<!--    </ng-template>-->
+<!--</p-dialog>-->
 
-<p-confirmdialog [style]="{ width: '450px' }" />
+<!--<p-confirmdialog [style]="{ width: '450px' }" />-->

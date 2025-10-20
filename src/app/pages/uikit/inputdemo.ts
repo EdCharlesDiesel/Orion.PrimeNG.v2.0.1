@@ -29,7 +29,10 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { CountryService } from '../../service/country.service';
 import { NodeService } from '../../service/node.service';
 import { TreeNode } from 'primeng/api';
-import { Country } from '../../service/customer.service';
+
+
+class Country {
+}
 
 @Component({
     selector: 'app-input-demo',

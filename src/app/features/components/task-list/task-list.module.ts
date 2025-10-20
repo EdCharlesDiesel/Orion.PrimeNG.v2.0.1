@@ -22,44 +22,38 @@ import {TaskDialogComponent} from "./task-dialog.component";
 import {CalendarModule} from "primeng/calendar";
 import {CheckboxModule} from "primeng/checkbox";
 import {ReactiveFormsModule} from "@angular/forms";
-import {InputTextareaModule} from "primeng/inputtextarea";
+// import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
 
 @NgModule({
-  declarations: [
-    TaskListComponent,
-    TaskDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    ProgressBarModule,
-    BadgeModule,
-    AvatarModule,
-    ScrollPanelModule,
-    TagModule,
-    ChipModule,
-    ButtonModule,
-    SkeletonModule,
-    AvatarGroupModule,
-    ScrollTopModule,
-    CardModule,
-    TableModule,
-    DialogModule,
-    ToastModule,
-    ConfirmDialogModule,
-    PaginatorModule,
-    CalendarModule,
-    CheckboxModule,
-    ReactiveFormsModule,
-    InputTextareaModule,
-    InputTextModule
-  ],
-  providers: [
-    TaskService
-  ],
-  exports: [
-    TaskListComponent,
-    TaskDialogComponent
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        ProgressBarModule,
+        BadgeModule,
+        AvatarModule,
+        ScrollPanelModule,
+        TagModule,
+        ChipModule,
+        ButtonModule,
+        SkeletonModule,
+        AvatarGroupModule,
+        ScrollTopModule,
+        CardModule,
+        TableModule,
+        DialogModule,
+        ToastModule,
+        ConfirmDialogModule,
+        PaginatorModule,
+        CalendarModule,
+        CheckboxModule,
+        ReactiveFormsModule,
+        // InputTextareaModule,
+        InputTextModule,
+        TaskListComponent,
+        TaskDialogComponent
+    ],
+    providers: [TaskService],
+    exports: [TaskListComponent, TaskDialogComponent]
 })
-export class TaskListModule { }
+export class TaskListModule {}

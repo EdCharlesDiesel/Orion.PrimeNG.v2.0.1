@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 
-class UserManagementService {}
+class UserManagementService {
+    validateUserName(value: any) {
+
+    }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +16,16 @@ export class CustomValidationService {
 
   constructor(private userService: UserManagementService) { }
 
-  patternValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
-      if (!control.value) {
-        return null!;
-      }
-      const regex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-      const valid = regex.test(control.value);
-      return valid ? null : { passwordValidation: true };
-    };
-  }
+  // patternValidator(): ValidatorFn {
+  //   // return (control: AbstractControl): { [key: string]: any } => {
+  //   //   if (!control.value) {
+  //   //     return null!;
+  //   //   }
+  //   //   const regex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+  //   //   const valid = regex.test(control.value);
+  //     // return valid ? null : { passwordValidation: true };
+  //   };
+  // }
 
   confirmPasswordValidator(control: AbstractControl) {
     const password: string = control.get('password')!.value;
@@ -35,13 +39,13 @@ export class CustomValidationService {
     clearTimeout(this.debouncer);
     return new Promise(resolve => {
       this.debouncer = setTimeout(() => {
-        this.userService.validateUserName(userControl.value).subscribe(result => {
-          if (result) {
-            resolve({ userNameNotAvailable: true });
-          } else {
-            resolve(null);
-          }
-        });
+      //   this.userService.validateUserName(userControl.value).subscribe(result => {
+      //     if (result) {
+      //       resolve({ userNameNotAvailable: true });
+      //     } else {
+      //       resolve(null);
+      //     }
+      //   });
       }, 1000);
     });
   }

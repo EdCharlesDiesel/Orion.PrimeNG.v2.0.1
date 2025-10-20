@@ -11,8 +11,8 @@ import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ContactTypeService } from './contact-type.service';
-import { ContactType } from '../../../core/models/contact-type.model';
 import { tap } from 'rxjs';
+import { ContactType } from '../../../models/contact-type.model';
 
 interface Column {
     field: string;

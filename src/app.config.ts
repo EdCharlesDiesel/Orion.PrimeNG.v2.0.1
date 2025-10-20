@@ -1,19 +1,25 @@
+import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
+import { provideRouter, withInMemoryScrolling, withEnabledBlockingInitialNavigation } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
-import Aura from '@primeng/themes/aura';
-import { providePrimeNG } from 'primeng/config';
-import { appRoutes } from './app.routes';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { productReducer } from './app/store/products/product.reducer';
+import { cartReducer } from './app/store/cart/cart.reducer';
 import { ProductEffects } from './app/store/products/product.effects';
 import { InMemoryDataService } from './app/service/in-memory-data.service';
-import { cartReducer } from './app/store/cart/cart.reducer';
-import { productReducer } from './app/store/products/product.reducer';
+import { appRoutes } from './app.routes';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { ImageUploadReducer } from './app/store/image-upload/image-upload.reducer';
+import { ImageUploadEffects } from './app/store/image-upload/image-upload.effects';
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideStore({ products: productReducer ,cart: cartReducer }),
-        provideEffects([ProductEffects]),
+        provideStore({ products: productReducer, cart: cartReducer,imageUpload: ImageUploadReducer  }),
+        provideEffects([ProductEffects,ImageUploadEffects]),
         provideStoreDevtools({
             name: 'Orion ERP',
             maxAge: 25,
@@ -21,7 +27,18 @@ export const appConfig: ApplicationConfig = {
             autoPause: true,
             trace: false
         }),
-        provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
+
+        // Router
+        provideRouter(
+            appRoutes,
+            withInMemoryScrolling({
+                anchorScrolling: 'enabled',
+                scrollPositionRestoration: 'enabled'
+            }),
+            withEnabledBlockingInitialNavigation()
+        ),
+
+        // HTTP client + in-memory web API (for mock backend)
         provideHttpClient(withFetch()),
         importProvidersFrom(
             HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
@@ -30,7 +47,16 @@ export const appConfig: ApplicationConfig = {
                 passThruUnknownUrl: true
             })
         ),
+
+        // Animations & PrimeNG
         provideAnimationsAsync(),
-        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: '.app-dark'
+                }
+            }
+        })
     ]
 };

@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import {  ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { CommonModule, CurrencyPipe, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -33,8 +33,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ListboxModule } from 'primeng/listbox';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TextareaModule } from 'primeng/textarea';
-import { Employee } from '../../core/models/employee.model';
-import { SqlHierarchyId } from '../../core/models/SqlHierarchyId';
+import { Employee } from '../../../models/employee.model';
 
 interface Column {
     field: string;

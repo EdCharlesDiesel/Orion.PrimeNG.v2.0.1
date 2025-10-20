@@ -16,7 +16,7 @@ import { ShoppingCartItem } from "./shopping-cart-item.model"
 import { ProductCostHistory } from "./product-cost-history.model"
 
 export class Product {
-    productID!: number | undefined;
+    productID!: number ;
     title: string | undefined;
     name: string | undefined;
     description: string | undefined;
@@ -26,7 +26,7 @@ export class Product {
     makeFlag: boolean | undefined;
     finishedGoodsFlag: boolean | undefined;
     color?: string | undefined;
-    safetyStockLevel: number | undefined;
+    safetyStockLevel: number = 10;
     reorderPoint: number | undefined;
     standardCost: number | undefined;
     listPrice: number | undefined;
@@ -70,6 +70,7 @@ export class Product {
     purchaseOrderDetails?: PurchaseOrderDetail[] | undefined;
     shoppingCartItems?: ShoppingCartItem[] | undefined;
     specialOfferProducts?: SpecialOfferProduct[] | undefined;
+    inventoryStatus: any;
 
 }
 

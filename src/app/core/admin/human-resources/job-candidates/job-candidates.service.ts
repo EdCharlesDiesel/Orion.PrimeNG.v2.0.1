@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JobCandidate } from '../../../core/models/job-candidate.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
+import { JobCandidate } from '../../../models/job-candidate.model';
+
 
 
 @Injectable({

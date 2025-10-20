@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
 
 
 @Injectable({
@@ -6,14 +7,10 @@ import { Injectable } from '@angular/core';
 })
 export class SnackbarService {
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(public snackBar: MessageService) { }
 
   showSnackBar(message: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 2000,
-      verticalPosition: 'top',
-      horizontalPosition: 'center'
-    });
+    // this.snackBar.Add(message);
   }
 
 

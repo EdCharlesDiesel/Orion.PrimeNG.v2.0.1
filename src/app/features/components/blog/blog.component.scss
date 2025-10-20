@@ -1,0 +1,204 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+// Featured Card Styles
+::ng-deep .featured-card {
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .p-card-header {
+        position: relative;
+        padding: 0;
+    }
+
+    .p-card-body {
+        padding: 2rem;
+    }
+}
+
+.featured-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.featured-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.featured-chip {
+    background: var(--primary-color) !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.featured-content {
+    h2 {
+        line-height: 1.3;
+    }
+
+    p {
+        line-height: 1.6;
+    }
+}
+
+// Blog Card Styles
+::ng-deep .blog-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .p-card-header {
+        padding: 0;
+    }
+
+    .p-card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .p-card-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--surface-border);
+    }
+}
+
+.blog-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+// Tag Chip Styles
+::ng-deep .tag-chip {
+    background: var(--surface-100) !important;
+    color: var(--text-color) !important;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    font-weight: 500;
+
+    .p-chip-text {
+        font-size: 0.75rem;
+    }
+}
+
+// Avatar Styles
+::ng-deep p-avatar {
+    .p-avatar {
+        background: var(--primary-color);
+        color: white;
+        font-weight: 600;
+    }
+}
+
+// Search Input Styles
+::ng-deep .p-input-icon-left {
+    > input {
+        padding-left: 2.5rem;
+        border-radius: 2rem;
+        border: 2px solid var(--surface-border);
+        transition: all 0.3s ease;
+
+        &:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.2);
+        }
+    }
+
+    > i {
+        left: 1rem;
+        color: var(--text-color-secondary);
+    }
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+    .featured-image {
+        height: 250px;
+    }
+
+    .featured-content {
+        h2 {
+            font-size: 2rem;
+        }
+    }
+
+    .blog-image {
+        height: 180px;
+    }
+}
+
+// Loading State
+::ng-deep p-skeleton {
+    .p-skeleton {
+        background: var(--surface-100);
+    }
+}
+
+// Empty State
+.pi-inbox {
+    display: block;
+}
+
+// Animation
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-card,
+.featured-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+// Button Customization
+::ng-deep .p-button {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateX(4px);
+    }
+
+    &.p-button-text:hover {
+        background: var(--primary-color) !important;
+        color: white !important;
+    }
+}

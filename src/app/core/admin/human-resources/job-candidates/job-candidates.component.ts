@@ -10,11 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { JobCandidate } from '../../../core/models/job-candidate.model';
 import { JobCandidatesService } from './job-candidates.service';
-import { tap } from 'rxjs';
-import { Employee } from '../../../core/models/employee.model';
-import { EmployeesService } from '../employees/employees.service';
+import { JobCandidate } from '../../../models/job-candidate.model';
+import { tap } from 'rxjs/operators';
+import { Employee } from '../../../models/employee.model';
+
 
 interface Column {
     field: string;

@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {shareReplay} from "rxjs/operators";
-import {Customer} from "../../core/models/customer";
+import { environment } from '../../environments/environment';
+import { shareReplay } from 'rxjs/operators';
+import { Customer } from '../core/models/customer';
 
 @Injectable()
 export class CustomerService {

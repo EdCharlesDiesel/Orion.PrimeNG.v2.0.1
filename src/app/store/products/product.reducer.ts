@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { ProductState, initialProductState } from './product.state';
+import {  initialProductState } from './product.state';
 import * as ProductActions from './product.actions';
 
 export const productReducer = createReducer(
@@ -86,7 +86,7 @@ export const productReducer = createReducer(
     ...state,
     products: state.products.map(product => ({
       ...product,
-      quantityInStock: quantities[product.productID] ?? product.quantityInStock ?? 0
+      quantityInStock: quantities[product.safetyStockLevel] ?? product.quantityInStock ?? 0
     }))
   }))
 );

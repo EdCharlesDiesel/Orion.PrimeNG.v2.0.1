@@ -1,4 +1,4 @@
-import { Shift } from '../../../core/models/shift.model';
+
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,6 +34,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ShiftsService } from './shifts.service';
 import { tap } from 'rxjs';
+import { Shift } from '../../../models/shift.model';
 
 
 interface Column {

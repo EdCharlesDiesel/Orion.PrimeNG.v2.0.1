@@ -10,10 +10,10 @@ import { NgIf } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Address } from '../../../core/models/address.model';
 import { AddressTypeService } from './address-type.service';
-import { tap } from 'rxjs';
-import { AddressType } from '../../../core/models/address-type.model';
+import { AddressType } from '../../../models/address-type.model';
+import { tap } from 'rxjs/operators';
+
 
 
 interface Column {

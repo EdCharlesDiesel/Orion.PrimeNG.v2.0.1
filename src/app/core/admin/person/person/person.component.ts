@@ -10,9 +10,9 @@ import { NgIf } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Person } from '../../../core/models/person.model';
 import { PersonService } from './person.service';
 import { tap } from 'rxjs';
+import { Person } from '../../../models/person.model';
 
 
 interface Column {
@@ -101,6 +101,9 @@ export class PersonComponent implements OnInit {
     public openNew() {
         this.person = {
             businessEntityID : 0,
+            username: "",
+            userTypeId: 0,
+            isLoggedIn: false,
             firstName: "",
             lastName: "",
             title: "",

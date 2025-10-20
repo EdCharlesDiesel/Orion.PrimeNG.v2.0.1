@@ -1,18 +1,9 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { Button } from 'primeng/button';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { Dialog } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { InputText } from 'primeng/inputtext';
-import { NgIf } from '@angular/common';
-import { Table, TableModule } from 'primeng/table';
-import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CountryRegionCurrencyService } from './country-region-currency.service';
-import { tap } from 'rxjs';
-import { StateProvince } from '../../../core/models/state-province.model';
+import { StateProvince } from '../../../models/state-province.model';
+import { Table } from 'primeng/table';
+
 
 
 interface Column {
@@ -69,11 +60,11 @@ export class CountryRegionCurrencyComponent implements OnInit {
     }
 
     loadDemoData() {
-        this.stateProvinceService.getStateProvince().pipe(
-            tap((p) => console.log(JSON.stringify(p))),
-        ).subscribe((data) => {
-            this.stateProvinces.set(data);
-            });
+        // this.stateProvinceService.getStateProvince().pipe(
+        //     tap((p) => console.log(JSON.stringify(p))),
+        // ).subscribe((data) => {
+        //     this.stateProvinces.set(data);
+        //     });
 
         this.cols = [
             { field: 'StateProvince ID', header: 'Code', customExportHeader: 'StateProvince Code' },

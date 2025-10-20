@@ -1,4 +1,4 @@
-import {SqlHierarchyId} from "./SqlHierarchyId";
+
 import {EmployeeDepartmentHistory} from "./employee-department-history.model ";
 import {PurchaseOrderHeader} from "./purchase-order-header.model";
 import {Course} from "./course.model";

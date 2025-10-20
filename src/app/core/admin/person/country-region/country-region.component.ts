@@ -12,7 +12,7 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CountryRegionService } from './country-region.service';
 import { tap } from 'rxjs';
-import { CountryRegion } from '../../../core/models/country-region.model';
+import { CountryRegion } from '../../../models/country-region.model';
 
 
 interface Column {

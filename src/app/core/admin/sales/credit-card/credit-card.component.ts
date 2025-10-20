@@ -12,7 +12,7 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CreditCardService } from './credit-card.service';
 import { tap } from 'rxjs';
-import { CreditCard } from '../../../core/models/credit-card.model';
+import { CreditCard } from '../../../models/credit-card.model';
 
 interface Column {
     field: string;

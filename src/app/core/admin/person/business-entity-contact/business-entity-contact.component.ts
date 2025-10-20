@@ -12,7 +12,7 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BusinessEntityContactService } from './business-entity-contact.service';
 import { tap } from 'rxjs';
-import { BusinessEntityContact } from '../../../core/models/business-entity-contact.model';
+import { BusinessEntityContact } from '../../../models/business-entity-contact.model';
 
 
 interface Column {

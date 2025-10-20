@@ -2,8 +2,8 @@ import { Observable,tap } from 'rxjs';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Department } from './department.model';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
+import { HttpErrorService } from '../../../../shared/http-error.service';
 
 
 @Injectable({

@@ -92,5 +92,9 @@ export class ProductService {
     getProductsSmall(): Observable<Product> {
         return this.http.delete<Product>(`${this.API_URL}/`);
     }
+
+    getProductsWithOrdersSmall(): Observable<Product>  {
+        return this.http.delete<Product>(`${this.API_URL}/`);
+    }
 }
 

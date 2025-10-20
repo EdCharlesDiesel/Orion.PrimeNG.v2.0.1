@@ -1,10 +1,10 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed,  inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { Employee } from '../../../core/models/employee.model';
-import { Observable, tap } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { Department } from '../departments/department.model';
+import { environment } from '../../../../../environments/environment';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { Employee } from '../../../models/employee.model';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

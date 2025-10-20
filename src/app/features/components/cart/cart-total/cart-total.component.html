@@ -1,44 +1,38 @@
-<mat-card class="mat-elevation-z4" *ngIf="cartItems().length">
-  <mat-card-header>
-    <mat-card-title class="text-primary fw-bold">
-      Cart Total
-    </mat-card-title>
-  </mat-card-header>
+<p-card class="cart-total-card p-shadow-4" *ngIf="cartItems().length">
+    <ng-template pTemplate="header">
+        <span class="text-primary fw-bold">Cart Total</span>
+    </ng-template>
 
-  <mat-card-content>
-    <mat-grid-list cols="2" rowHeight="fit" gutterSize="8px">
-      <mat-grid-tile>
-        <span>Subtotal:</span>
-      </mat-grid-tile>
-      <mat-grid-tile class="text-end">
-        <span>{{ subTotal() | currency }}</span>
-      </mat-grid-tile>
+    <ng-template pTemplate="content">
+        <div class="cart-summary-grid">
 
-      <mat-grid-tile>
-        <span>Delivery:</span>
-      </mat-grid-tile>
-      <mat-grid-tile class="text-end">
-        <ng-container *ngIf="deliveryFee(); else freeDelivery">
-          <span>{{ deliveryFee() | currency }}</span>
-        </ng-container>
-        <ng-template #freeDelivery>
-          <span style="color: red;">Free</span>
-        </ng-template>
-      </mat-grid-tile>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span class="text-end">{{ subTotal() | currency }}</span>
+            </div>
 
-      <mat-grid-tile>
-        <span>Estimated Tax:</span>
-      </mat-grid-tile>
-      <mat-grid-tile class="text-end">
-        <span>{{ tax() | currency }}</span>
-      </mat-grid-tile>
+            <div class="summary-row">
+                <span>Delivery:</span>
+                <span class="text-end">
+          <ng-container *ngIf="deliveryFee(); else freeDelivery">
+            {{ deliveryFee() | currency }}
+          </ng-container>
+          <ng-template #freeDelivery>
+            <span style="color: red;">Free</span>
+          </ng-template>
+        </span>
+            </div>
 
-      <mat-grid-tile>
-        <strong>Total:</strong>
-      </mat-grid-tile>
-      <mat-grid-tile class="text-end">
-        <strong>{{ totalPrice() | currency }}</strong>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content>
-</mat-card>
+            <div class="summary-row">
+                <span>Estimated Tax:</span>
+                <span class="text-end">{{ tax() | currency }}</span>
+            </div>
+
+            <div class="summary-row total">
+                <strong>Total:</strong>
+                <strong class="text-end">{{ totalPrice() | currency }}</strong>
+            </div>
+
+        </div>
+    </ng-template>
+</p-card>

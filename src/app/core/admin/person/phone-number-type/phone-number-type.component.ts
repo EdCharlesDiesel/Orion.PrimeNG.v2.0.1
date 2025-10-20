@@ -12,7 +12,8 @@ import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PhoneNumberTypeService } from './phone-number-type.service';
 import { tap } from 'rxjs';
-import { PhoneNumberType } from '../../../core/models/phone-number-type.model';
+import { PhoneNumberType } from '../../../models/phone-number-type.model';
+
 
 
 interface Column {

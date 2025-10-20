@@ -1,4 +1,5 @@
 export default {
+    name: 'Orion ERP',
     root: true,
     ignorePatterns: ['**/dist/**'],
     plugins: ['prettier'],

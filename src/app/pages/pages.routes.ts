@@ -1,14 +1,27 @@
-import { Routes } from '@angular/router';
-import { Documentation } from './documentation/documentation';
+import { OrderConfirmationComponent } from './order-confirmation-page/order-confirmation.component';
+import { BlogPage } from './blog-page/blog-page';
+import { ChatPage } from './chat-page/chat-page';
+import { FilesPage } from './files-page/files-upload-page';
+import { TaskListPagePage } from './task-list-page/task-list-page';
+import { MailPage } from './mail-page/mail-page';
+import { CalendarPage } from './calendar-page/calendar-page';
 import { Empty } from './empty/empty';
-import { Departments } from './human-resources/departments/departments';
-import { EmployeePayHistory } from '../core/models/employee-pay-history.model';
-import { CreateReadUpdateDeleteComponent } from './CreateReadUpdateDelete/CreateReadUpdateDelete.component';
+import { Routes } from '@angular/router';
+import { ProductsPageComponent } from './product-page/products-page.component';
+import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
+import { CheckOutPage } from './check-out-page/check-out-page';
 
 export default [
-    { path: 'documentation', component: Documentation },
+    { path: 'blog', component: BlogPage },
+    { path: 'chat', component: ChatPage },
+    { path: 'files', component: FilesPage },
+    { path: 'task-list', component: TaskListPagePage },
+    { path: 'mail', component: MailPage },
+    { path: 'calendar', component: CalendarPage },
+    { path: 'products', component: ProductsPageComponent },
+    { path: 'shopping-cart', component: ShoppingCartPageComponent },
+    { path: 'check-out', component: CheckOutPage },
+    { path: 'order-confirmation', component: OrderConfirmationComponent },
     { path: 'empty', component: Empty },
-    { path: 'departments', component: Departments },
-    { path: 'employee-pay-history', component: EmployeePayHistory },
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;

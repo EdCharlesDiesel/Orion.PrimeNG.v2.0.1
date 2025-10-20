@@ -1,9 +1,11 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorService } from '../../../shared/http-error.service';
-import { Observable, tap } from 'rxjs';
-import { PhoneNumberType } from '../../../core/models/phone-number-type.model';
+import { HttpErrorService } from '../../../../shared/http-error.service';
+import { PhoneNumberType } from '../../../models/phone-number-type.model';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root'

@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
+import { selectCartItemCount } from '../../store/cart/cart.selectors';
+import { Store } from '@ngrx/store';
+import { CartService } from '../../service/cart.service';
+import { AuthService } from '../../core/authentication/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-menu',
@@ -22,33 +27,48 @@ export class AppMenu {
         this.model = [
             {
                 label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }]
+                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['admin/dashboard'] }]
             },
             {
-                label: 'E-Commerce',
+                label: 'Store',
                 icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/E-Commerce'],
+                routerLink: ['pages'],
                 items: [
                     {
                         label: 'Products',
-                        icon: 'pi pi-fw pi-save',
-                        routerLink: ['/store/product-list']
+                        icon: 'pi pi-fw pi-shop',
+                        routerLink: ['./products']
                     },
                     {
                         label: 'Today Special',
                         icon: 'pi pi-fw pi-sparkles',
-                        routerLink: ['/human-resources/departments']
+                        routerLink: ['./today-special']
+                    },
+                    {
+                        label: 'WishList',
+                        icon: 'pi pi-fw pi-shopping-bag',
+                        routerLink: ['./wish-list']
+                    },
+                    {
+                        label: 'Shopping Cart',
+                        icon: 'pi pi-fw pi-cart-arrow-down',
+                        routerLink: ['./shopping-cart']
+                    },
+                    {
+                        label: 'Check-out',
+                        icon: 'pi pi-fw pi-cart-plus',
+                        routerLink: ['./check-out']
                     }
                 ]
             },
             {
-                label: 'E-Commerce-Admin',
+                label: 'Admin',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/human-resources'],
                 items: [
                     {
                         label: 'Human Resources',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-user-plus',
                         items: [
                             {
                                 label: 'Departments',
@@ -89,7 +109,7 @@ export class AppMenu {
                     },
                     {
                         label: 'Person',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-user',
                         items: [
                             {
                                 label: 'Addresses',
@@ -148,8 +168,8 @@ export class AppMenu {
                         ]
                     },
                     {
-                        label: 'Sales',
-                        icon: 'pi pi-fw pi-bookmark',
+                        label: 'Production',
+                        icon: 'pi pi-fw pi-warehouse',
                         items: [
                             {
                                 label: 'Country Region Currency',
@@ -168,74 +188,118 @@ export class AppMenu {
                             }
                         ]
                     },
-                ]
-            },
-            {
-                label: 'UI Components',
-                items: [
-                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
-                    { label: 'Button', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/uikit/button'] },
-                    { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
-                    { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
-                    { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
-                    { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
-                    { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
-                    { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
-                    { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
-                    { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
-                    { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
-                    { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
-                    { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/uikit/timeline'] },
-                    { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/uikit/misc'] }
-                ]
-            },
-            {
-                label: 'Pages',
-                icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/pages'],
-                items: [
                     {
-                        label: 'Landing',
-                        icon: 'pi pi-fw pi-globe',
-                        routerLink: ['/landing']
-                    },
-                    {
-                        label: 'Auth',
-                        icon: 'pi pi-fw pi-user',
+                        label: 'Purchasing',
+                        icon: 'pi pi-fw pi-sync',
                         items: [
                             {
-                                label: 'Login',
-                                icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/auth/login']
+                                label: 'Country Region Currency',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/country-region-currency']
                             },
                             {
-                                label: 'Error',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
+                                label: 'Credit Card',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/credit-card']
                             },
                             {
-                                label: 'Access Denied',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access']
+                                label: 'Currencies',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/currency']
                             }
                         ]
                     },
                     {
-                        label: 'Crud',
-                        icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/pages/CreateReadUpdateDelete']
+                        label: 'Sales',
+                        icon: 'pi pi-fw pi-qrcode',
+                        items: [
+                            {
+                                label: 'Country Region Currency',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/country-region-currency']
+                            },
+                            {
+                                label: 'Credit Card',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/credit-card']
+                            },
+                            {
+                                label: 'Currencies',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/currency']
+                            },
+                            {
+                                label: 'Currency Rate',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['/sales/currency-rate']
+                            }
+                        ]
+                    },
+                ]
+            },
+            {
+                label: 'Apps',
+                items: [
+                    {
+                        label: 'Blog',
+                        icon: 'pi pi-fw pi-check-circle',
+                        routerLink: ['/pages/blog']
                     },
                     {
-                        label: 'Not Found',
-                        icon: 'pi pi-fw pi-exclamation-circle',
-                        routerLink: ['/pages/notfound']
+                        label: 'Chat',
+                        icon: 'pi pi-fw pi-check-square',
+                        routerLink: ['/pages/chat']
                     },
                     {
-                        label: 'Empty',
-                        icon: 'pi pi-fw pi-circle-off',
-                        routerLink: ['/pages/empty']
+                        label: 'Mail',
+                        icon: 'pi pi-fw pi-inbox',
+                        routerLink: ['/pages/mail']
+                    },
+                    {
+                        label: 'Calendar',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/pages/calendar']
+                    },
+                    {
+                        label: 'Tasks',
+                        icon: 'pi pi-fw pi-list-check',
+                        routerLink: ['/pages/task-list']
+                    }                    ,
+                    {
+                        label: 'Reports',
+                        icon: 'pi pi-fw pi-verified',
+                        routerLink: ['/pages/reports']
                     }
+                ]
+            },
+            {
+                label: 'Trading Economics',
+                routerLink: ['trading-economics'],
+                items: [
+                    {
+                        label: 'Dashboard',
+                        icon: 'pi pi-fw pi-gauge',
+                        routerLink: ['trading-economics-dashboard']
+                    },
+                    {
+                        label: 'Forecast',
+                        icon: 'pi pi-fw pi-chevron-up',
+                        routerLink: ['forecast']
+                    },
+                    {
+                        label: 'Calendar',
+                        icon: 'pi pi-fw pi-calendar-times',
+                        routerLink: ['calendar']
+                    },
+                    {
+                        label: 'News',
+                        icon: 'pi pi-fw pi-history',
+                        routerLink: ['news']
+                    },     {
+                        label: 'GDP Per Country',
+                        icon: 'pi pi-fw pi-map-marker',
+                        routerLink: ['gdp-per-country']
+                    },
                 ]
             },
             {
@@ -255,5 +319,12 @@ export class AppMenu {
                 ]
             }
         ];
+    }
+
+    private cartService = inject(CartService);
+    cartItemCount$: Observable<number>;
+
+    constructor(private store: Store) {
+        this.cartItemCount$ = this.store.select(selectCartItemCount);
     }
 }

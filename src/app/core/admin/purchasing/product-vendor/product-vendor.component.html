@@ -1,0 +1,116 @@
+<div class="card">
+    <div class="font-semibold text-xl mb-4">ProductVendors</div>
+</div>
+
+<!--<p-toolbar styleClass="mb-6">-->
+<!--    <ng-template #start>-->
+<!--        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />-->
+<!--        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedProductVendors()" [disabled]="!selectedProductVendors || !selectedProductVendors.length" />-->
+<!--    </ng-template>-->
+
+<!--    <ng-template #end>-->
+<!--        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />-->
+<!--    </ng-template>-->
+<!--</p-toolbar>-->
+
+<!--<p-table-->
+<!--    #dt-->
+<!--    [value]="productVendors()"-->
+<!--    [rows]="10"-->
+<!--    [columns]="cols"-->
+<!--    [paginator]="true"-->
+<!--    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"-->
+<!--    [tableStyle]="{ 'min-width': '75rem' }"-->
+<!--    [(selection)]="selectedProductVendors"-->
+<!--    [rowHover]="true"-->
+<!--    dataKey="id"-->
+<!--    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} productVendors"-->
+<!--    [showCurrentPageReport]="true"-->
+<!--    [rowsPerPageOptions]="[10, 20, 30]"-->
+<!--&gt;-->
+<!--    <ng-template #caption>-->
+<!--        <div class="flex items-center justify-between">-->
+<!--            <h5 class="m-0">Manage ProductVendors</h5>-->
+<!--            <p-iconfield>-->
+<!--                <p-inputicon styleClass="pi pi-search" />-->
+<!--                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />-->
+<!--            </p-iconfield>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--    <ng-template #header>-->
+<!--        <tr>-->
+<!--            <th style="width: 3rem">-->
+<!--                <p-tableHeaderCheckbox />-->
+<!--            </th>-->
+<!--            <th style="min-width: 16rem">ProductVendor ID</th>-->
+<!--            <th pSortableColumn="name" style="min-width:16rem">-->
+<!--                Name-->
+<!--                <p-sortIcon field="Name" />-->
+<!--            </th>-->
+<!--            <th pSortableColumn="startTime" style="min-width:16rem">-->
+<!--                Start Time-->
+<!--                <p-sortIcon field="startTime" />-->
+<!--            </th>-->
+<!--            <th pSortableColumn="endTime" style="min-width:16rem">-->
+<!--                End Time-->
+<!--                <p-sortIcon field="endTime" />-->
+<!--            </th>-->
+<!--            <th pSortableColumn="ModifiedDate" style="min-width:16rem">-->
+<!--                Modified Date-->
+<!--                <p-sortIcon field="ModifiedDate" />-->
+<!--            </th>-->
+<!--            <th style="min-width: 12rem"></th>-->
+<!--        </tr>-->
+<!--    </ng-template>-->
+<!--    <ng-template #body let-productVendor>-->
+<!--        <tr>-->
+<!--            <td style="width: 3rem">-->
+<!--                <p-tableCheckbox [value]="productVendor" />-->
+<!--            </td>-->
+<!--            <td style="min-width: 12rem">{{ productVendor.productVendorID }}</td>-->
+<!--            <td style="min-width: 16rem">{{ productVendor.name }}</td>-->
+<!--            <td style="min-width: 16rem">{{ productVendor.startTime }}</td>-->
+<!--            <td style="min-width: 16rem">{{ productVendor.endTime }}</td>-->
+<!--            <td style="min-width: 16rem">{{ productVendor.modifiedDate }}</td>-->
+<!--            <td>-->
+<!--                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editProductVendor(productVendor)" />-->
+<!--                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProductVendor(productVendor)" />-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </ng-template>-->
+<!--</p-table>-->
+
+<!--<p-dialog [(visible)]="productVendorDialog" [style]="{ width: '450px' }" header="ProductVendor Details" [modal]="true">-->
+<!--    <ng-template #content>-->
+<!--        <div class="flex flex-col gap-6">-->
+
+<!--            <div>-->
+<!--                <label for="name" class="block font-bold mb-3">Name</label>-->
+<!--                <input type="text" pInputText id="name" [(ngModel)]="productVendor.name" required autofocus fluid />-->
+<!--                <small class="text-red-500" *ngIf="submitted && !productVendor.name">Name is required.</small>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="name" class="block font-bold mb-3">Start Time</label>-->
+<!--                <input type="text" pInputText id="Start Time" [(ngModel)]="productVendor.startTime" required autofocus fluid />-->
+<!--                <small class="text-red-500" *ngIf="submitted && !productVendor.startTime">Start Time is required.</small>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="name" class="block font-bold mb-3">End Time</label>-->
+<!--                <input type="text" pInputText id="GroupName" [(ngModel)]="productVendor.endTime" required autofocus fluid />-->
+<!--                <small class="text-red-500" *ngIf="submitted && !productVendor.endTime">End Time is required.</small>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="name" class="block font-bold mb-3">Modified Date</label>-->
+<!--                <input type="text" pInputText id="GroupName" [(ngModel)]="productVendor.modifiedDate" required autofocus fluid />-->
+<!--                <small class="text-red-500" *ngIf="submitted && !productVendor.modifiedDate">ModifiedDate is required.</small>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+
+<!--    <ng-template #footer>-->
+<!--        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />-->
+<!--        <p-button label="Save" icon="pi pi-check" (click)="saveProductVendor()" />-->
+<!--    </ng-template>-->
+<!--</p-dialog>-->
+
+<!--<p-confirmdialog [style]="{ width: '450px' }" />-->

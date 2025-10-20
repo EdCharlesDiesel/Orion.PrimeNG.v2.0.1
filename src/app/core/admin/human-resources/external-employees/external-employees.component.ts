@@ -1,4 +1,4 @@
-import { Employee } from '../../../core/models/employee.model';
+
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -11,11 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { EmployeesService } from '../employees/employees.service';
-import { Observable, tap } from 'rxjs';
-import { SalesPerson } from '../../../core/models/sales-person.model';
-import { InternalEmployeesService } from '../internal-employees/internal-employees.service';
 import { ExternalEmployeesService } from './external-employees.service';
+import { tap } from 'rxjs/operators';
+import { SalesPerson } from '../../../models/sales-person.model';
+import { Employee } from '../../../models/employee.model';
 
 interface Column {
     field: string;

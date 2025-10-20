@@ -25,7 +25,7 @@ export const selectCartTotalPrice = createSelector(
 
 export const selectCartItemByProductId = (productId: number) => createSelector(
   selectCartItems,
-  (items) => items.find(item => item.product.id === productId)
+  (items) => items.find(item => item.product.productID === productId)
 );
 
 export const selectCartViewModel = createSelector(

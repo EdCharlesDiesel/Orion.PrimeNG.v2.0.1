@@ -16,7 +16,7 @@ import { Password } from 'primeng/password';
 import { InputSwitch } from 'primeng/inputswitch';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
-import { CommandModule } from '@angular/cli/src/command-builder/command-module';
+import { Card } from 'primeng/card';
 
 interface ProfileStats {
     loginCount: number;
@@ -30,19 +30,8 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FileUpload,
-        Tag,
-        DatePipe,
-        TabView,
-        TabPanel,
-        ReactiveFormsModule,
-        Button,
-        DropdownModule,
-        Password,
-        InputSwitch,
-        ConfirmDialog,
-        Toast,
-        CommonModule]
+    imports: [FileUpload, Tag, DatePipe, TabView, TabPanel, ReactiveFormsModule, Button, DropdownModule, Password, InputSwitch, ConfirmDialog, Toast, CommonModule],
+    providers: [ConfirmationService, MessageService]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
     user: any | null = null;
@@ -151,15 +140,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.profileForm.patchValue({
                 name: this.user.name,
                 email: this.user.username,
-                // Mock additional data - in real app, fetch from API
-                phone: '+1 (555) 123-4567',
-                bio: 'Software developer passionate about creating amazing user experiences.',
-                company: 'Tech Corp',
-                position: 'Senior Developer',
-                location: 'San Francisco, CA',
-                website: 'https://johndoe.dev',
-                timezone: 'America/Los_Angeles',
-                language: 'en'
+                // // Mock additional data - in real app, fetch from API
+                // phone: '+1 (555) 123-4567',
+                // bio: 'Software developer passionate about creating amazing user experiences.',
+                // company: 'Tech Corp',
+                // position: 'Senior Developer',
+                // location: 'San Francisco, CA',
+                // website: 'https://johndoe.dev',
+                // timezone: 'America/Los_Angeles',
+                // language: 'en'
             });
         }
     }
@@ -226,9 +215,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     error: (error) => {
                         this.loading = false;
 
-                        const errorMessage = error?.error?.message
-                            || error?.message
-                            || 'Failed to update profile';
+                        const errorMessage = error?.error?.message || error?.message || 'Failed to update profile';
 
                         this.messageService.add({
                             severity: 'error',
@@ -296,6 +283,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
             };
             reader.readAsDataURL(file);
         }
+
+        this.onAvatarUpload();
     }
 
     onAvatarUpload(): void {
@@ -304,6 +293,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.uploadingAvatar = true;
 
         // Simulate upload - in real app, upload to server
+
         setTimeout(() => {
             this.messageService.add({
                 severity: 'success',

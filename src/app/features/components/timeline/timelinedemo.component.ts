@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeIcons } from 'primeng/api';
+import { Timeline } from 'primeng/timeline';
+import { Card } from 'primeng/card';
+import { NgClass } from '@angular/common';
 
 @Component({
     templateUrl: './timelinedemo.component.html',
+    imports: [Timeline, Card, NgClass],
     styleUrls: ['./timelinedemo.scss']
 })
 export class TimelineDemoComponent implements OnInit {
-
     events1: any[] = [];
 
     events2: any[] = [];
@@ -19,9 +22,6 @@ export class TimelineDemoComponent implements OnInit {
             { status: 'Delivered', date: '16/10/2020 10:00', icon: PrimeIcons.CHECK, color: '#607D8B' }
         ];
 
-        this.events2 = [
-            "2020", "2021", "2022", "2023"
-        ];
+        this.events2 = ['2020', '2021', '2022', '2023'];
     }
-
 }

@@ -1,7 +1,7 @@
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient,  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, tap } from 'rxjs/operators';
+import {  map,  } from 'rxjs/operators';
 import { SubscriptionService } from './subscription.service';
 import { Product } from '../core/models/product';
 import { environment } from '../../environments/environment';

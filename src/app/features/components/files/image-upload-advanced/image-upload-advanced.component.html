@@ -1,0 +1,51 @@
+<p-toast />
+
+<div class="grid grid-cols-12 gap-8">
+    <div class="col-span-full lg:col-span-6">
+        <div class="card">
+            <div class="font-semibold text-xl mb-4">Advanced Upload</div>
+            <p-fileupload
+                name="demo[]"
+                (onUpload)="onUpload($event)"
+                (onSelect)="onSelect($event)"
+                [multiple]="true"
+                accept="image/*"
+                [maxFileSize]="10000000"
+                mode="advanced"
+                [url]="'http://localhost:3000/api/images/upload-multiple'">
+                <ng-template #empty>
+                    <div class="p-4 text-center">
+                        <i class="pi pi-cloud-upload text-4xl text-gray-400"></i>
+                        <p class="mt-2">Drag and drop files here to upload.</p>
+                    </div>
+                </ng-template>
+                <ng-template #content let-files>
+                    <ul *ngIf="files?.length">
+                        <li *ngFor="let file of files" class="flex items-center justify-between p-2">
+                            <span>{{ file.name }} - {{ (file.size / 1024).toFixed(2) }} KB</span>
+                        </li>
+                    </ul>
+                </ng-template>
+            </p-fileupload>
+        </div>
+
+        <!-- Display uploaded images -->
+        <div class="card mt-4" *ngIf="(uploadedFiles$ | async)?.length">
+            <div class="font-semibold text-xl mb-4">Uploaded Files</div>
+            <div class="grid grid-cols-2 gap-4">
+                <div *ngFor="let file of uploadedFiles$ | async" class="relative">
+                    <img [src]="'http://localhost:3000/api/images/' + file.id"
+                         [alt]="file.filename"
+                         class="w-full h-48 object-cover rounded">
+                    <button
+                        pButton
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-sm absolute top-2 right-2"
+                        (click)="deleteImage(file.id)">
+                    </button>
+                    <p class="text-sm mt-2">{{ file.originalName }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
