@@ -14,6 +14,7 @@ import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from 'primeng/skeleton';
 import { InputText } from 'primeng/inputtext';
+import { SAMPLE_BLOG_POSTS } from '../../../mock/sample-blog-data';
 
 @Component({
     selector: 'app-blog',
@@ -23,47 +24,39 @@ import { InputText } from 'primeng/inputtext';
     providers: [MessageService]
 })
 export class BlogComponent implements OnInit {
-    // Local signals for search query
     searchQuery = signal<string>('');
 
-    // Selectors from NgRx
-    blogPosts$!: Observable<BlogPost[]>;
-    featuredPost$!: Observable<BlogPost | null>;
-    loading$!: Observable<boolean>;
-
-    // Convert observables to signals for simpler template binding
     blogPosts = signal<BlogPost[]>([]);
     featuredPost = signal<BlogPost | null>(null);
     loading = signal<boolean>(false);
 
-    constructor(
-        private store: Store,
-        private messageService: MessageService
-    ) {}
+    constructor(private messageService: MessageService) {}
 
     ngOnInit(): void {
-        // Dispatch to load posts
-        this.store.dispatch(BlogActions.BlogActions.loadPosts());
+        this.loading.set(true);
 
-        // Connect store observables to signals
-        this.blogPosts$ = this.store.select(BlogSelectors.selectFilteredPosts);
-        this.featuredPost$ = this.store.select(BlogSelectors.selectFeaturedPost);
-        this.loading$ = this.store.select(BlogSelectors.selectLoading);
-
-        // Keep signals in sync
-        effect(() => {
-            this.blogPosts$.subscribe((posts) => this.blogPosts.set(posts));
-            this.featuredPost$.subscribe((post) => this.featuredPost.set(post));
-            this.loading$.subscribe((loading) => this.loading.set(loading));
-        });
+        // Simulate async fetch
+        setTimeout(() => {
+            this.blogPosts.set(SAMPLE_BLOG_POSTS);
+            this.featuredPost.set(SAMPLE_BLOG_POSTS.find(p => p.featured) || null);
+            this.loading.set(false);
+        }, 500);
 
         // Filter posts whenever searchQuery changes
         effect(() => {
-             // this.store.dispatch(BlogActions.BlogActions.setFilters({ query: this.searchQuery() }));
+            const query = this.searchQuery().toLowerCase();
+            const filtered = SAMPLE_BLOG_POSTS.filter(
+                p =>
+                    p.title.toLowerCase().includes(query) ||
+                    p.summary.toLowerCase().includes(query) ||
+                    p.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+
+            this.blogPosts.set(filtered);
+            this.featuredPost.set(filtered.find(p => p.featured) || null);
         });
     }
 
-    // Sharing feature for social actions
     sharePost(post: BlogPost, event: Event) {
         event.stopPropagation();
         const shareText = `Check out this article: ${post.title}`;

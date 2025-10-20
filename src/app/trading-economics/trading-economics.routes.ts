@@ -3,9 +3,9 @@ import { Routes } from '@angular/router';
 import { Empty } from '../pages/empty/empty';
 import { GdpPerCountryComponent } from './gdp-per-country/gdp-per-country.component';
 import { TradingEconomicsDashboard } from './trading-economics-dashboard/trading-economics-dashboard';
+import { TradingEconomicsCalendarComponent } from './trading-economics-calendar/trading-economics-calendar.component';
 import { ForecastComponent } from './forecasts/forecast.component';
 import { NewsComponent } from './news/news.component';
-import { TradingEconomicsCalendarComponent } from './trading-economics-calendar/trading-economics-calendar.component';
 
 
 

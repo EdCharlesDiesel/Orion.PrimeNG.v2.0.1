@@ -13,6 +13,7 @@ export interface BlogPost {
     featured?: boolean;
     views?: number;
     likes?: number;
+    summary: string;
 }
 
 export interface BlogState {
