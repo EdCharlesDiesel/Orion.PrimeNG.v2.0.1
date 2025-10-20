@@ -2,8 +2,8 @@
     <p-card>
         <ng-template pTemplate="header">
             <div class="card-header">
-                <h2>Trading Economics Dashboard</h2>
-                <p>Real-time economic indicators and statistics</p>
+                <h2>Trading Economics Forecast Dashboard</h2>
+                <p>Economic forecasts and predictions</p>
             </div>
         </ng-template>
 
@@ -19,15 +19,27 @@
                     id="country">
                 </p-dropdown>
             </div>
+
+            <div class="p-field">
+                <label for="indicator">Select Indicator</label>
+                <p-dropdown
+                    [options]="indicators"
+                    [(ngModel)]="selectedIndicator"
+                    (onChange)="onIndicatorChange($event)"
+                    placeholder="Select an Indicator"
+                    [showClear]="false"
+                    id="indicator">
+                </p-dropdown>
+            </div>
         </div>
 
         <p-table
-            [value]="data"
+            [value]="forecastData"
             [loading]="loading"
             [paginator]="true"
             [rows]="10"
             [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} indicators"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} forecasts"
             styleClass="p-datatable-gridlines p-datatable-striped"
             responsiveLayout="scroll">
 
@@ -36,37 +48,40 @@
                     <th pSortableColumn="indicator">
                         Indicator <p-sortIcon field="indicator"></p-sortIcon>
                     </th>
-                    <th>Current Value</th>
-                    <th>Previous Value</th>
-                    <th pSortableColumn="date">
-                        Date <p-sortIcon field="date"></p-sortIcon>
+                    <th pSortableColumn="period">
+                        Period <p-sortIcon field="period"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="change">
-                        Change <p-sortIcon field="change"></p-sortIcon>
-                    </th>
+                    <th>Forecast Value</th>
+                    <th>Q1 Forecast</th>
+                    <th>Q2 Forecast</th>
+                    <th>Q3 Forecast</th>
+                    <th>Q4 Forecast</th>
+                    <th>Confidence</th>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="body" let-row>
                 <tr>
                     <td><strong>{{ row.indicator }}</strong></td>
+                    <td>{{ row.period }}</td>
                     <td>
-                        <p-tag [value]="row.value" severity="info"></p-tag>
+                        <p-tag [value]="row.forecast" severity="info"></p-tag>
                     </td>
-                    <td>{{ row.previous }}</td>
-                    <td>{{ row.date }}</td>
+                    <td>{{ row.q1 || 'N/A' }}</td>
+                    <td>{{ row.q2 || 'N/A' }}</td>
+                    <td>{{ row.q3 || 'N/A' }}</td>
+                    <td>{{ row.q4 || 'N/A' }}</td>
                     <td>
-            <span [class]="getChangeClass(row.change)">
-              <i [class]="getChangeIcon(row.change)"></i>
-                {{ row.change > 0 ? '+' : '' }}{{ row.change }}
-            </span>
+                        <span [class]="getConfidenceClass(row.confidence)">
+                            {{ row.confidence }}%
+                        </span>
                     </td>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="5" style="text-align: center;">No data available</td>
+                    <td colspan="8" style="text-align: center;">No forecast data available</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -74,17 +89,76 @@
         <ng-template pTemplate="footer">
             <div class="footer-info">
                 <i class="pi pi-info-circle"></i>
-                Data updated: {{ today | date:'medium' }} | Source: Trading Economics (Mock Data)
+                Forecast updated: {{ today | date:'medium' }} | Source: Trading Economics API
             </div>
         </ng-template>
     </p-card>
 
+    <!-- Forecast Chart -->
+    <p-card class="chart-card">
+        <ng-template pTemplate="header">
+            <div class="card-header">
+                <h3>Forecast Trend</h3>
+            </div>
+        </ng-template>
+
+        <div class="chart-container">
+            <p-chart
+                type="line"
+                [data]="chartData"
+                [options]="chartOptions"
+                *ngIf="!loading && chartData.datasets.length > 0">
+            </p-chart>
+            <div *ngIf="loading" class="loading-chart">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+            <div *ngIf="!loading && chartData.datasets.length === 0" class="no-chart-data">
+                <i class="pi pi-chart-line"></i>
+                <p>No chart data available. Select a country and indicator.</p>
+            </div>
+        </div>
+    </p-card>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+        <p-card class="summary-item">
+            <div class="summary-content">
+                <i class="pi pi-arrow-up summary-icon positive"></i>
+                <div>
+                    <div class="summary-label">Expected Growth</div>
+                    <div class="summary-value">{{ expectedGrowth }}%</div>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="summary-item">
+            <div class="summary-content">
+                <i class="pi pi-calendar summary-icon info"></i>
+                <div>
+                    <div class="summary-label">Forecast Horizon</div>
+                    <div class="summary-value">{{ forecastHorizon }}</div>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="summary-item">
+            <div class="summary-content">
+                <i class="pi pi-check-circle summary-icon success"></i>
+                <div>
+                    <div class="summary-label">Avg Confidence</div>
+                    <div class="summary-value">{{ avgConfidence }}%</div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
     <p-card class="info-card">
         <div class="info-content">
-            <i class="pi pi-exclamation-triangle"></i>
+            <i class="pi pi-info-circle"></i>
             <div>
-                <strong>Note:</strong> This component uses mock data. To connect to the real Trading Economics API,
-                obtain an API key from tradingeconomics.com and uncomment the API call code in the component.
+                <strong>About Forecasts:</strong> Economic forecasts are predictions based on historical data,
+                economic models, and expert analysis. Connect to Trading Economics API using the
+                <code>/forecast</code> endpoint with your API key.
             </div>
         </div>
     </p-card>

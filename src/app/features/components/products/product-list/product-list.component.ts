@@ -1,39 +1,31 @@
-// import { Component, inject } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { MatCardModule } from '@angular/material/card';
-// import { MatListModule } from '@angular/material/list';
-// import { MatGridListModule } from '@angular/material/grid-list';
-// import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { MatIconModule } from '@angular/material/icon';
-// import {ProductService} from '../../../services/product.service';
-// // import {ProductDetailComponent} from '../product-detail/product-detail.component';
-//
-//
-// @Component({
-//   selector: 'app-product-list',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-//     MatCardModule,
-//     MatListModule,
-//     MatGridListModule,
-//     MatSnackBarModule,
-//     MatIconModule,
-//     // ProductDetailComponent
-//   ],
-//   templateUrl: './product-list.component.html',
-//   styleUrl:'./product-list.component.scss'
-// })
-// export class ProductListComponent {
-//   pageTitle = 'Products';
-//
-//   private productService = inject(ProductService);
-//
-//   products = this.productService.products;
-//   // errorMessage = this.productService.productError;
-//   selectedProductId = this.productService.selectedProductId;
-//
-//   public onSelected(productId: number): void {
-//     this.productService.productSelected(productId);
-//   }
-// }
+import { Component, signal } from '@angular/core';
+import { Card } from 'primeng/card';
+import { Listbox } from 'primeng/listbox';
+import { FormsModule } from '@angular/forms';
+import { Message } from 'primeng/message';
+import { NgIf } from '@angular/common';
+
+@Component({
+    selector: 'app-product-list',
+    standalone: true,
+
+    templateUrl: './product-list.component.html',
+    imports: [Card, Listbox, FormsModule, Message, NgIf],
+    styleUrl: './product-list.component.scss'
+})
+export class ProductListComponent {
+    pageTitle = 'Product List';
+    selectedProductId?: number;
+
+    products = signal([
+        { id: 1, title: 'Laptop' },
+        { id: 2, title: 'Headphones' },
+        { id: 3, title: 'Smartwatch' }
+    ]);
+
+    errorMessage = signal('');
+
+    onSelected(productId: number) {
+        this.selectedProductId = productId;
+    }
+}

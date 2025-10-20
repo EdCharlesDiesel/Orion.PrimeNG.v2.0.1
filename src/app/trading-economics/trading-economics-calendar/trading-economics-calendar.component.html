@@ -1,91 +1,99 @@
 <div class="trading-economics-container">
-    <p-card>
+    <p-card class="card-header">
+        <h2>Trading Economics Calendar</h2>
+        <p>Stay updated with upcoming economic events and indicators worldwide.</p>
+    </p-card>
+
+    <div class="controls-section">
+        <div class="p-field">
+            <label>Country</label>
+            <p-dropdown
+                [options]="countries"
+                [(ngModel)]="selectedCountry"
+                placeholder="Select Country"
+            ></p-dropdown>
+        </div>
+
+        <div class="p-field">
+            <label>Importance</label>
+            <p-dropdown
+                [options]="importanceLevels"
+                [(ngModel)]="selectedImportance"
+                placeholder="Select Importance"
+            ></p-dropdown>
+        </div>
+
+        <div class="p-field">
+            <label>Date Range</label>
+            <p-calendar
+                selectionMode="range"
+                [(ngModel)]="dateRange"
+                dateFormat="yy-mm-dd"
+                placeholder="Select Range"
+                showIcon="true"
+            ></p-calendar>
+        </div>
+
+        <div class="p-field search-field">
+            <label>Search</label>
+            <input
+                pInputText
+                [(ngModel)]="searchTerm"
+                placeholder="Search event or category"
+            />
+        </div>
+
+        <div class="p-field">
+            <label>&nbsp;</label>
+            <button pButton type="button" label="Clear Filters" (click)="clearFilters()"></button>
+        </div>
+    </div>
+
+    <p-card *ngIf="loading()">
+        <div class="text-center p-5">
+            <p-progressSpinner></p-progressSpinner>
+            <p>Loading events...</p>
+        </div>
+    </p-card>
+
+    <p-table
+        *ngIf="!loading()"
+        [value]="applyFilters()"
+        [paginator]="true"
+        [rows]="10"
+        [responsiveLayout]="'scroll'"
+        sortMode="multiple"
+    >
         <ng-template pTemplate="header">
-            <div class="card-header">
-                <h2>Trading Economics Dashboard</h2>
-                <p>Real-time economic indicators and statistics</p>
-            </div>
+            <tr>
+                <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+                <th pSortableColumn="country">Country <p-sortIcon field="country"></p-sortIcon></th>
+                <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="event">Event <p-sortIcon field="event"></p-sortIcon></th>
+                <th>Actual</th>
+                <th>Previous</th>
+                <th>Forecast</th>
+                <th>Importance</th>
+            </tr>
         </ng-template>
-
-        <div class="controls-section">
-            <div class="p-field">
-                <label for="country">Select Country</label>
-                <p-dropdown
-                    [options]="countries"
-                    [(ngModel)]="selectedCountry"
-                    (onChange)="onCountryChange($event)"
-                    placeholder="Select a Country"
-                    [showClear]="false"
-                    id="country">
-                </p-dropdown>
-            </div>
-        </div>
-
-        <p-table
-            [value]="data"
-            [loading]="loading"
-            [paginator]="true"
-            [rows]="10"
-            [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} indicators"
-            styleClass="p-datatable-gridlines p-datatable-striped"
-            responsiveLayout="scroll">
-
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="indicator">
-                        Indicator <p-sortIcon field="indicator"></p-sortIcon>
-                    </th>
-                    <th>Current Value</th>
-                    <th>Previous Value</th>
-                    <th pSortableColumn="date">
-                        Date <p-sortIcon field="date"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="change">
-                        Change <p-sortIcon field="change"></p-sortIcon>
-                    </th>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="body" let-row>
-                <tr>
-                    <td><strong>{{ row.indicator }}</strong></td>
-                    <td>
-                        <p-tag [value]="row.value" severity="info"></p-tag>
-                    </td>
-                    <td>{{ row.previous }}</td>
-                    <td>{{ row.date }}</td>
-                    <td>
-            <span [class]="getChangeClass(row.change)">
-              <i [class]="getChangeIcon(row.change)"></i>
-                {{ row.change > 0 ? '+' : '' }}{{ row.change }}
-            </span>
-                    </td>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="5" style="text-align: center;">No data available</td>
-                </tr>
-            </ng-template>
-        </p-table>
-
-        <ng-template pTemplate="footer">
-            <div class="footer-info">
-                <i class="pi pi-info-circle"></i>
-                Data updated: {{ today | date:'medium' }} | Source: Trading Economics (Mock Data)
-            </div>
+        <ng-template pTemplate="body" let-event>
+            <tr>
+                <td>{{ event.date | date: 'mediumDate' }}</td>
+                <td>{{ event.country }}</td>
+                <td>{{ event.category }}</td>
+                <td>{{ event.event }}</td>
+                <td>{{ event.actual ?? '-' }}</td>
+                <td>{{ event.previous ?? '-' }}</td>
+                <td>{{ event.forecast ?? '-' }}</td>
+                <td>
+          <span
+              class="importance-badge"
+              [ngClass]="event.importance.toLowerCase()"
+          >
+            {{ event.importance }}
+          </span>
+                </td>
+            </tr>
         </ng-template>
-    </p-card>
-
-    <p-card class="info-card">
-        <div class="info-content">
-            <i class="pi pi-exclamation-triangle"></i>
-            <div>
-                <strong>Note:</strong> This component uses mock data. To connect to the real Trading Economics API,
-                obtain an API key from tradingeconomics.com and uncomment the API call code in the component.
-            </div>
-        </div>
-    </p-card>
+    </p-table>
 </div>

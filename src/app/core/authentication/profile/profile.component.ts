@@ -17,6 +17,8 @@ import { InputSwitch } from 'primeng/inputswitch';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { Card } from 'primeng/card';
+import { InputText } from 'primeng/inputtext';
+import { Textarea } from 'primeng/textarea';
 
 interface ProfileStats {
     loginCount: number;
@@ -30,7 +32,7 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FileUpload, Tag, DatePipe, TabView, TabPanel, ReactiveFormsModule, Button, DropdownModule, Password, InputSwitch, ConfirmDialog, Toast, CommonModule],
+    imports: [FileUpload, Tag, DatePipe, TabView, TabPanel, ReactiveFormsModule, Button, DropdownModule, Password, InputSwitch, ConfirmDialog, Toast, CommonModule, InputText, Textarea],
     providers: [ConfirmationService, MessageService]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
@@ -139,7 +141,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (this.user) {
             this.profileForm.patchValue({
                 name: this.user.name,
-                email: this.user.username,
+                email: this.user.username
                 // // Mock additional data - in real app, fetch from API
                 // phone: '+1 (555) 123-4567',
                 // bio: 'Software developer passionate about creating amazing user experiences.',
