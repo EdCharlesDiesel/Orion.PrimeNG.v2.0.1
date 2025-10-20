@@ -75,52 +75,52 @@ export class RegisterComponent implements OnInit {
     }
 
     // Getter for easy access to form fields
-    get f() {
+    get registerFormControls() {
         return this.registerForm.controls;
     }
 
-    // onSubmit(): void {
-    //     this.submitted = true;
-    //
-    //     if (this.registerForm.invalid) {
-    //         this.markFormGroupTouched();
-    //         return;
-    //     }
-    //
-    //     this.loading = true;
-    //
-    //     let registerData: RegisterRequest = {
-    //         name: this.f['name'].value.trim(),
-    //         email: this.f['email'].value.trim().toLowerCase(),
-    //         password: this.f['password'].value
-    //     };
-    //
-    //     this.authService.register(registerData).subscribe({
-    //         next: (response: any) => {
-    //             this.messageService.add({
-    //                 severity: 'success',
-    //                 summary: 'Registration Successful',
-    //                 detail: 'Your account has been created successfully!'
-    //             });
-    //
-    //             // Redirect to dashboard or login page
-    //             setTimeout(() => {
-    //                 this.router.navigate(['/dashboard']);
-    //             }, 1500);
-    //         },
-    //         error: (error: any) => {
-    //             this.loading = false;
-    //             this.messageService.add({
-    //                 severity: 'error',
-    //                 summary: 'Registration Failed',
-    //                 detail: error || 'An error occurred during registration'
-    //             });
-    //         },
-    //         complete: () => {
-    //             this.loading = false;
-    //         }
-    //     });
-    // }
+    public onSubmit(): void {
+        this.submitted = true;
+
+        if (this.registerForm.invalid) {
+            this.markFormGroupTouched();
+            return;
+        }
+
+        this.loading = true;
+
+        let registerData: any = {
+            name: this.registerFormControls['name'].value.trim(),
+            email: this.registerFormControls['email'].value.trim().toLowerCase(),
+            password: this.registerFormControls['password'].value
+        };
+
+        this.authService.register(registerData).subscribe({
+            next: (response: any) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Registration Successful',
+                    detail: 'Your account has been created successfully!'
+                });
+
+                // Redirect to dashboard or login page
+
+                    this.router.navigate(['/login']);
+
+            },
+            error: (error: any) => {
+                this.loading = false;
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Registration Failed',
+                    detail: error || 'An error occurred during registration'
+                });
+            },
+            complete: () => {
+                this.loading = false;
+            }
+        });
+    }
 
     togglePasswordVisibility(): void {
         this.passwordVisible = !this.passwordVisible;
@@ -169,5 +169,4 @@ export class RegisterComponent implements OnInit {
         return displayNames[fieldName] || fieldName;
     }
 
-    onSubmit() {}
 }
