@@ -1,24 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { User } from '../../models/user';
-import { AuthService } from '../services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { Tag } from 'primeng/tag';
 import { CommonModule, DatePipe } from '@angular/common';
-import { TabPanel, TabView } from 'primeng/tabview';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { User } from '../../models/user';
+import { takeUntil } from 'rxjs/operators';
 import { Button } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
+// ✅ Note: "Dropdown" not "DropdownModule"
 import { Password } from 'primeng/password';
-import { InputSwitch } from 'primeng/inputswitch';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
-import { Card } from 'primeng/card';
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
+
+import { TabPanel } from 'primeng/tabs';
 
 interface ProfileStats {
     loginCount: number;
@@ -32,13 +31,33 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FileUpload, Tag, DatePipe, TabView, TabPanel, ReactiveFormsModule, Button, DropdownModule, Password, InputSwitch, ConfirmDialog, Toast, CommonModule, InputText, Textarea],
+    imports: [FileUpload,
+        Tag,
+        DatePipe,
+
+
+        ReactiveFormsModule,
+        Button,
+         Password,
+
+        ConfirmDialog,
+        Toast,
+        CommonModule,
+        InputText,
+        Textarea],
     providers: [ConfirmationService, MessageService]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
     user: any | null = null;
     profileForm: FormGroup | any;
     passwordForm: FormGroup | any;
+    timezones = [
+        { label: 'UTC', value: 'UTC' },
+        { label: 'America/New_York', value: 'America/New_York' },
+        { label: 'America/Los_Angeles', value: 'America/Los_Angeles' },
+        { label: 'Europe/London', value: 'Europe/London' },
+        { label: 'Asia/Tokyo', value: 'Asia/Tokyo' }
+    ];
 
     // UI State
     editMode = false;

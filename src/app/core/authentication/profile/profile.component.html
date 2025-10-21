@@ -174,17 +174,15 @@
                         <div class="form-grid">
                             <div class="form-field">
                                 <label for="timezone">Timezone</label>
-                                <p-dropdown id="timezone"
-                                            formControlName="timezone"
-                                            [disabled]="!editMode"
-                                            [options]="[
-                                               {label: 'UTC', value: 'UTC'},
-                                               {label: 'America/New_York', value: 'America/New_York'},
-                                               {label: 'America/Los_Angeles', value: 'America/Los_Angeles'},
-                                               {label: 'Europe/London', value: 'Europe/London'},
-                                               {label: 'Asia/Tokyo', value: 'Asia/Tokyo'}
-                                           ]"
-                                            placeholder="Select Timezone"></p-dropdown>
+                                <p-dropdown
+                                    id="timezone"
+                                    formControlName="timezone"
+                                    [disabled]="!editMode"
+                                    [options]="timezones"
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    placeholder="Select Timezone">
+                                </p-dropdown>
                             </div>
 
                             <div class="form-field">
