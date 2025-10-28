@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { DatabaseLogModel } from './database-log.model';
+import { DatabaseLogModel } from '../../models/database-log.model';
 
 
 @Injectable({

@@ -1,6 +1,6 @@
 export interface DatabaseLogModel {
   databaseLogID: number;
-  postTime: string;       // ISO date string
+  postTime: string;
   databaseUser: string;
   event: string;
   schema: string;

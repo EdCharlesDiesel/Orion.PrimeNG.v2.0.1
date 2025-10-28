@@ -17,11 +17,11 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 })
 class ProductSearchComponent implements OnInit {
     searchControl = new FormControl('');
-    products: any[] = []; // Your full product list
+    products: any[] = [];
     filteredProducts: any[] = [];
 
     ngOnInit(): void {
-        // this.products = [...];
+
     }
 
     filterProducts(event: any): void {
@@ -37,12 +37,9 @@ class ProductSearchComponent implements OnInit {
     }
 
     searchStore(event: any): void {
-        // Handle the search/selection
         console.log('Selected:', event);
 
-        // If you want to search on selection
         const selectedValue = event.value || event;
-        // Perform your search logic here
     }
 
     onKeyDown(event: KeyboardEvent): void {

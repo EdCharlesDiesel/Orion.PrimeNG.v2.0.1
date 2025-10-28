@@ -2,9 +2,8 @@
     <ng-template pTemplate="content">
         <div class="cart-item-row">
 
-            <!-- Product Image -->
             <div class="item-image">
-                <img [src]="cartItem.product.image" [alt]="cartItem.product.title">
+                <img [ngSrc]="cartItem.product.image" [alt]="cartItem.product.title" fill>
             </div>
 
             <!-- Product Title -->
@@ -28,21 +27,23 @@
                     placeholder="Qty">
                 </p-dropdown>
 
-                <span class="stock-info" *ngIf="availableStock() > 0">
-          {{ availableStock() }} more available
-        </span>
-                <span class="stock-info warning" *ngIf="availableStock() === 0">
-          No more in stock
-        </span>
+                @if (availableStock() > 0) {
+                    <span class="stock-info">
+    {{ availableStock() }} more available
+  </span>
+                }
+                @if (availableStock() === 0) {
+                    <span class="stock-info warning">
+    No more in stock
+  </span>
+                }
             </div>
 
-            <!-- Extended Price -->
             <div class="item-extended-price">
                 <span class="price-label">Total:</span>
                 <span class="total-price">{{ exPrice() | currency }}</span>
             </div>
 
-            <!-- Delete Button -->
             <div class="item-actions">
                 <button pButton type="button" icon="pi pi-trash" label="Remove" class="p-button-danger"
                         (click)="removeFromCart()">

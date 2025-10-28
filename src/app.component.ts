@@ -13,7 +13,6 @@ import { MessageService } from 'primeng/api';
     providers: [MessageService]
 })
 export class AppComponent {
-
     constructor(
         private messageService: MessageService) {
 

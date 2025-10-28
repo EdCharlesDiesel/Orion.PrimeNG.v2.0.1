@@ -1,21 +1,21 @@
 
 <form>
-<!--    <p-autoComplete-->
-<!--        [formControl]="searchControl"-->
-<!--        [suggestions]="filteredProducts"-->
-<!--        (completeMethod)="filterProducts($event)"-->
-<!--        (onSelect)="searchStore($event)"-->
-<!--        (onKeyDown)="onKeyDown($event)"-->
-<!--        field="title"-->
-<!--        placeholder="Search products or authors"-->
-<!--        [dropdown]="true"-->
-<!--        styleClass="searchbox"-->
-<!--        inputStyleClass="search-input">-->
+    <p-autoComplete
+        [formControl]="searchControl"
+        [suggestions]="filteredProducts"
+        (completeMethod)="filterProducts($event)"
+        (onSelect)="searchStore($event)"
+        (onKeyDown)="onKeyDown($event)"
+        field="title"
+        placeholder="Search products or authors"
+        [dropdown]="true"
+        styleClass="searchbox"
+        inputStyleClass="search-input">
 
-<!--        <ng-template let-product pTemplate="item">-->
-<!--            <div class="product-item">-->
-<!--                <span>{{ product.title }}</span>-->
-<!--            </div>-->
-<!--        </ng-template>-->
-<!--    </p-autoComplete>-->
+        <ng-template let-product pTemplate="item">
+            <div class="product-item">
+                <span>{{ product.title }}</span>
+            </div>
+        </ng-template>
+    </p-autoComplete>
 </form>

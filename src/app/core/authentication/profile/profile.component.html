@@ -1,208 +1,211 @@
-
-
-    <div class="profile-content">
-        <!-- Profile Card -->
-        <div class="profile-card">
-            <div class="avatar-section">
-                <div class="avatar-wrapper">
-                    <img [src]="avatarPreview || user?.avatar || 'assets/images/default-avatar.png'"
-                         alt="Profile Avatar"
-                         class="avatar-image">
-                    <div class="avatar-overlay">
-                        <p-fileUpload mode="basic"
-                                      chooseLabel="Change"
-                                      accept="image/*"
-                                      [maxFileSize]="5000000"
-                                      [auto]="true"
-                                      (onSelect)="onAvatarSelect($event)"
-                                      [disabled]="uploadingAvatar"
-                                      styleClass="avatar-upload-btn"></p-fileUpload>
-                    </div>
-                </div>
-                <div class="user-info">
-                    <h2>{{ user?.name || 'User Name' }}</h2>
-                    <p class="user-email">{{ user?.emailAddress || user?.email }}</p>
-                    <p-tag [value]="profileStats.role"
-                           [severity]="profileStats.role === 'admin' ? 'danger' : 'info'"
-                           styleClass="role-badge"></p-tag>
+<div class="profile-content">
+    <div class="profile-card">
+        <div class="avatar-section">
+            <div class="avatar-wrapper">
+                <img [src]="avatarPreview || user?.avatar || 'assets/images/default-avatar.png'"
+                     alt="Profile Avatar"
+                     class="avatar-image">
+                <div class="avatar-overlay">
+                    <p-fileUpload mode="basic"
+                                  chooseLabel="Change"
+                                  accept="image/*"
+                                  [maxFileSize]="5000000"
+                                  [auto]="true"
+                                  (onSelect)="onAvatarSelect($event)"
+                                  [disabled]="uploadingAvatar"
+                                  styleClass="avatar-upload-btn">
+                    </p-fileUpload>
                 </div>
             </div>
-
-            <!-- Profile Stats -->
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <i class="pi pi-sign-in"></i>
-                    <div class="stat-content">
-                        <span class="stat-value">{{ profileStats.loginCount }}</span>
-                        <span class="stat-label">Total Logins</span>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <i class="pi pi-clock"></i>
-                    <div class="stat-content">
-                        <span class="stat-value">{{ profileStats.lastLogin | date:'short' }}</span>
-                        <span class="stat-label">Last Login</span>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <i class="pi pi-calendar"></i>
-                    <div class="stat-content">
-                        <span class="stat-value">{{ profileStats.accountCreated | date:'mediumDate' }}</span>
-                        <span class="stat-label">Member Since</span>
-                    </div>
-                </div>
+            <div class="user-info">
+                <h2>{{ user?.name || 'User Name' }}</h2>
+                <p class="user-email">{{ user?.emailAddress || user?.email }}</p>
+                <p-tag [value]="profileStats.role"
+                       [severity]="profileStats.role === 'admin' ? 'danger' : 'info'"
+                       styleClass="role-badge"></p-tag>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <p-tabView [(activeIndex)]="activeTab" styleClass="profile-tabs">
-            <!-- Personal Information Tab -->
-            <p-tabPanel header="Personal Information" leftIcon="pi pi-user">
-                <form [formGroup]="profileForm" class="profile-form">
-                    <div class="form-header">
-                        <h3>Personal Information</h3>
-                        <p-button *ngIf="!editMode"
-                                  label="Edit Profile"
+        <div class="profile-stats">
+            <div class="stat-item">
+                <i class="pi pi-sign-in"></i>
+                <div class="stat-content">
+                    <span class="stat-value">{{ profileStats.loginCount }}</span>
+                    <span class="stat-label">Total Logins</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="pi pi-clock"></i>
+                <div class="stat-content">
+                    <span class="stat-value">{{ profileStats.lastLogin | date:'short' }}</span>
+                    <span class="stat-label">Last Login</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="pi pi-calendar"></i>
+                <div class="stat-content">
+                    <span class="stat-value">{{ profileStats.accountCreated | date:'mediumDate' }}</span>
+                    <span class="stat-label">Member Since</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-tabView [(activeIndex)]="activeTab" styleClass="profile-tabs">
+        <p-tabPanel header="Personal Information" leftIcon="pi pi-user">
+            <form [formGroup]="profileForm" class="profile-form">
+                <div class="form-header">
+                    <h3>Personal Information</h3>
+                    @if (!editMode) {
+                        <p-button label="Edit Profile"
                                   icon="pi pi-pencil"
                                   (onClick)="toggleEditMode()"
                                   styleClass="p-button-outlined"></p-button>
-                    </div>
+                    }
+                </div>
 
-                    <!-- Basic Information -->
-                    <div class="form-section">
-                        <h4 class="section-title">Basic Information</h4>
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="name">Full Name <span class="required">*</span></label>
-                                <input pInputText
-                                       id="name"
-                                       formControlName="name"
-                                       [disabled]="!editMode"
-                                       [class.p-invalid]="isFieldInvalid(profileForm, 'name')" />
-                                <small class="p-error" *ngIf="isFieldInvalid(profileForm, 'name')">
+                <div class="form-section">
+                    <h4 class="section-title">Basic Information</h4>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="name">Full Name <span class="required">*</span></label>
+                            <input pInputText
+                                   id="name"
+                                   formControlName="name"
+                                   [disabled]="!editMode"
+                                   [class.p-invalid]="isFieldInvalid(profileForm, 'name')" />
+                            @if (isFieldInvalid(profileForm, 'name')) {
+                                <small class="p-error">
                                     {{ getFieldError(profileForm, 'name') }}
                                 </small>
-                            </div>
+                            }
+                        </div>
 
-                            <div class="form-field">
-                                <label for="email">Email Address <span class="required">*</span></label>
-                                <input pInputText
-                                       id="email"
-                                       formControlName="email"
-                                       [disabled]="!editMode"
-                                       [class.p-invalid]="isFieldInvalid(profileForm, 'email')" />
-                                <small class="p-error" *ngIf="isFieldInvalid(profileForm, 'email')">
+                        <div class="form-field">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input pInputText
+                                   id="email"
+                                   formControlName="email"
+                                   [disabled]="!editMode"
+                                   [class.p-invalid]="isFieldInvalid(profileForm, 'email')" />
+                            @if (isFieldInvalid(profileForm, 'email')) {
+                                <small class="p-error">
                                     {{ getFieldError(profileForm, 'email') }}
                                 </small>
-                            </div>
+                            }
+                        </div>
 
-                            <div class="form-field">
-                                <label for="phone">Phone Number</label>
-                                <input pInputText
-                                       id="phone"
-                                       formControlName="phone"
-                                       [disabled]="!editMode"
-                                       placeholder="+1 (555) 123-4567"
-                                       [class.p-invalid]="isFieldInvalid(profileForm, 'phone')" />
-                                <small class="p-error" *ngIf="isFieldInvalid(profileForm, 'phone')">
+                        <div class="form-field">
+                            <label for="phone">Phone Number</label>
+                            <input pInputText
+                                   id="phone"
+                                   formControlName="phone"
+                                   [disabled]="!editMode"
+                                   placeholder="+1 (555) 123-4567"
+                                   [class.p-invalid]="isFieldInvalid(profileForm, 'phone')" />
+                            @if (isFieldInvalid(profileForm, 'phone')) {
+                                <small class="p-error">
                                     {{ getFieldError(profileForm, 'phone') }}
                                 </small>
-                            </div>
+                            }
+                        </div>
 
-                            <div class="form-field">
-                                <label for="location">Location</label>
-                                <input pInputText
-                                       id="location"
-                                       formControlName="location"
-                                       [disabled]="!editMode"
-                                       placeholder="City, Country" />
-                            </div>
+                        <div class="form-field">
+                            <label for="location">Location</label>
+                            <input pInputText
+                                   id="location"
+                                   formControlName="location"
+                                   [disabled]="!editMode"
+                                   placeholder="City, Country" />
                         </div>
                     </div>
+                </div>
 
-                    <!-- Professional Information -->
-                    <div class="form-section">
-                        <h4 class="section-title">Professional Information</h4>
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="company">Company</label>
-                                <input pInputText
-                                       id="company"
-                                       formControlName="company"
-                                       [disabled]="!editMode" />
-                            </div>
+                <div class="form-section">
+                    <h4 class="section-title">Professional Information</h4>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="company">Company</label>
+                            <input pInputText
+                                   id="company"
+                                   formControlName="company"
+                                   [disabled]="!editMode" />
+                        </div>
 
-                            <div class="form-field">
-                                <label for="position">Position</label>
-                                <input pInputText
-                                       id="position"
-                                       formControlName="position"
-                                       [disabled]="!editMode" />
-                            </div>
+                        <div class="form-field">
+                            <label for="position">Position</label>
+                            <input pInputText
+                                   id="position"
+                                   formControlName="position"
+                                   [disabled]="!editMode" />
+                        </div>
 
-                            <div class="form-field full-width">
-                                <label for="website">Website</label>
-                                <input pInputText
-                                       id="website"
-                                       formControlName="website"
-                                       [disabled]="!editMode"
-                                       placeholder="https://example.com"
-                                       [class.p-invalid]="isFieldInvalid(profileForm, 'website')" />
-                                <small class="p-error" *ngIf="isFieldInvalid(profileForm, 'website')">
+                        <div class="form-field full-width">
+                            <label for="website">Website</label>
+                            <input pInputText
+                                   id="website"
+                                   formControlName="website"
+                                   [disabled]="!editMode"
+                                   placeholder="https://example.com"
+                                   [class.p-invalid]="isFieldInvalid(profileForm, 'website')" />
+                            @if (isFieldInvalid(profileForm, 'website')) {
+                                <small class="p-error">
                                     {{ getFieldError(profileForm, 'website') }}
                                 </small>
-                            </div>
+                            }
+                        </div>
 
-                            <div class="form-field full-width">
-                                <label for="bio">Bio</label>
-                                <textarea pInputTextarea
-                                          id="bio"
-                                          formControlName="bio"
-                                          [disabled]="!editMode"
-                                          rows="4"
-                                          [class.p-invalid]="isFieldInvalid(profileForm, 'bio')"></textarea>
-                                <small class="p-error" *ngIf="isFieldInvalid(profileForm, 'bio')">
+                        <div class="form-field full-width">
+                            <label for="bio">Bio</label>
+                            <textarea pInputTextarea
+                                      id="bio"
+                                      formControlName="bio"
+                                      [disabled]="!editMode"
+                                      rows="4"
+                                      [class.p-invalid]="isFieldInvalid(profileForm, 'bio')"></textarea>
+                            @if (isFieldInvalid(profileForm, 'bio')) {
+                                <small class="p-error">
                                     {{ getFieldError(profileForm, 'bio') }}
                                 </small>
-                            </div>
+                            }
                         </div>
                     </div>
+                </div>
 
-                    <!-- Preferences -->
-                    <div class="form-section">
-                        <h4 class="section-title">Preferences</h4>
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="timezone">Timezone</label>
-                                <p-dropdown
-                                    id="timezone"
-                                    formControlName="timezone"
-                                    [disabled]="!editMode"
-                                    [options]="timezones"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    placeholder="Select Timezone">
-                                </p-dropdown>
-                            </div>
+                <div class="form-section">
+                    <h4 class="section-title">Preferences</h4>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="timezone">Timezone</label>
+                            <p-dropdown
+                                id="timezone"
+                                formControlName="timezone"
+                                [disabled]="!editMode"
+                                [options]="timezones"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Select Timezone">
+                            </p-dropdown>
+                        </div>
 
-                            <div class="form-field">
-                                <label for="language">Language</label>
-                                <p-dropdown id="language"
-                                            formControlName="language"
-                                            [disabled]="!editMode"
-                                            [options]="[
-                                               {label: 'English', value: 'en'},
-                                               {label: 'Spanish', value: 'es'},
-                                               {label: 'French', value: 'fr'},
-                                               {label: 'German', value: 'de'}
-                                           ]"
-                                            placeholder="Select Language"></p-dropdown>
-                            </div>
+                        <div class="form-field">
+                            <label for="language">Language</label>
+                            <p-dropdown id="language"
+                                        formControlName="language"
+                                        [disabled]="!editMode"
+                                        [options]="[
+                                           {label: 'English', value: 'en'},
+                                           {label: 'Spanish', value: 'es'},
+                                           {label: 'French', value: 'fr'},
+                                           {label: 'German', value: 'de'}
+                                       ]"
+                                        placeholder="Select Language"></p-dropdown>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Action Buttons -->
-                    <div class="form-actions" *ngIf="editMode">
+                @if (editMode) {
+                    <div class="form-actions">
                         <p-button label="Cancel"
                                   icon="pi pi-times"
                                   (onClick)="toggleEditMode()"
@@ -212,207 +215,207 @@
                                   (onClick)="onSaveProfile()"
                                   [loading]="loading"></p-button>
                     </div>
-                </form>
-            </p-tabPanel>
+                }
+            </form>
+        </p-tabPanel>
 
-            <!-- Security Tab -->
-            <p-tabPanel header="Security" leftIcon="pi pi-shield">
-                <div class="security-section">
-                    <h3>Change Password</h3>
-                    <p class="section-description">Ensure your account is using a strong password to stay secure.</p>
+        <p-tabPanel header="Security" leftIcon="pi pi-shield">
+            <div class="security-section">
+                <h3>Change Password</h3>
+                <p class="section-description">Ensure your account is using a strong password to stay secure.</p>
 
-                    <form [formGroup]="passwordForm" class="password-form">
-                        <div class="form-field">
-                            <label for="currentPassword">Current Password <span class="required">*</span></label>
-                            <p-password id="currentPassword"
-                                        formControlName="currentPassword"
-                                        [toggleMask]="true"
-                                        [feedback]="false"
-                                        [class.p-invalid]="isFieldInvalid(passwordForm, 'currentPassword')"></p-password>
-                            <small class="p-error" *ngIf="isFieldInvalid(passwordForm, 'currentPassword')">
+                <form [formGroup]="passwordForm" class="password-form">
+                    <div class="form-field">
+                        <label for="currentPassword">Current Password <span class="required">*</span></label>
+                        <p-password id="currentPassword"
+                                    formControlName="currentPassword"
+                                    [toggleMask]="true"
+                                    [feedback]="false"
+                                    [class.p-invalid]="isFieldInvalid(passwordForm, 'currentPassword')"></p-password>
+                        @if (isFieldInvalid(passwordForm, 'currentPassword')) {
+                            <small class="p-error">
                                 {{ getFieldError(passwordForm, 'currentPassword') }}
                             </small>
-                        </div>
+                        }
+                    </div>
 
-                        <div class="form-field">
-                            <label for="newPassword">New Password <span class="required">*</span></label>
-                            <p-password id="newPassword"
-                                        formControlName="newPassword"
-                                        [toggleMask]="true"
-                                        [class.p-invalid]="isFieldInvalid(passwordForm, 'newPassword')"></p-password>
-                            <small class="p-error" *ngIf="isFieldInvalid(passwordForm, 'newPassword')">
+                    <div class="form-field">
+                        <label for="newPassword">New Password <span class="required">*</span></label>
+                        <p-password id="newPassword"
+                                    formControlName="newPassword"
+                                    [toggleMask]="true"
+                                    [class.p-invalid]="isFieldInvalid(passwordForm, 'newPassword')"></p-password>
+                        @if (isFieldInvalid(passwordForm, 'newPassword')) {
+                            <small class="p-error">
                                 {{ getFieldError(passwordForm, 'newPassword') }}
                             </small>
-                        </div>
+                        }
+                    </div>
 
-                        <div class="form-field">
-                            <label for="confirmPassword">Confirm New Password <span class="required">*</span></label>
-                            <p-password id="confirmPassword"
-                                        formControlName="confirmPassword"
-                                        [toggleMask]="true"
-                                        [feedback]="false"
-                                        [class.p-invalid]="isFieldInvalid(passwordForm, 'confirmPassword')"></p-password>
-                            <small class="p-error" *ngIf="isFieldInvalid(passwordForm, 'confirmPassword')">
+                    <div class="form-field">
+                        <label for="confirmPassword">Confirm New Password <span class="required">*</span></label>
+                        <p-password id="confirmPassword"
+                                    formControlName="confirmPassword"
+                                    [toggleMask]="true"
+                                    [feedback]="false"
+                                    [class.p-invalid]="isFieldInvalid(passwordForm, 'confirmPassword')"></p-password>
+                        @if (isFieldInvalid(passwordForm, 'confirmPassword')) {
+                            <small class="p-error">
                                 {{ getFieldError(passwordForm, 'confirmPassword') }}
                             </small>
-                        </div>
+                        }
+                    </div>
 
-                        <div class="form-actions">
-                            <p-button label="Change Password"
-                                      icon="pi pi-key"
-                                      (onClick)="onChangePassword()"
-                                      [loading]="passwordLoading"></p-button>
+                    <div class="form-actions">
+                        <p-button label="Change Password"
+                                  icon="pi pi-key"
+                                  (onClick)="onChangePassword()"
+                                  [loading]="passwordLoading"></p-button>
+                    </div>
+                </form>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Notifications" leftIcon="pi pi-bell">
+            <div class="notifications-section" [formGroup]="profileForm">
+                <h3>Notification Preferences</h3>
+                <p class="section-description">Choose how you want to receive notifications and updates.</p>
+
+                <div formGroupName="notifications" class="notification-options">
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <i class="pi pi-envelope"></i>
+                            <div>
+                                <h4>Email Notifications</h4>
+                                <p>Receive email updates about your account activity</p>
+                            </div>
                         </div>
-                    </form>
+                        <p-inputSwitch formControlName="email"></p-inputSwitch>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <i class="pi pi-mobile"></i>
+                            <div>
+                                <h4>Push Notifications</h4>
+                                <p>Get push notifications on your devices</p>
+                            </div>
+                        </div>
+                        <p-inputSwitch formControlName="push"></p-inputSwitch>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <i class="pi pi-comments"></i>
+                            <div>
+                                <h4>SMS Notifications</h4>
+                                <p>Receive text messages for important updates</p>
+                            </div>
+                        </div>
+                        <p-inputSwitch formControlName="sms"></p-inputSwitch>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <i class="pi pi-megaphone"></i>
+                            <div>
+                                <h4>Marketing Communications</h4>
+                                <p>Receive news, offers, and product updates</p>
+                            </div>
+                        </div>
+                        <p-inputSwitch formControlName="marketing"></p-inputSwitch>
+                    </div>
                 </div>
-            </p-tabPanel>
+            </div>
+        </p-tabPanel>
 
-            <!-- Notifications Tab -->
-            <p-tabPanel header="Notifications" leftIcon="pi pi-bell">
-                <div class="notifications-section" [formGroup]="profileForm">
-                    <h3>Notification Preferences</h3>
-                    <p class="section-description">Choose how you want to receive notifications and updates.</p>
+        <p-tabPanel header="Privacy" leftIcon="pi pi-lock">
+            <div class="privacy-section" [formGroup]="profileForm">
+                <h3>Privacy Settings</h3>
+                <p class="section-description">Control who can see your information.</p>
 
-                    <div formGroupName="notifications" class="notification-options">
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <i class="pi pi-envelope"></i>
-                                <div>
-                                    <h4>Email Notifications</h4>
-                                    <p>Receive email updates about your account activity</p>
-                                </div>
+                <div formGroupName="privacy" class="privacy-options">
+                    <div class="privacy-item">
+                        <div class="privacy-info">
+                            <i class="pi pi-eye"></i>
+                            <div>
+                                <h4>Public Profile</h4>
+                                <p>Make your profile visible to other users</p>
                             </div>
-                            <p-inputSwitch formControlName="email"></p-inputSwitch>
+                        </div>
+                        <p-inputSwitch formControlName="profileVisible"></p-inputSwitch>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-info">
+                            <i class="pi pi-at"></i>
+                            <div>
+                                <h4>Show Email Address</h4>
+                                <p>Display your email address on your profile</p>
+                            </div>
+                        </div>
+                        <p-inputSwitch formControlName="showEmail"></p-inputSwitch>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-info">
+                            <i class="pi pi-phone"></i>
+                            <div>
+                                <h4>Show Phone Number</h4>
+                                <p>Display your phone number on your profile</p>
+                            </div>
+                        </div>
+                        <p-inputSwitch formControlName="showPhone"></p-inputSwitch>
+                    </div>
+                </div>
+
+                <div class="data-management">
+                    <h4>Data Management</h4>
+                    <div class="data-actions">
+                        <p-button label="Export My Data"
+                                  icon="pi pi-download"
+                                  (onClick)="onExportData()"
+                                  styleClass="p-button-outlined"></p-button>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Account" leftIcon="pi pi-cog">
+            <div class="account-section">
+                <h3>Account Management</h3>
+                <p class="section-description">Manage your account settings and preferences.</p>
+
+                <div class="danger-zone">
+                    <h4>Danger Zone</h4>
+                    <div class="danger-actions">
+                        <div class="danger-item">
+                            <div class="danger-info">
+                                <h5>Deactivate Account</h5>
+                                <p>Temporarily disable your account. You can reactivate it anytime.</p>
+                            </div>
+                            <p-button label="Deactivate"
+                                      icon="pi pi-pause"
+                                      (onClick)="onDeactivateAccount()"
+                                      styleClass="p-button-warning p-button-outlined"></p-button>
                         </div>
 
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <i class="pi pi-mobile"></i>
-                                <div>
-                                    <h4>Push Notifications</h4>
-                                    <p>Get push notifications on your devices</p>
-                                </div>
+                        <div class="danger-item">
+                            <div class="danger-info">
+                                <h5>Delete Account</h5>
+                                <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
                             </div>
-                            <p-inputSwitch formControlName="push"></p-inputSwitch>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <i class="pi pi-comments"></i>
-                                <div>
-                                    <h4>SMS Notifications</h4>
-                                    <p>Receive text messages for important updates</p>
-                                </div>
-                            </div>
-                            <p-inputSwitch formControlName="sms"></p-inputSwitch>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <i class="pi pi-megaphone"></i>
-                                <div>
-                                    <h4>Marketing Communications</h4>
-                                    <p>Receive news, offers, and product updates</p>
-                                </div>
-                            </div>
-                            <p-inputSwitch formControlName="marketing"></p-inputSwitch>
+                            <p-button label="Delete Account"
+                                      icon="pi pi-trash"
+                                      (onClick)="onDeleteAccount()"
+                                      styleClass="p-button-danger p-button-outlined"></p-button>
                         </div>
                     </div>
                 </div>
-            </p-tabPanel>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
 
-            <!-- Privacy Tab -->
-            <p-tabPanel header="Privacy" leftIcon="pi pi-lock">
-                <div class="privacy-section" [formGroup]="profileForm">
-                    <h3>Privacy Settings</h3>
-                    <p class="section-description">Control who can see your information.</p>
-
-                    <div formGroupName="privacy" class="privacy-options">
-                        <div class="privacy-item">
-                            <div class="privacy-info">
-                                <i class="pi pi-eye"></i>
-                                <div>
-                                    <h4>Public Profile</h4>
-                                    <p>Make your profile visible to other users</p>
-                                </div>
-                            </div>
-                            <p-inputSwitch formControlName="profileVisible"></p-inputSwitch>
-                        </div>
-
-                        <div class="privacy-item">
-                            <div class="privacy-info">
-                                <i class="pi pi-at"></i>
-                                <div>
-                                    <h4>Show Email Address</h4>
-                                    <p>Display your email address on your profile</p>
-                                </div>
-                            </div>
-                            <p-inputSwitch formControlName="showEmail"></p-inputSwitch>
-                        </div>
-
-                        <div class="privacy-item">
-                            <div class="privacy-info">
-                                <i class="pi pi-phone"></i>
-                                <div>
-                                    <h4>Show Phone Number</h4>
-                                    <p>Display your phone number on your profile</p>
-                                </div>
-                            </div>
-                            <p-inputSwitch formControlName="showPhone"></p-inputSwitch>
-                        </div>
-                    </div>
-
-                    <div class="data-management">
-                        <h4>Data Management</h4>
-                        <div class="data-actions">
-                            <p-button label="Export My Data"
-                                      icon="pi pi-download"
-                                      (onClick)="onExportData()"
-                                      styleClass="p-button-outlined"></p-button>
-                        </div>
-                    </div>
-                </div>
-            </p-tabPanel>
-
-            <!-- Account Tab -->
-            <p-tabPanel header="Account" leftIcon="pi pi-cog">
-                <div class="account-section">
-                    <h3>Account Management</h3>
-                    <p class="section-description">Manage your account settings and preferences.</p>
-
-                    <div class="danger-zone">
-                        <h4>Danger Zone</h4>
-                        <div class="danger-actions">
-                            <div class="danger-item">
-                                <div class="danger-info">
-                                    <h5>Deactivate Account</h5>
-                                    <p>Temporarily disable your account. You can reactivate it anytime.</p>
-                                </div>
-                                <p-button label="Deactivate"
-                                          icon="pi pi-pause"
-                                          (onClick)="onDeactivateAccount()"
-                                          styleClass="p-button-warning p-button-outlined"></p-button>
-                            </div>
-
-                            <div class="danger-item">
-                                <div class="danger-info">
-                                    <h5>Delete Account</h5>
-                                    <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
-                                </div>
-                                <p-button label="Delete Account"
-                                          icon="pi pi-trash"
-                                          (onClick)="onDeleteAccount()"
-                                          styleClass="p-button-danger p-button-outlined"></p-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </p-tabPanel>
-        </p-tabView>
-    </div>
-
-<!-- Confirmation Dialog -->
 <p-confirmDialog></p-confirmDialog>
-
-<!-- Toast Messages -->
 <p-toast></p-toast>

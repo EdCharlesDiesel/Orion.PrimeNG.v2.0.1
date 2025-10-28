@@ -1,12 +1,9 @@
 <div class="surface-ground min-h-screen py-5">
     <div class="container">
-        <!-- Header Section -->
         <div class="text-center mb-6">
             <h1 class="text-900 font-bold text-5xl mb-3">Our Blog</h1>
             <p class="text-600 text-xl">Discover insights, tutorials, and updates</p>
         </div>
-
-        <!-- Search Bar -->
         <div class="flex justify-content-center mb-5">
       <span class="p-input-icon-left w-full md:w-6">
         <i class="pi pi-search"></i>
@@ -19,18 +16,19 @@
         />
       </span>
         </div>
-
-        <!-- Featured Post -->
-        <div class="mb-6" *ngIf="featuredPost()">
-            <p-card styleClass="featured-card">
+        @if (featuredPost()){
+        <div class="mb-6">
+            <p-card class="featured-card">
                 <ng-template pTemplate="header">
                     <img
-                        [src]="featuredPost()!.imageUrl"
+                        [ngSrc]="featuredPost()!.imageUrl"
                         [alt]="featuredPost()!.title"
+                        width="100%"
+                        height="100%"
                         class="featured-image"
                     />
                     <div class="featured-overlay">
-                        <p-chip label="Featured" styleClass="featured-chip"></p-chip>
+                        <p-chip label="Featured" class="featured-chip"></p-chip>
                     </div>
                 </ng-template>
                 <div class="featured-content">
@@ -40,7 +38,7 @@
                         <p-avatar
                             [label]="featuredPost()!.author.charAt(0)"
                             shape="circle"
-                            styleClass="bg-primary"
+                            class="bg-primary"
                         ></p-avatar>
                         <div>
                             <div class="font-semibold text-900">{{ featuredPost()!.author }}</div>
@@ -58,92 +56,97 @@
                 </div>
             </p-card>
         </div>
+        }
 
-        <!-- Blog Posts Grid -->
-        <div class="grid" *ngIf="!loading()">
-            <div class="col-12 md:col-6 lg:col-4" *ngFor="let post of blogPosts()">
-                <p-card styleClass="blog-card h-full">
-                    <ng-template pTemplate="header">
-                        <img
-                            [src]="post.imageUrl"
-                            [alt]="post.title"
-                            class="blog-image"
-                        />
-                    </ng-template>
-
-                    <div class="flex flex-column h-full">
-                        <div class="flex gap-2 mb-3 flex-wrap">
-                            <p-chip
-                                *ngFor="let tag of post.tags"
-                                [label]="tag"
-                                styleClass="tag-chip"
-                            ></p-chip>
-                        </div>
-
-                        <h3 class="text-xl font-bold text-900 mb-2 line-height-3">
-                            {{ post.title }}
-                        </h3>
-
-                        <p class="text-600 mb-3 flex-grow-1">
-                            {{ post.excerpt }}
-                        </p>
-
-                        <div class="flex align-items-center justify-content-between pt-3 border-top-1 surface-border">
-                            <div class="flex align-items-center gap-2">
-                                <p-avatar
-                                    [label]="post.author.charAt(0)"
-                                    shape="circle"
-                                ></p-avatar>
-                                <span class="text-sm text-600">{{ post.author }}</span>
+        @if (!loading()) {
+            <div class="grid" >
+                @for (post of blogPosts(); track post){
+                <div class="col-12 md:col-6 lg:col-4">
+                    <p-card class="blog-card h-full">
+                        <ng-template pTemplate="header">
+                            <img
+                                [ngSrc]="post.imageUrl"
+                                [alt]="post.title"
+                                width="100%"
+                                height="100%"
+                                class="blog-image"
+                            />
+                        </ng-template>
+                        <div class="flex flex-column h-full">
+                            <div class="flex gap-2 mb-3 flex-wrap">
+                                @for ( tag of post.tags; track tag) {
+                                    <p-chip  [label]="tag"   class="tag-chip"></p-chip>
+                                }
                             </div>
-                            <div class="text-sm text-600">
-                                {{ post.readTime }}
+
+                            <h3 class="text-xl font-bold text-900 mb-2 line-height-3">
+                                {{ post.title }}
+                            </h3>
+
+                            <p class="text-600 mb-3 flex-grow-1">
+                                {{ post.excerpt }}
+                            </p>
+
+                            <div class="flex align-items-center justify-content-between pt-3 border-top-1 surface-border">
+                                <div class="flex align-items-center gap-2">
+                                    <p-avatar
+                                        [label]="post.author.charAt(0)"
+                                        shape="circle"
+                                    ></p-avatar>
+                                    <span class="text-sm text-600">{{ post.author }}</span>
+                                </div>
+                                <div class="text-sm text-600">
+                                    {{ post.readTime }}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <ng-template pTemplate="footer">
-                        <div class="flex gap-2">
-                            <p-button
-                                label="Read Article"
-                                [text]="true"
-                                icon="pi pi-book"
-                                [routerLink]="['/blog', post.id]"
-                                styleClass="p-button-sm"
-                            ></p-button>
-                            <p-button
-                                icon="pi pi-share-alt"
-                                [text]="true"
-                                [rounded]="true"
-                                severity="secondary"
-                                styleClass="p-button-sm"
-                                (onClick)="sharePost(post, $event)"
-                            ></p-button>
-                        </div>
-                    </ng-template>
-                </p-card>
+                        <ng-template pTemplate="footer">
+                            <div class="flex gap-2">
+                                <p-button
+                                    label="Read Article"
+                                    [text]="true"
+                                    icon="pi pi-book"
+                                    [routerLink]="['/blog', post.id]"
+                                    class="p-button-sm"
+                                ></p-button>
+                                <p-button
+                                    icon="pi pi-share-alt"
+                                    [text]="true"
+                                    [rounded]="true"
+                                    severity="secondary"
+                                    class="p-button-sm"
+                                    (onClick)="sharePost(post, $event)"
+                                ></p-button>
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+                }
             </div>
-        </div>
-
-        <!-- Loading State -->
-        <div class="grid" *ngIf="loading()">
-            <div class="col-12 md:col-6 lg:col-4" *ngFor="let item of [1, 2, 3]">
+        }
+        @if (loading()){
+        <div class="grid">
+            @for (item of [1, 2, 3];  track item){
+            <div class="col-12 md:col-6 lg:col-4" >
                 <p-card>
                     <ng-template pTemplate="header">
                         <p-skeleton width="100%" height="200px"></p-skeleton>
                     </ng-template>
-                    <p-skeleton width="100%" height="2rem" styleClass="mb-3"></p-skeleton>
-                    <p-skeleton width="100%" height="4rem" styleClass="mb-3"></p-skeleton>
+                    <p-skeleton width="100%" height="2rem" class="mb-3"></p-skeleton>
+                    <p-skeleton width="100%" height="4rem" class="mb-3"></p-skeleton>
                     <p-skeleton width="60%" height="1.5rem"></p-skeleton>
                 </p-card>
             </div>
+            }
         </div>
-
-        <!-- Empty State -->
-        <div class="text-center py-8" *ngIf="!loading() && blogPosts().length === 0">
+        }
+        @if (!loading() && blogPosts().length === 0){
+        <div class="text-center py-8" >
             <i class="pi pi-inbox text-6xl text-400 mb-3"></i>
             <h3 class="text-900 font-semibold text-2xl mb-2">No Posts Found</h3>
             <p class="text-600">Try adjusting your search or check back later for new content!</p>
         </div>
+        }
     </div>
 </div>

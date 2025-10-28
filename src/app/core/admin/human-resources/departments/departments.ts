@@ -11,7 +11,7 @@ import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Department } from './department.model';
-import { DepartmentsService } from './departments.service';
+import { DepartmentsService } from '../../services/departments.service';
 import { tap } from 'rxjs';
 
 interface Column {

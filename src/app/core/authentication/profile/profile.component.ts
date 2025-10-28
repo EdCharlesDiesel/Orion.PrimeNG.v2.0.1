@@ -1,23 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FileUpload } from 'primeng/fileupload';
-import { Tag } from 'primeng/tag';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { takeUntil } from 'rxjs/operators';
+import { Tag } from 'primeng/tag';
+import { CommonModule, DatePipe, } from '@angular/common';
 import { Button } from 'primeng/button';
-// ✅ Note: "Dropdown" not "DropdownModule"
+import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
-import { InputText } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
-
-import { TabPanel } from 'primeng/tabs';
+import { FileUploadModule } from 'primeng/fileupload';
+import { TabPanel, TabView } from 'primeng/tabview';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputSwitch } from 'primeng/inputswitch';
+// import { DropdownModule } from 'primeng/dropdown';
 
 interface ProfileStats {
     loginCount: number;
@@ -31,23 +31,11 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FileUpload,
-        Tag,
-        DatePipe,
-
-
-        ReactiveFormsModule,
-        Button,
-         Password,
-
-        ConfirmDialog,
-        Toast,
-        CommonModule,
-        InputText,
-        Textarea],
+    imports: [FormsModule, Tag, DatePipe, ReactiveFormsModule, Button, InputText, CommonModule, Password, ConfirmDialog, Toast, FileUploadModule, TabView, TabPanel, DropdownModule, InputSwitch],
     providers: [ConfirmationService, MessageService]
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+class ProfileComponent implements OnInit, OnDestroy {
+    private readonly formBuilder = inject(FormBuilder);
     user: any | null = null;
     profileForm: FormGroup | any;
     passwordForm: FormGroup | any;
@@ -81,7 +69,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     constructor(
-        private formBuilder: FormBuilder,
         private authService: AuthService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -104,7 +91,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.profileForm = this.formBuilder.group({
             name: ['', [Validators.required, Validators.minLength(2)]],
             email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.pattern(/^\+?[\d\s\-\(\)]+$/)]],
+            phone: ['', [Validators.pattern(/^\+?[\d\s\-()]+$/)]],
             bio: ['', [Validators.maxLength(500)]],
             company: [''],
             position: [''],
@@ -142,7 +129,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (this.user) {
             this.populateProfileForm();
         } else {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']).then();
         }
     }
 
@@ -160,16 +147,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (this.user) {
             this.profileForm.patchValue({
                 name: this.user.name,
-                email: this.user.username
-                // // Mock additional data - in real app, fetch from API
-                // phone: '+1 (555) 123-4567',
-                // bio: 'Software developer passionate about creating amazing user experiences.',
-                // company: 'Tech Corp',
-                // position: 'Senior Developer',
-                // location: 'San Francisco, CA',
-                // website: 'https://johndoe.dev',
-                // timezone: 'America/Los_Angeles',
-                // language: 'en'
+                email: this.user.username,
+                phone: '+1 (555) 123-4567',
+                bio: 'Software developer passionate about creating amazing user experiences.',
+                company: 'Tech Corp',
+                position: 'Senior Developer',
+                location: 'San Francisco, CA',
+                website: 'https://johndoe.dev',
+                timezone: 'America/Los_Angeles',
+                language: 'en'
             });
         }
     }
@@ -192,16 +178,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    // Profile actions
     toggleEditMode(): void {
         this.editMode = !this.editMode;
         if (!this.editMode) {
-            this.populateProfileForm(); // Reset form if canceling
+            this.populateProfileForm();
         }
     }
 
     onSaveProfile(): void {
-        // Check if form is VALID (not invalid)
         if (this.profileForm.valid) {
             this.loading = true;
             const formData = this.profileForm.value;
@@ -209,7 +193,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
             const userData: Partial<User> = {
                 name: formData.name,
                 emailAddress: formData.email,
-                // Add other fields as needed based on your User model
                 phoneNumber: formData.phone,
                 bio: formData.bio,
                 company: formData.company,
@@ -246,9 +229,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     }
                 });
         } else {
-            // Mark all fields as touched to show validation errors
             this.markFormGroupTouched(this.profileForm);
-
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Validation Error',
@@ -291,13 +272,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
             });
     }
 
-    // Avatar handling
     onAvatarSelect(event: any): void {
         const file = event.files[0];
         if (file) {
             this.selectedAvatar = file;
-
-            // Create preview
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 this.avatarPreview = e.target.result;
@@ -310,28 +288,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     onAvatarUpload(): void {
         if (!this.selectedAvatar) return;
-
         this.uploadingAvatar = true;
 
-        // Simulate upload - in real app, upload to server
-
-        setTimeout(() => {
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Avatar Updated',
-                detail: 'Your profile picture has been updated'
-            });
-            this.uploadingAvatar = false;
-            this.selectedAvatar = null;
-        }, 2000);
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Avatar Updated',
+            detail: 'Your profile picture has been updated'
+        });
+        this.uploadingAvatar = false;
+        this.selectedAvatar = null;
+        this.onAvatarClear();
     }
 
-    onAvatarClear(): void {
+    private onAvatarClear(): void {
         this.selectedAvatar = null;
         this.avatarPreview = null;
     }
 
-    // Account actions
     onDeactivateAccount(): void {
         this.confirmationService.confirm({
             message: 'Are you sure you want to deactivate your account? This action cannot be undone.',
@@ -339,7 +312,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
             icon: 'pi pi-exclamation-triangle',
             acceptButtonStyleClass: 'p-button-danger',
             accept: () => {
-                // Handle account deactivation
                 this.messageService.add({
                     severity: 'info',
                     summary: 'Account Deactivated',
@@ -356,7 +328,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
             icon: 'pi pi-exclamation-triangle',
             acceptButtonStyleClass: 'p-button-danger',
             accept: () => {
-                // Handle account deletion
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Account Deletion',
@@ -367,7 +338,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     onExportData(): void {
-        // Simulate data export
         this.messageService.add({
             severity: 'info',
             summary: 'Data Export',
@@ -375,7 +345,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         });
     }
 
-    // Utility methods
     private markFormGroupTouched(formGroup: FormGroup): void {
         Object.keys(formGroup.controls).forEach((key) => {
             const control = formGroup.get(key);
@@ -426,3 +395,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
         return displayNames[fieldName] || fieldName;
     }
 }
+
+export default ProfileComponent;

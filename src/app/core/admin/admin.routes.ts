@@ -3,7 +3,7 @@ import { RegisterComponent } from '../authentication/register/register.component
 import { AccessDeniedComponent } from '../authentication/access-denied/access-denied.component';
 import { ErrorComponent } from '../authentication/error/error.component';
 import { LoginComponent } from '../authentication/login/login.component';
-import { ProfileComponent } from '../authentication/profile/profile.component';
+import ProfileComponent from '../authentication/profile/profile.component';
 
 
 export default [

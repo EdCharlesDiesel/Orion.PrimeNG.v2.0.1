@@ -1,8 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng';
-import { CalendarModule } from 'primeng/ca';
+// import { DropdownModule } from 'primeng/dr';
+// import { CalendarModule } from 'primeng/ca';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -27,8 +27,8 @@ interface EconomicEvent {
     imports: [
         CommonModule,
         TableModule,
-        DropdownModule,
-        CalendarModule,
+        // DropdownModule,
+        // CalendarModule,
         InputTextModule,
         ButtonModule,
         CardModule,

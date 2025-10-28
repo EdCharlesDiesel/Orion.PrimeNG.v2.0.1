@@ -10,26 +10,10 @@
         <div class="controls-section">
             <div class="p-field">
                 <label for="country">Select Country</label>
-                <p-dropdown
-                    [options]="countries"
-                    [(ngModel)]="selectedCountry"
-                    (onChange)="onCountryChange($event)"
-                    placeholder="Select a Country"
-                    [showClear]="false"
-                    id="country">
-                </p-dropdown>
             </div>
 
             <div class="p-field">
                 <label for="indicator">Select Indicator</label>
-                <p-dropdown
-                    [options]="indicators"
-                    [(ngModel)]="selectedIndicator"
-                    (onChange)="onIndicatorChange($event)"
-                    placeholder="Select an Indicator"
-                    [showClear]="false"
-                    id="indicator">
-                </p-dropdown>
             </div>
         </div>
 
@@ -94,7 +78,6 @@
         </ng-template>
     </p-card>
 
-    <!-- Forecast Chart -->
     <p-card class="chart-card">
         <ng-template pTemplate="header">
             <div class="card-header">
@@ -103,23 +86,27 @@
         </ng-template>
 
         <div class="chart-container">
-            <p-chart
-                type="line"
-                [data]="chartData"
-                [options]="chartOptions"
-                *ngIf="!loading && chartData.datasets.length > 0">
-            </p-chart>
-            <div *ngIf="loading" class="loading-chart">
-                <p-progressSpinner></p-progressSpinner>
-            </div>
-            <div *ngIf="!loading && chartData.datasets.length === 0" class="no-chart-data">
-                <i class="pi pi-chart-line"></i>
-                <p>No chart data available. Select a country and indicator.</p>
-            </div>
+            @if (!loading && chartData.datasets.length > 0) {
+                <p-chart
+                    type="line"
+                    [data]="chartData"
+                    [options]="chartOptions">
+                </p-chart>
+            }
+            @if (loading) {
+                <div class="loading-chart">
+                    <p-progressSpinner></p-progressSpinner>
+                </div>
+            }
+            @if (!loading && chartData.datasets.length === 0) {
+                <div class="no-chart-data">
+                    <i class="pi pi-chart-line"></i>
+                    <p>No chart data available. Select a country and indicator.</p>
+                </div>
+            }
         </div>
     </p-card>
 
-    <!-- Summary Cards -->
     <div class="summary-cards">
         <p-card class="summary-item">
             <div class="summary-content">

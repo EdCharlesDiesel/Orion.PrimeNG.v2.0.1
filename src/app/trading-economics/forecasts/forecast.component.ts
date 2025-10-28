@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Card } from 'primeng/card';
-import { DropdownModule } from 'primeng/dropdown';
+// import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
@@ -32,12 +32,12 @@ interface ChartDataset {
 @Component({
     selector: 'app-trading-economics-forecast',
     templateUrl: './forecast.component.html',
-    imports: [Card, DropdownModule, FormsModule, TableModule, Tag, DatePipe, UIChart, ProgressSpinner, NgIf],
+    imports: [Card, FormsModule, TableModule, Tag, DatePipe, UIChart, ProgressSpinner],
     styleUrls: ['./forecast.component.scss']
 })
 export class ForecastComponent implements OnInit {
     // API Configuration
-    private readonly API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your Trading Economics API key
+    private readonly API_KEY = 'guest'; // Replace with your Trading Economics API key
     private readonly BASE_URL = 'https://api.tradingeconomics.com';
 
     // Data properties

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseLogService } from './database-log.service';
+import { DatabaseLogService } from '../services/database-log.service';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { DatabaseLogModel } from './database-log.model';
+import { DatabaseLogModel } from '../../models/database-log.model';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -48,7 +48,7 @@ export class DatabaseLog implements OnInit {
         ];
 
         this.systemInfoForm = this.fb.group({
-            postTime: [new Date().toISOString(), Validators.required], // auto-fill current time
+            postTime: [new Date().toISOString(), Validators.required],
             databaseUser: ['', Validators.required],
             event: ['', Validators.required],
             schema: [''],
@@ -77,7 +77,7 @@ export class DatabaseLog implements OnInit {
 
     public openNew() {
         this.systemInfoForm.reset({
-            postTime: new Date().toISOString() // reset with current time
+            postTime: new Date().toISOString()
         });
         this.displayDialog = true;
         this.editing = false;
@@ -97,7 +97,6 @@ export class DatabaseLog implements OnInit {
         const formValue = this.systemInfoForm.value;
 
         if (this.editing && this.selectedSystemInfo && this.selectedSystemInfo.databaseLogID) {
-            // Update existing log
             this.service.updateDatabaseLog(this.selectedSystemInfo.databaseLogID, formValue).subscribe({
                 next: () => {
                     this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'Log updated successfully' });

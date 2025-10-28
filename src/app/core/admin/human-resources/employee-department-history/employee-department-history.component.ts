@@ -12,7 +12,7 @@ import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EmployeeDepartmentHistory } from '../../../models/employee-department-history.model ';
-import { EmployeeDepartmentHistoryService } from './employee-department-history.service';
+import { EmployeeDepartmentHistoryService } from '../../services/employee-department-history.service';
 import { tap } from 'rxjs/operators';
 import { Shift } from '../../../models/shift.model';
 

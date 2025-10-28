@@ -10,14 +10,6 @@
         <div class="controls-section">
             <div class="p-field">
                 <label for="country">Select Country</label>
-                <p-dropdown
-                    [options]="countries"
-                    [(ngModel)]="selectedCountry"
-                    (onChange)="onCountryChange($event)"
-                    placeholder="Select a Country"
-                    [showClear]="true"
-                    id="country">
-                </p-dropdown>
             </div>
 
             <div class="p-field">
@@ -60,68 +52,74 @@
             </div>
         </div>
 
-        <!-- News Cards Grid -->
-        <div class="news-grid" *ngIf="!loading && newsData.length > 0">
-            <div class="news-card" *ngFor="let news of paginatedNews">
-                <div class="news-header">
-                    <span class="news-category" [class]="getCategoryClass(news.category)">
-                        {{ news.category }}
-                    </span>
-                    <span class="news-date">
-                        <i class="pi pi-clock"></i>
-                        {{ news.date | date:'short' }}
-                    </span>
-                </div>
+        @if (!loading && newsData.length > 0) {
+            <div class="news-grid">
+                @for (news of paginatedNews; track news.id) {
+                    <div class="news-card">
+                        <div class="news-header">
+                            <span class="news-category" [class]="getCategoryClass(news.category)">
+                                {{ news.category }}
+                            </span>
+                            <span class="news-date">
+                                <i class="pi pi-clock"></i>
+                                {{ news.date | date:'short' }}
+                            </span>
+                        </div>
 
-                <h3 class="news-title">{{ news.title }}</h3>
+                        <h3 class="news-title">{{ news.title }}</h3>
 
-                <p class="news-description">{{ news.description }}</p>
+                        <p class="news-description">{{ news.description }}</p>
 
-                <div class="news-meta">
-                    <div class="news-country">
-                        <i class="pi pi-map-marker"></i>
-                        {{ news.country }}
+                        <div class="news-meta">
+                            <div class="news-country">
+                                <i class="pi pi-map-marker"></i>
+                                {{ news.country }}
+                            </div>
+                            <div class="news-importance" [class]="getImportanceClass(news.importance)">
+                                <i class="pi pi-star-fill"></i>
+                                {{ news.importance }}
+                            </div>
+                        </div>
+
+                        <div class="news-footer">
+                            <button
+                                pButton
+                                label="Read More"
+                                icon="pi pi-external-link"
+                                class="p-button-text p-button-sm"
+                                (click)="openNewsLink(news.url)">
+                            </button>
+                        </div>
                     </div>
-                    <div class="news-importance" [class]="getImportanceClass(news.importance)">
-                        <i class="pi pi-star-fill"></i>
-                        {{ news.importance }}
-                    </div>
-                </div>
-
-                <div class="news-footer">
-                    <button
-                        pButton
-                        label="Read More"
-                        icon="pi pi-external-link"
-                        class="p-button-text p-button-sm"
-                        (click)="openNewsLink(news.url)">
-                    </button>
-                </div>
+                }
             </div>
-        </div>
+        }
 
-        <!-- Loading State -->
-        <div class="loading-container" *ngIf="loading">
-            <p-progressSpinner></p-progressSpinner>
-            <p>Loading latest news...</p>
-        </div>
+        @if (loading) {
+            <div class="loading-container">
+                <p-progressSpinner></p-progressSpinner>
+                <p>Loading latest news...</p>
+            </div>
+        }
 
-        <!-- Empty State -->
-        <div class="empty-state" *ngIf="!loading && newsData.length === 0">
-            <i class="pi pi-inbox"></i>
-            <h3>No news available</h3>
-            <p>Try adjusting your filters or check back later for updates.</p>
-        </div>
+        @if (!loading && newsData.length === 0) {
+            <div class="empty-state">
+                <i class="pi pi-inbox"></i>
+                <h3>No news available</h3>
+                <p>Try adjusting your filters or check back later for updates.</p>
+            </div>
+        }
 
-        <!-- Pagination -->
-        <div class="pagination-container" *ngIf="newsData.length > 0">
-            <p-paginator
-                [rows]="pageSize"
-                [totalRecords]="filteredNews.length"
-                (onPageChange)="onPageChange($event)"
-                [rowsPerPageOptions]="[6, 12, 24, 48]">
-            </p-paginator>
-        </div>
+        @if (newsData.length > 0) {
+            <div class="pagination-container">
+                <p-paginator
+                    [rows]="pageSize"
+                    [totalRecords]="filteredNews.length"
+                    (onPageChange)="onPageChange($event)"
+                    [rowsPerPageOptions]="[6, 12, 24, 48]">
+                </p-paginator>
+            </div>
+        }
 
         <ng-template pTemplate="footer">
             <div class="footer-info">
@@ -132,7 +130,6 @@
         </ng-template>
     </p-card>
 
-    <!-- News Table View (Alternative) -->
     <p-card class="table-view-card">
         <ng-template pTemplate="header">
             <div class="card-header-simple">
@@ -184,9 +181,7 @@
                         <div class="news-desc-small">{{ news.description | slice:0:100 }}...</div>
                     </td>
                     <td>{{ news.country }}</td>
-                    <td>
-                        <p-tag [value]="news.category" [severity]="getCategorySeverity(news.category)"></p-tag>
-                    </td>
+                    <td></td>
                     <td>
                         <span [class]="getImportanceClass(news.importance)">
                             {{ news.importance }}
@@ -212,7 +207,6 @@
         </p-table>
     </p-card>
 
-    <!-- Statistics Card -->
     <div class="stats-grid">
         <p-card class="stat-card">
             <div class="stat-content">

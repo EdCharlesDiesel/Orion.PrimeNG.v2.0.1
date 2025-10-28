@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Card } from 'primeng/card';
-import { DropdownModule } from 'primeng/dropdown';
+// import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { Calendar } from 'primeng/calendar';
+// import { Calendar } from 'primeng/calendar';
 import { InputText } from 'primeng/inputtext';
 import { DatePipe, NgForOf, NgIf, SlicePipe } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
@@ -12,6 +12,8 @@ import { Paginator } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { Tooltip } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
+import { Calendar } from 'primeng/calendar';
 
 interface NewsArticle {
     id: string;
@@ -27,7 +29,7 @@ interface NewsArticle {
 @Component({
     selector: 'app-trading-economics-news',
     templateUrl: './news.component.html',
-    imports: [Card, DropdownModule, FormsModule, Calendar, InputText, NgIf, NgForOf, DatePipe, ButtonDirective, ProgressSpinner, Paginator, TableModule, Tag, SlicePipe, Tooltip],
+    imports: [Card, FormsModule, InputText, DatePipe, ButtonDirective, ProgressSpinner, Paginator, TableModule, SlicePipe, Tooltip, DropdownModule, Calendar],
     styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {

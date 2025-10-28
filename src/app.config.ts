@@ -27,8 +27,6 @@ export const appConfig: ApplicationConfig = {
             autoPause: true,
             trace: false
         }),
-
-        // Router
         provideRouter(
             appRoutes,
             withInMemoryScrolling({
@@ -37,8 +35,6 @@ export const appConfig: ApplicationConfig = {
             }),
             withEnabledBlockingInitialNavigation()
         ),
-
-        // HTTP client + in-memory web API (for mock backend)
         provideHttpClient(withFetch()),
         importProvidersFrom(
             HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
@@ -47,8 +43,6 @@ export const appConfig: ApplicationConfig = {
                 passThruUnknownUrl: true
             })
         ),
-
-        // Animations & PrimeNG
         provideAnimationsAsync(),
         providePrimeNG({
             theme: {

@@ -44,7 +44,7 @@ export class Product {
     sellEndDate?: Date | undefined;
     discontinuedDate?: Date | undefined;
     rowguid: string | undefined;
-    image: string | undefined;
+    image: string = "";
     code: number | undefined;
     modifiedDate: Date | undefined;
     quantityInStock?: number; // Add this field
