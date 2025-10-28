@@ -11,7 +11,10 @@ import { ProductsPageComponent } from './product-page/products-page.component';
 import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
 import { CheckOutPage } from './check-out-page/check-out-page';
 import { ReportsPage } from './reports-page/reports-page';
-import { NotificationsComponent } from '../features/components/notifications/notifications.component';
+import { WishListPage } from './wish-list-page/wish-list-page';
+import { NotificationPage } from './notifications-page/notification-page';
+import { OrdersPage } from './orders-page/orders-page';
+import { TodaysSpecialPage } from './today-special-page/today-special-page';
 
 export default [
     { path: 'blog', component: BlogPage },
@@ -21,8 +24,11 @@ export default [
     { path: 'mail', component: MailPage },
     { path: 'calendar', component: CalendarPage },
     { path: 'products', component: ProductsPageComponent },
+    { path: 'orders', component: OrdersPage },
     { path: 'reports', component: ReportsPage },
-    { path: 'notifications', component: NotificationsComponent },
+    { path: 'notifications', component: NotificationPage },
+    { path: 'wish-list', component: WishListPage },
+    { path: 'today-special', component: TodaysSpecialPage },
     { path: 'shopping-cart', component: ShoppingCartPageComponent },
     { path: 'check-out', component: CheckOutPage },
     { path: 'order-confirmation', component: OrderConfirmationComponent },

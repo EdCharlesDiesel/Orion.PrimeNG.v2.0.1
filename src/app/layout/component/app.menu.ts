@@ -55,6 +55,11 @@ export class AppMenu {
                         routerLink: ['./shopping-cart']
                     },
                     {
+                        label: 'Orders',
+                        icon: 'pi pi-fw pi-cart-plus',
+                        routerLink: ['./orders']
+                    },
+                    {
                         label: 'Check-out',
                         icon: 'pi pi-fw pi-cart-plus',
                         routerLink: ['./check-out']

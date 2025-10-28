@@ -4,8 +4,9 @@ import { Product } from '../../core/models/product';
 import { Carousel } from 'primeng/carousel';
 import { GalleriaModule } from 'primeng/galleria';
 import { Tag } from 'primeng/tag';
-import { ProductsComponent } from '../../features/components/products/products/products.component';
+import { ProductsComponent } from '../../features/components/production/product/products/products.component';
 import { GdpPerCountryComponent } from '../../trading-economics/gdp-per-country/gdp-per-country.component';
+import { ProductComponent } from '../../core/admin/production/product/product.component';
 
 @Component({
     selector: 'app-products-page',
@@ -14,8 +15,6 @@ import { GdpPerCountryComponent } from '../../trading-economics/gdp-per-country/
             <app-product></app-product>
         </div>
     `,
-    imports: [ ProductsComponent],
+    imports: [ ProductComponent]
 })
-export class ProductsPageComponent {
-
-}
+export class ProductsPageComponent {}
