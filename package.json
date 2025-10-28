@@ -30,7 +30,7 @@
         "@ngrx/store-devtools": "^19.0.0",
         "@primeng/themes": "^19.0.0",
         "angular-in-memory-web-api": "^0.20.0",
-        "chart.js": "^4.4.7",
+        "chart.js": "^4.5.1",
         "primeclt": "^0.1.5",
         "primeicons": "^7.0.0",
         "primeng": "^19.0.0",

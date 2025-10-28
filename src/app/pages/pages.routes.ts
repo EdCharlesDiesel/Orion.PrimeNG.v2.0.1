@@ -10,6 +10,8 @@ import { Routes } from '@angular/router';
 import { ProductsPageComponent } from './product-page/products-page.component';
 import { ShoppingCartPageComponent } from './shopping-cart-page/shopping-cart-page.component';
 import { CheckOutPage } from './check-out-page/check-out-page';
+import { ReportsPage } from './reports-page/reports-page';
+import { NotificationsComponent } from '../features/components/notifications/notifications.component';
 
 export default [
     { path: 'blog', component: BlogPage },
@@ -19,6 +21,8 @@ export default [
     { path: 'mail', component: MailPage },
     { path: 'calendar', component: CalendarPage },
     { path: 'products', component: ProductsPageComponent },
+    { path: 'reports', component: ReportsPage },
+    { path: 'notifications', component: NotificationsComponent },
     { path: 'shopping-cart', component: ShoppingCartPageComponent },
     { path: 'check-out', component: CheckOutPage },
     { path: 'order-confirmation', component: OrderConfirmationComponent },
