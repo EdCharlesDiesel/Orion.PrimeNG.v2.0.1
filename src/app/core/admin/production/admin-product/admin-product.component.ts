@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -34,6 +34,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductService } from '../../../../service/product.service';
 import { Product } from '../../../models/product';
 import { tap } from 'rxjs/operators';
+import { Router, RouterLink } from '@angular/router';
+import { Card } from 'primeng/card';
 
 interface Column {
     field: string;
@@ -47,67 +49,61 @@ interface ExportColumn {
 }
 
 @Component({
-    selector: 'app-product',
+    selector: 'app-admin-product',
     standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    CheckboxModule,
-    RadioButtonModule,
-    SelectButtonModule,
-    InputGroupModule,
-    FluidModule,
-    IconFieldModule,
-    InputIconModule,
-    FloatLabelModule,
-    AutoCompleteModule,
-    InputNumberModule,
-    SliderModule,
-    RatingModule,
-    ColorPickerModule,
-    KnobModule,
-    SelectModule,
-    DatePickerModule,
-    ToggleButtonModule,
-    ToggleSwitchModule,
-    TreeSelectModule,
-    MultiSelectModule,
-    ListboxModule,
-    InputGroupAddonModule,
-    TextareaModule,
-    Toolbar,
-    TableModule,
-    ConfirmDialogModule,
-    DialogModule
-  ],
-    templateUrl: 'product.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        InputTextModule,
+        ButtonModule,
+        CheckboxModule,
+        RadioButtonModule,
+        SelectButtonModule,
+        InputGroupModule,
+        FluidModule,
+        IconFieldModule,
+        InputIconModule,
+        FloatLabelModule,
+        AutoCompleteModule,
+        InputNumberModule,
+        SliderModule,
+        RatingModule,
+        ColorPickerModule,
+        KnobModule,
+        SelectModule,
+        DatePickerModule,
+        ToggleButtonModule,
+        ToggleSwitchModule,
+        TreeSelectModule,
+        MultiSelectModule,
+        ListboxModule,
+        InputGroupAddonModule,
+        TextareaModule,
+        Toolbar,
+        TableModule,
+        ConfirmDialogModule,
+        DialogModule,
+    ],
+    templateUrl: 'admin-product.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
-export class ProductComponent implements OnInit {
-    productDialog: boolean = false;
-
-    products = signal<Product[]>([]);
+export class AdminProductComponent implements OnInit {
+    allProducts = signal<Product[]>([]);
+    selectedProduct = signal<Product | null>(null);
 
     product!: Product;
-
-    selectedProducts!: ProductComponent[] | null;
-
+    selectedProducts!: AdminProductComponent[] | null;
     submitted: boolean = false;
-
     statuses!: any[];
-
     @ViewChild('dt') dt!: Table;
-
     exportColumns!: ExportColumn[];
-
     cols!: Column[];
 
     constructor(
         private productService: ProductService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private router: Router
     ) {}
 
     exportCSV() {
@@ -115,25 +111,18 @@ export class ProductComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadDemoData();
+        this.loadProductData();
     }
 
-    loadDemoData() {
-        this.productService.getProducts().pipe(
-            tap((p) => console.log(JSON.stringify(p))),
-        ).subscribe((data: any) => {
-                // this.products.set(data);
+    loadProductData() {
+        this.productService
+            .getProducts()
+            .pipe(tap((p) => console.log(JSON.stringify(p))))
+            .subscribe((data: any) => {
+                this.allProducts.set(data);
 
-                //
-                // this.product-vendorService.getProducts().then((data) => {
-                //     this.product-vendors.set(data);
-                // });
-
-                // this.product-vendorService.product-vendorsResult$.subscribe(
-                //     (data: any) => {
-                //         this.product-vendors.set(data);
-            }
-        );
+                console.log(JSON.stringify(data));
+            });
 
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
@@ -145,7 +134,7 @@ export class ProductComponent implements OnInit {
             { field: 'Product ID', header: 'Code', customExportHeader: 'Product Code' },
             { field: 'Name', header: 'Name' },
             { field: 'GroupName', header: 'Group Name' },
-            { field: 'ModifiedDate', header: 'Modified Date' },
+            { field: 'ModifiedDate', header: 'Modified Date' }
         ];
 
         this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -155,54 +144,17 @@ export class ProductComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    public openNew() {
-        this.product = {
-            productID:0,
-            inventoryStatus: "",
-            code: 0,
-            productSubcategoryID: 0,
-            rowguid: "",
-            discontinuedDate: new Date(),
-            sellEndDate: new Date(),
-            sellStartDate: new Date(),
-            productLine: "",
-            style: "",
-            weight: 0,
-            productNumber: "",
-            class: "",
-            size: "",
-            safetyStockLevel: 0,
-            listPrice: 0,
-            daysToManufacture: 0,
-            reorderPoint: 0,
-            color: "",
-            makeFlag: false,
-            name: "",
-            image: "",
-            standardCost: 0,
-            price: 0,
-            category: "0",
-            weightUnitMeasureCode: "",
-            sizeUnitMeasureCode: "",
-            finishedGoodsFlag: false,
-            description: "",
-            productModelID: 0,
-            quantityInStock: 0,
-            title: "",
-            rating: {
-                rate: 0,
-                count: 0
-            },
-            modifiedDate: new Date(),
+    getAllProducts = computed(() => {
+        return this.allProducts;
+    });
 
-        };
-        this.submitted = false;
-        this.productDialog = true;
+    public navigateToAddNewPropduct() {
+        return this.router.navigate(['admin-product-new']);
     }
 
     public editProduct(product: Product) {
         this.product = { ...product };
-        this.productDialog = true;
+        // this.productDialog = true;
     }
 
     public deleteSelectedProducts() {
@@ -224,7 +176,7 @@ export class ProductComponent implements OnInit {
     }
 
     public hideDialog() {
-        this.productDialog = false;
+        // this.productDialog = false;
         this.submitted = false;
     }
 
@@ -236,43 +188,50 @@ export class ProductComponent implements OnInit {
             accept: () => {
                 // this.products.set(this.products().filter((val) => val.productID !== product.productID));
                 this.product = {
-                    productID:0,
-                    inventoryStatus: "",
+                    availableUntil: undefined,
+                    discountPercentage: undefined,
+                    discountPrice: undefined,
+                    isFeatured: false,
+                    isNew: undefined,
+                    originalPrice: undefined,
+                    tags: undefined,
+                    productID: 0,
+                    inventoryStatus: '',
                     code: 0,
                     productSubcategoryID: 0,
-                    rowguid: "",
+                    rowguid: '',
                     discontinuedDate: new Date(),
                     sellEndDate: new Date(),
                     sellStartDate: new Date(),
-                    productLine: "",
-                    style: "",
+                    productLine: '',
+                    style: '',
                     weight: 0,
-                    productNumber: "",
-                    class: "",
-                    size: "",
+                    productNumber: '',
+                    class: '',
+                    size: '',
                     safetyStockLevel: 0,
                     listPrice: 0,
                     daysToManufacture: 0,
                     reorderPoint: 0,
-                    color: "",
+                    color: '',
                     makeFlag: false,
-                    name: "",
-                    image: "",
+                    name: '',
+                    imageUrl: '',
                     standardCost: 0,
                     price: 0,
-                    category: "0",
-                    weightUnitMeasureCode: "",
-                    sizeUnitMeasureCode: "",
+                    category: '0',
+                    weightUnitMeasureCode: '',
+                    sizeUnitMeasureCode: '',
                     finishedGoodsFlag: false,
-                    description: "",
+                    description: '',
                     productModelID: 0,
                     quantityInStock: 0,
-                    title: "",
+                    title: '',
                     rating: {
                         rate: 0,
                         count: 0
                     },
-                    modifiedDate: new Date(),
+                    modifiedDate: new Date()
                 };
                 this.messageService.add({
                     severity: 'success',
@@ -286,7 +245,7 @@ export class ProductComponent implements OnInit {
 
     private findIndexById(id: number): number {
         let index = -1;
-        for (let i = 0; i < this.products().length; i++) {
+        for (let i = 0; i < this.allProducts().length; i++) {
             // if (this.products()[i].productID === id) {
             //     index = i;
             //     break;
@@ -316,11 +275,11 @@ export class ProductComponent implements OnInit {
 
     public saveProduct() {
         this.submitted = true;
-        let _products = this.products();
+        let _products = this.allProducts();
         if (this.product.productID) {
             if (this.product.productID) {
                 // _products[this.findIndexById(this.product.productID)] = this.product;
-                this.products.set([..._products]);
+                this.allProducts.set([..._products]);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
@@ -339,7 +298,7 @@ export class ProductComponent implements OnInit {
                 // this.products.set([..._products, this.product]);
             }
 
-            this.productDialog = false;
+            // this.productDialog = false;
             // this.product = {
             //     ProductID : 0,
             //     Name : "",

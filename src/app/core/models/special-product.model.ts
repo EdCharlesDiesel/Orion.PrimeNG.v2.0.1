@@ -1,4 +1,6 @@
-export interface SpecialProduct {
+import { IProduct } from './product';
+
+export interface SpecialProduct extends IProduct{
     id: number;
     name: string;
     description: string;

@@ -3,7 +3,7 @@ import { Card } from 'primeng/card';
 import { Listbox } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
 import { Message } from 'primeng/message';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgClass, NgIf, SlicePipe } from '@angular/common';
 import { MessageService, PrimeTemplate } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { Paginator } from 'primeng/paginator';
@@ -14,13 +14,15 @@ import { Router } from '@angular/router';
 import { selectProductsViewModel } from '../../../../../store/products/product.selectors';
 import { Product } from '../../../../../core/models/product';
 import * as ProductActions from '../../../../../store/products/product.actions';
+import { addToCart } from '../../../../../store/cart/cart.actions';
+import { loadProductsSuccess } from '../../../../../store/products/product.actions';
 
 @Component({
     selector: 'app-product-list',
     standalone: true,
 
     templateUrl: './product-list.component.html',
-    imports: [Card,  FormsModule, Message, NgIf, PrimeTemplate, Button,  Paginator,  ProductCardComponent, AsyncPipe],
+    imports: [Card, FormsModule, Message, NgIf, PrimeTemplate, Button, Paginator, ProductCardComponent, AsyncPipe, NgClass, CurrencyPipe, SlicePipe, Listbox],
     styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent implements OnInit {
@@ -64,4 +66,14 @@ export class ProductListComponent implements OnInit {
             this.paginatedProducts = vm.products.slice(start, end);
         });
     }
+
+    isOutOfStock(product: Product) {}
+
+    isLowStock(product: Product) {}
+
+    protected readonly addToCart = addToCart;
+
+    addToWishlist(product: Product) {}
+
+    protected readonly loadProductsSuccess = loadProductsSuccess;
 }

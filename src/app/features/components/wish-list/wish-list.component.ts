@@ -13,19 +13,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FormsModule } from '@angular/forms';
-import { WishListItemComponent } from '../wish-list-item/wish-list-item.component';
+import { WishListItem } from '../../../core/models/wish-list-item.model';
 
-interface WishListItem {
-    id: number;
-    title: string;
-    description: string;
-    price?: number;
-    priority: 'Low' | 'Medium' | 'High';
-    category: string;
-    url?: string;
-    addedDate: Date;
-    isPurchased: boolean;
-}
 
 @Component({
     selector: 'app-wish-list',
@@ -33,7 +22,7 @@ interface WishListItem {
     styleUrls: ['./wish-list.component.scss'],
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, CardModule, DialogModule,
-        InputTextModule, TextareaModule, DropdownModule, TagModule, ToastModule, ConfirmDialogModule, WishListItemComponent],
+        InputTextModule, TextareaModule, DropdownModule, TagModule, ToastModule, ConfirmDialogModule],
     providers: [MessageService, ConfirmationService]
 })
 export class WishListComponent implements OnInit {

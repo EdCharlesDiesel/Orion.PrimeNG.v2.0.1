@@ -1,0 +1,102 @@
+<div class="card">
+    <div class="font-semibold text-xl mb-4">Products</div>
+</div>
+
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="navigateToAddNewPropduct()" />
+        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length" />
+    </ng-template>
+
+    <ng-template #end>
+        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+    </ng-template>
+</p-toolbar>
+
+<p-table
+    #dt
+    [value]="allProducts()"
+    [rows]="10"
+    [columns]="cols"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]"
+>
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Manage Products</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+           <th style="min-width: 16rem">Product ID</th>
+            <th pSortableColumn="name" style="min-width:16rem">
+                Name
+                <p-sortIcon field="Name" />
+            </th>
+            <th pSortableColumn="Product Number" style="min-width:16rem">
+                Product Number
+                <p-sortIcon field="productNumber" />
+            </th>
+            <th pSortableColumn="Product Subcategory" style="min-width:16rem">
+                Product Subcategory
+                <p-sortIcon field="productSubcategory" />
+            </th>
+            <th pSortableColumn="modifiedDate" style="min-width:16rem">
+                Modified Date
+                <p-sortIcon field="modifiedDate" />
+            </th>
+            <th style="min-width: 12rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-product: this.product[]>
+        @for (product of allProducts(); track product.productID; let i = $index) {
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="product" />
+            </td>
+            <td style="min-width: 12rem">{{ product.productID }}</td>
+            <td style="min-width: 16rem">{{ product.name }}</td>
+            <td style="min-width: 16rem">{{ product.productNumber }}</td>
+            <td style="min-width: 16rem">{{ product.productSubcategory }}</td>
+            <td style="min-width: 16rem">{{ product.modifiedDate }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editProduct(product)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProduct(product)" />
+            </td>
+        </tr>
+        }
+<!--        }   @else {-->
+<!--        <div class="empty-state">-->
+<!--            <p-card>-->
+<!--                <div class="empty-content">-->
+<!--                    <i class="pi pi-search text-6xl text-gray-400"></i>-->
+<!--                    <h3>No special offers found</h3>-->
+<!--                    <p>Try selecting a different category</p>-->
+<!--                    <p-button-->
+<!--                        label="Show All"-->
+<!--                        icon="pi pi-refresh"-->
+<!--                        (click)="selectCategory('All')"-->
+<!--                        styleClass="p-button-outlined">-->
+<!--                    </p-button>-->
+<!--                </div>-->
+<!--            </p-card>-->
+<!--        </div>-->
+<!--    }-->
+    </ng-template>
+</p-table>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

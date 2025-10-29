@@ -15,6 +15,20 @@ import { WishListPage } from './wish-list-page/wish-list-page';
 import { NotificationPage } from './notifications-page/notification-page';
 import { OrdersPage } from './orders-page/orders-page';
 import { TodaysSpecialPage } from './today-special-page/today-special-page';
+import { ButtonDemo } from './uikit/buttondemo';
+import { ChartDemo } from './uikit/chartdemo';
+import { FileDemo } from './uikit/filedemo';
+import { FormLayoutDemo } from './uikit/formlayoutdemo';
+import { InputDemo } from './uikit/inputdemo';
+import { ListDemo } from './uikit/listdemo';
+import { MediaDemo } from './uikit/mediademo';
+import { MessagesDemo } from './uikit/messagesdemo';
+import { MiscDemo } from './uikit/miscdemo';
+import { PanelsDemo } from './uikit/panelsdemo';
+import { TimelineDemo } from './uikit/timelinedemo';
+import { OverlayDemo } from './uikit/overlaydemo';
+import { TreeDemo } from './uikit/treedemo';
+import { MenuDemo } from './uikit/menudemo';
 
 export default [
     { path: 'blog', component: BlogPage },
@@ -33,5 +47,26 @@ export default [
     { path: 'check-out', component: CheckOutPage },
     { path: 'order-confirmation', component: OrderConfirmationComponent },
     { path: 'empty', component: Empty },
+    { path: 'empty', component: Empty },
+
+
+
+
+    { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
+    { path: 'charts', data: { breadcrumb: 'Charts' }, component: ChartDemo },
+    { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
+    { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },
+    { path: 'input', data: { breadcrumb: 'Input' }, component: InputDemo },
+    { path: 'list', data: { breadcrumb: 'List' }, component: ListDemo },
+    { path: 'media', data: { breadcrumb: 'Media' }, component: MediaDemo },
+    { path: 'message', data: { breadcrumb: 'Message' }, component: MessagesDemo },
+    { path: 'misc', data: { breadcrumb: 'Misc' }, component: MiscDemo },
+    { path: 'panel', data: { breadcrumb: 'Panel' }, component: PanelsDemo },
+    { path: 'timeline', data: { breadcrumb: 'Timeline' }, component: TimelineDemo },
+    // { path: 'table', data: { breadcrumb: 'Table' }, component: TableDemo },
+    { path: 'overlay', data: { breadcrumb: 'Overlay' }, component: OverlayDemo },
+    { path: 'tree', data: { breadcrumb: 'Tree' }, component: TreeDemo },
+    { path: 'menu', data: { breadcrumb: 'Menu' }, component: MenuDemo },
+
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;

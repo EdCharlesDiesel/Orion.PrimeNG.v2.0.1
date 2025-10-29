@@ -45,11 +45,16 @@ export class Product {
     sellEndDate?: Date | undefined;
     discontinuedDate?: Date | undefined;
     rowguid: string | undefined;
-    image: string = "";
+    imageUrl: string = '';
+    tags: string[] | undefined;
     code: number | undefined;
     modifiedDate: Date | undefined;
     quantityInStock: number = 5;
-    rating:Rating | undefined;
+    rating: Rating | undefined;
+    originalPrice: number | undefined;
+    discountPercentage: number | undefined;
+    availableUntil: Date | undefined;
+    isNew: boolean | undefined;
     unitMeasure?: UnitMeasure | undefined;
     unitMeasure1?: UnitMeasure | undefined;
     productSubcategory?: ProductSubcategory | undefined;
@@ -69,7 +74,8 @@ export class Product {
     shoppingCartItems?: ShoppingCartItem[] | undefined;
     specialOfferProducts?: SpecialOfferProduct[] | undefined;
     inventoryStatus: any;
-
+    discountPrice: number | undefined;
+    isFeatured: boolean = false;
 }
 
 export interface IProduct {

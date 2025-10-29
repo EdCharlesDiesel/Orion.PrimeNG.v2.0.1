@@ -5,7 +5,6 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ProductSubscriptionComponent } from './product/product-subscription/product-subscription.component';
 // import { CategoryListComponent } from './category-list/category-list-component';
-import { ProductNewComponent } from './product/product-new/product-new.component';
 
 @NgModule({
     declarations: [],
@@ -16,7 +15,7 @@ import { ProductNewComponent } from './product/product-new/product-new.component
         ProductListComponent,
         ProductSubscriptionComponent,
         // CategoryListComponent,
-        ProductNewComponent
+
     ]
 })
 export class FeaturesModule { }

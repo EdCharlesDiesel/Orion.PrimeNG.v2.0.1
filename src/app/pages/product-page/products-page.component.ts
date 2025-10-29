@@ -1,13 +1,9 @@
 import { Component,} from '@angular/core';
-import { ProductComponent } from '../../core/admin/production/product/product.component';
+import ProductsComponent from '../../features/components/production/product/products/products.component';
 
 @Component({
     selector: 'app-products-page',
-    template: `
-        <div class="card">
-            <app-product></app-product>
-        </div>
-    `,
-    imports: [ ProductComponent]
+    template: ` <app-products></app-products> `,
+    imports: [ProductsComponent]
 })
 export class ProductsPageComponent {}

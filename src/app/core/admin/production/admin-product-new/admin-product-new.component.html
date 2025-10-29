@@ -1,0 +1,255 @@
+<p-card>
+<div class="reports-container p-4">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">New Product</h1>
+            <p class="text-gray-600">Add, import or bulk import new products</p>
+        </div>
+        <div class="flex gap-2">
+            <p-button
+                label="Bulk Import"
+                icon="pi pi-plus"
+                severity="primary"
+                (onClick)="bulkInsert()" />
+            <p-button
+                label="Import Product"
+                icon="pi pi-download"
+                severity="secondary"
+
+                (onClick)="exportSelected()" />
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <p-tabs value="0">
+        <p-tablist>
+            <p-tab value="0">
+                <i class="pi pi-list mr-2"></i>
+                Electronics
+            </p-tab>
+            <p-tab value="1">
+                <i class="pi pi-chart-line mr-2"></i>
+                Fashion
+            </p-tab>
+            <p-tab value="2">
+                <i class="pi pi-chart-pie mr-2"></i>
+                Beauty
+            </p-tab>
+            <p-tab value="3">
+                <i class="pi pi-chart-pie mr-2"></i>
+                Sports
+            </p-tab>
+            <p-tab value="4">
+                <i class="pi pi-chart-pie mr-2"></i>
+                Home & Kitchen
+            </p-tab>
+        </p-tablist>
+
+        <p-tabpanels>
+
+            <p-tabpanel value="0">
+                <div class="card flex flex-col gap-6 w-full">
+
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Title" id="title" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Name" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <textarea pTextarea placeholder="Description" [autoResize]="true" rows="3" cols="30"></textarea>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-select [(ngModel)]="dropdownValue" [options]="dropdownValues" optionLabel="name" placeholder="Category" />
+                    </div>
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Product Number" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Make Flag" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Finished Goods Flag" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText [(ngModel)]="sliderValue" type="number"placeholder="Safety Stock Level" />
+
+                        <p-slider [(ngModel)]="sliderValue" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Reorder Point" />
+                    </div>
+
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Size" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Size Unit Measure Code" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Weight Unit Measure Code" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Weight" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Days To Manufacture" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Product Line" />
+                    </div>
+
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-select [(ngModel)]="dropdownValue" [options]="dropdownValues" optionLabel="name" placeholder="Class" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-select [(ngModel)]="dropdownValue" [options]="dropdownValues" optionLabel="name" placeholder="Style" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <div class="flex flex-col max-md:flex-row gap-4">
+                            <p-select [(ngModel)]="dropdownValue" [options]="dropdownValues" optionLabel="name" placeholder="Product Subcategory" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="calendarValue" placeholder="Sell Start Date"></p-datepicker>
+
+
+                        <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="calendarValue" placeholder="Sell End Date"></p-datepicker>
+
+
+                        <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="calendarValue" placeholder="Discontinued Date"></p-datepicker>
+
+
+                        <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="calendarValue" placeholder="Available until"></p-datepicker>
+
+                    </div>
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="text" placeholder="Tags" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Code" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <input pInputText type="number" placeholder="Quantity In Stock" />
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="text" placeholder="Standard Cost" />
+                            <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="text" placeholder="Original Price" />
+                            <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="number" placeholder="Discount Price" />
+                            <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="text" placeholder="List Price" />
+                            <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="number"  placeholder="Price" />
+                            <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-inputgroup>
+                            <input pInputText type="number"  placeholder="DiscountPercentage" />
+                            <p-inputgroup-addon>%</p-inputgroup-addon>
+                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                        </p-inputgroup>
+                    </div>
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-select [(ngModel)]="dropdownValue" [options]="dropdownValues" optionLabel="name" placeholder="InventoryStatus" />
+                    </div>
+
+                    <div class="flex flex-col max-md:flex-row gap-4">
+
+                        <div class="flex items-center">
+                            <div style="Margin-left: 10px">
+                                <p-checkbox id="checkOption1" name="option" value="Chicago"  />
+                                <label for="checkOption1" class="ml-2">Featured</label>
+                            </div>
+
+                            <div style="Margin-left: 10px">
+
+                            <p-checkbox id="checkOption1" name="option" value="Chicago"  />
+                            <label for="checkOption1" class="ml-2">New</label>
+                            </div>
+                            <p-colorpicker [style]="{ width: '2rem' }" [(ngModel)]="colorValue" />
+                            <div class="font-thin text-sl">Color</div>
+
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col max-md:flex-row gap-4">
+                        <p-fileupload
+                            name="demo[]"
+                            (onUpload)="onUpload($event)"
+                            (onSelect)="onSelect($event)"
+                            [multiple]="true"
+                            accept="image/*"
+                            [maxFileSize]="10000000"
+                            mode="advanced"
+                            [url]="'http://localhost:3000/api/images/upload-multiple'">
+                            <ng-template #empty>
+                                <div class="p-4 text-center">
+                                    <i class="pi pi-cloud-upload text-4xl text-gray-400"></i>
+                                    <p class="mt-2">Drag and drop files here to upload.</p>
+                                </div>
+                            </ng-template>
+                            <ng-template #content let-files>
+                                <ul *ngIf="files?.length">
+                                    <li *ngFor="let file of files" class="flex items-center justify-between p-2">
+                                        <span>{{ file.name }} - {{ (file.size / 1024).toFixed(2) }} KB</span>
+                                    </li>
+                                </ul>
+                            </ng-template>
+                        </p-fileupload>
+                    </div>
+                    <div class="flex gap-2">
+                        <p-button
+                            label="Save Product"
+                            icon="pi pi-plus"
+                            severity="primary"
+                            raised
+                            (onClick)="onSubmit()" />
+                        <p-button
+                            label="Cancel"
+                            icon="pi pi-download"
+                            severity="secondary"
+                            raised
+                            />
+                    </div>
+                </div>
+
+            </p-tabpanel>
+
+
+        </p-tabpanels>
+    </p-tabs>
+</div>
+</p-card>
+<p-toast position="top-right"></p-toast>
