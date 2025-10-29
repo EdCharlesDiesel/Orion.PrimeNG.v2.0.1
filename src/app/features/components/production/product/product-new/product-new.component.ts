@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ProductService } from '../../../../../service/product.service';
+import { Product } from '../../../../../core/models/product';
 
 @Component({
     selector: 'app-product-form',
@@ -10,7 +11,7 @@ import { ProductService } from '../../../../../service/product.service';
 })
 export class ProductNewComponent implements OnInit {
 
-    product: Product = this.createEmptyProduct();
+    product: Product = new Product();
 
     categories = [
         { label: 'Electronics', value: 'electronics' },
@@ -26,25 +27,6 @@ export class ProductNewComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    /**
-     * Initializes an empty product object.
-     */
-    private createEmptyProduct(): Product {
-        return {
-            retailPrice: 0,
-            id: 0,
-            title: '',
-            price: 0,
-            description: '',
-            image: '',
-            category: '',
-            rating: { rate: 0, count: 0 }
-        };
-    }
-
-    /**
-     * Handles the Add Product submission.
-     */
     addProduct(): void {
         if (!this.isProductValid(this.product)) {
             this.messageService.add({
@@ -76,37 +58,11 @@ export class ProductNewComponent implements OnInit {
         });
     }
 
-    /**
-     * Validates that the required product fields are filled.
-     */
     private isProductValid(product: Product): boolean {
         return !!product.title && !!product.price && !!product.category;
     }
 
-    /**
-     * Resets the form to its default state.
-     */
     private resetForm(): void {
-        this.product = this.createEmptyProduct();
+        this.product = new Product()
     }
-}
-
-
-
-
-export interface Rating {
-    rate: number;
-    count: number;
-}
-
-export interface Product {
-
-    retailPrice: number;
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    image: string;
-    category: string;
-    rating: Rating;
 }

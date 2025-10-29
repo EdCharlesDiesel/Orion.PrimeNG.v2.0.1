@@ -4,7 +4,7 @@ import { ProductCardComponent } from './product/product-card/product-card.compon
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ProductSubscriptionComponent } from './product/product-subscription/product-subscription.component';
-import { CategoryListComponent } from './category-list/category-list-component';
+// import { CategoryListComponent } from './category-list/category-list-component';
 import { ProductNewComponent } from './product/product-new/product-new.component';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { ProductNewComponent } from './product/product-new/product-new.component
         ProductDetailsComponent,
         ProductListComponent,
         ProductSubscriptionComponent,
-        CategoryListComponent,
+        // CategoryListComponent,
         ProductNewComponent
     ]
 })

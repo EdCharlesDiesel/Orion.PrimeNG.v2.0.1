@@ -14,6 +14,7 @@ import { ProductVendor } from "./product-vendor.model";
 import { PurchaseOrderDetail } from "./purchase-order-detail.model";
 import { ShoppingCartItem } from "./shopping-cart-item.model"
 import { ProductCostHistory } from "./product-cost-history.model"
+import { Rating } from './rating.model';
 
 export class Product {
     productID!: number ;
@@ -47,11 +48,8 @@ export class Product {
     image: string = "";
     code: number | undefined;
     modifiedDate: Date | undefined;
-    quantityInStock?: number; // Add this field
-    rating: {
-              rate: number;
-              count: number;
-          }| undefined;
+    quantityInStock: number = 5;
+    rating:Rating | undefined;
     unitMeasure?: UnitMeasure | undefined;
     unitMeasure1?: UnitMeasure | undefined;
     productSubcategory?: ProductSubcategory | undefined;

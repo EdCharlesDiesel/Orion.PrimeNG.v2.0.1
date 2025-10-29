@@ -40,12 +40,10 @@
 //     this.router.navigate(['/books/details/', id]);
 //   }
 // }
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
-
-// PrimeNG imports
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
 import { ButtonModule } from 'primeng/button';
@@ -54,17 +52,16 @@ import { TooltipModule } from 'primeng/tooltip';
 import { RatingModule } from 'primeng/rating';
 import { BadgeModule } from 'primeng/badge';
 import { FormsModule } from '@angular/forms';
+import { Product } from '../../../../../core/models/product';
+import { Paginator } from 'primeng/paginator';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
 
-interface ProductDetails {
-    id: number;
-    title: string;
-    retailPrice: number;
-    originalPrice?: number;
-    rating?: number;
-    reviewCount?: number;
-    quantityInStock?: number;
-    isNew?: boolean;
-    discount?: number;
+interface ProductsViewModel {
+    products: Product[];
+    isLoading: boolean;
+    error: string | null;
+    totalInventory: number;
 }
 
 @Component({
@@ -82,16 +79,32 @@ interface ProductDetails {
         TooltipModule,
         RatingModule,
         BadgeModule,
-        FormsModule
-        // Add your custom components:
-        // AddToCartComponent,
-        // AddToWishlistComponent
+        FormsModule,
+        Paginator,
+        ProgressSpinner,
     ]
 })
 export class ProductCardComponent {
-    @Input() ProductDetails$!: Observable<ProductDetails> | null;
+    @Input() ProductDetails$!: Observable<Product> | null;
     @Input() product: any;
     @Input() userData$!: Observable<any> | null;
+    private messageService = inject(MessageService);
+    private productsSubject = new BehaviorSubject<Product[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(true);
+    private errorSubject = new BehaviorSubject<string | null>(null);
+
+    vm$: Observable<ProductsViewModel> = combineLatest([
+        this.productsSubject.asObservable(),
+        this.loadingSubject.asObservable(),
+        this.errorSubject.asObservable()
+    ]).pipe(
+        map(([products, isLoading, error]) => ({
+            products,
+            isLoading,
+            error,
+            totalInventory: this.calculateTotalInventory(products)
+        }))
+    );
 
     isActive = false;
 
@@ -108,13 +121,82 @@ export class ProductCardComponent {
         return 'success';
     }
 
-    quickView(product: ProductDetails) {
+    quickView(product: Product) {
         // Implement quick view logic
         console.log('Quick view:', product);
     }
 
-    addToCart(product: ProductDetails) {
-        // Implement add to cart logic
-        console.log('Add to cart:', product);
+
+
+    ngOnInit() {
+        this.loadProducts();
     }
+
+    loadProducts() {
+        this.loadingSubject.next(true);
+        this.errorSubject.next(null);
+
+        // setTimeout(() => {
+        //     try {
+        //         const sampleProducts: Product[] = [
+        //             {
+        //                 productID: 1,
+        //                 title: "Fjallraven - Foldsack No. 1 Backpack",
+        //                 price: 109.95,
+        //                 description: "Your perfect pack for everyday use and walks in the forest.",
+        //                 category: "men's clothing",
+        //                 image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+        //                 rating: { rate: 3.9, count: 120 },
+        //                 quantityInStock: 15,
+        //                 unitMeasure
+        //             }
+        //         ];
+        //
+        //         this.productsSubject.next(sampleProducts);
+        //         this.loadingSubject.next(false);
+        //     } catch (error) {
+        //         this.errorSubject.next('Failed to load products. Please try again.');
+        //         this.loadingSubject.next(false);
+        //     }
+        // }, 1500);
+    }
+
+
+    isOutOfStock(product: Product): boolean {
+        return product.quantityInStock === 0;
+    }
+
+    isLowStock(product: Product): boolean {
+        return product.quantityInStock > 0 && product.quantityInStock <= 5;
+    }
+
+    addToCart(product: Product) {
+        if (this.isOutOfStock(product)) {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Out of Stock',
+                detail: `${product.title} is currently out of stock`
+            });
+            return;
+        }
+
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Added to Cart',
+            detail: `${product.title} has been added to your cart`
+        });
+    }
+
+    addToWishlist(product: Product) {
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Added to Wishlist',
+            detail: `${product.title} has been added to your wishlist`
+        });
+    }
+
+    private calculateTotalInventory(products: Product[]): number {
+        return products.reduce((total, product) => total + product.quantityInStock, 0);
+    }
+
 }

@@ -83,15 +83,15 @@ export class ProductDetailsComponent implements OnInit {
         // this.userData$ = this.authService.getCurrentUser();
     }
 
-    getStockStatus(stock: number | undefined): string {
-        if (stock === 0) return 'Out of Stock';
-        if (stock <= 5) return 'Low Stock';
+    getStockStatus(stock: Product | undefined): string {
+        if (stock?.quantityInStock === 0) return 'Out of Stock';
+        // if (stock?.quantityInStock <= 5) return 'Low Stock';
         return 'In Stock';
     }
 
     getStockSeverity(stock: number | undefined): string {
         if (stock === 0) return 'danger';
-        if (stock <= 5) return 'warning';
+        // if (stock <= 5) return 'warning';
         return 'success';
     }
 

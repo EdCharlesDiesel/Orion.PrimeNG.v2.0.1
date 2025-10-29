@@ -1,22 +1,22 @@
-<!-- Using p-listbox for more advanced features -->
-<p-card class="category-card shadow-2">
-    <p-listbox
-        [options]="categories$ | async"
-        optionLabel="categoryName"
-        [listStyle]="{ 'max-height': '400px' }"
-        styleClass="w-full border-none"
-        [ngClass]="{'active-category': !category}"
-        (onChange)="onCategoryChange($event)">
-        <ng-template let-category pTemplate="item">
-            <div class="flex align-items-center justify-content-between w-full">
-                <div class="flex align-items-center gap-2">
-                    <i [class]="getCategoryIcon(category.categoryName)"></i>
-                    <span>{{ category.categoryName }}</span>
-                </div>
-                <span class="category-count">
-                    {{ category.productCount || 0 }}
-                </span>
-            </div>
-        </ng-template>
-    </p-listbox>
-</p-card>
+<!--&lt;!&ndash; Using p-listbox for more advanced features &ndash;&gt;-->
+<!--<p-card class="category-card shadow-2">-->
+<!--    <p-listbox-->
+<!--        [options]="categories$ | async"-->
+<!--        optionLabel="categoryName"-->
+<!--        [listStyle]="{ 'max-height': '400px' }"-->
+<!--        styleClass="w-full border-none"-->
+<!--        [ngClass]="{'active-category': !category}"-->
+<!--        (onChange)="onCategoryChange($event)">-->
+<!--        <ng-template let-category pTemplate="item">-->
+<!--            <div class="flex align-items-center justify-content-between w-full">-->
+<!--                <div class="flex align-items-center gap-2">-->
+<!--                    <i [class]="getCategoryIcon(category.categoryName)"></i>-->
+<!--                    <span>{{ category.categoryName }}</span>-->
+<!--                </div>-->
+<!--                <span class="category-count">-->
+<!--                    {{ category.productCount || 0 }}-->
+<!--                </span>-->
+<!--            </div>-->
+<!--        </ng-template>-->
+<!--    </p-listbox>-->
+<!--</p-card>-->

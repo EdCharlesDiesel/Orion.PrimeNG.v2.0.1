@@ -27,7 +27,6 @@
                         <div class="col-12 md:col-5">
                             <div class="image-section sticky top-0">
                                 <p-galleria
-                                    [value]="getProductImages(product)"
                                     [responsiveOptions]="responsiveOptions"
                                     [containerStyle]="{'max-width': '100%'}"
                                     [numVisible]="5"
@@ -54,7 +53,7 @@
                                 <!-- Price and Rating -->
                                 <div class="flex align-items-center gap-4 mb-4">
                                     <span class="text-3xl font-bold text-green-600">
-                                        {{ product.retailPrice | currency:'ZAR ' }}
+<!--                                        {{ product.retailPrice | currency:'ZAR ' }}-->
                                     </span>
                                     @if (product.rating) {
                                         <div class="flex align-items-center gap-2">
@@ -63,7 +62,7 @@
                                                 [readonly]="true"
                                             >
                                             </p-rating>
-                                            <span class="text-500">({{ product.reviewCount }})</span>
+<!--                                            <span class="text-500">({{ product.reviewCount }})</span>-->
                                         </div>
                                     }
                                 </div>
@@ -80,7 +79,7 @@
                                         <div class="detail-item">
                                             <strong>Stock:</strong>
                                             <p-tag
-                                                [value]="getStockStatus(product.quantityInStock)"
+                                                [value]="getStockStatus(product?.quantityInStock)"
                                                 [severity]="getStockSeverity(product.quantityInStock)">
                                             </p-tag>
                                         </div>
@@ -88,28 +87,28 @@
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="action-buttons mb-4">
-                                    <app-add-to-cart
-                                        [productId]="id"
-                                        styleClass="p-button-lg p-button-success">
-                                    </app-add-to-cart>
+<!--                                <div class="action-buttons mb-4">-->
+<!--                                    <app-add-to-cart-->
+<!--                                        [productId]="id"-->
+<!--                                        styleClass="p-button-lg p-button-success">-->
+<!--                                    </app-add-to-cart>-->
 
-                                    @if (userData$ | async; as userData) {
-                                        <div class="flex gap-2 mt-2">
-                                            <app-addtowishlist
-                                                [productId]="id"
-                                                [showButton]="true"
-                                                styleClass="p-button-outlined">
-                                            </app-addtowishlist>
+<!--                                    @if (userData$ | async; as userData) {-->
+<!--                                        <div class="flex gap-2 mt-2">-->
+<!--                                            <app-add-to-wishlist-->
+<!--                                                [productId]="id"-->
+<!--                                                [showButton]="true"-->
+<!--                                                styleClass="p-button-outlined">-->
+<!--                                            </app-add-to-wishlist>-->
 
-                                            <app-addtoproductsubscription
-                                                [productId]="id"
-                                                [showButton]="true"
-                                                styleClass="p-button-outlined">
-                                            </app-addtoproductsubscription>
-                                        </div>
-                                    }
-                                </div>
+<!--                                            <app-add-to-product-subscription-->
+<!--                                                [productId]="id"-->
+<!--                                                [showButton]="true"-->
+<!--                                                styleClass="p-button-outlined">-->
+<!--                                            </app-add-to-product-subscription>-->
+<!--                                        </div>-->
+<!--                                    }-->
+<!--                                </div>-->
 
                                 <!-- Quick Features -->
                                 <div class="features-grid">

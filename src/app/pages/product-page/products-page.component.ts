@@ -1,11 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Product } from '../../core/models/product';
-import { Carousel } from 'primeng/carousel';
-import { GalleriaModule } from 'primeng/galleria';
-import { Tag } from 'primeng/tag';
-import { ProductsComponent } from '../../features/components/production/product/products/products.component';
-import { GdpPerCountryComponent } from '../../trading-economics/gdp-per-country/gdp-per-country.component';
+import { Component,} from '@angular/core';
 import { ProductComponent } from '../../core/admin/production/product/product.component';
 
 @Component({
