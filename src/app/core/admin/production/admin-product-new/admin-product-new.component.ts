@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Product } from '../../../models/product';
@@ -34,9 +34,10 @@ interface DropdownOption {
 })
 export class AdminProductNewComponent implements OnInit {
     productForm!: FormGroup;
+
     sliderValue: number = 0;
     uploadUrl: string = 'http://localhost:3000/api/images/upload-multiple';
-
+    allProducts = signal<Product[]>([]);
     product: Product = {
         imageUrl: '',
         modifiedDate: undefined,
@@ -45,14 +46,12 @@ export class AdminProductNewComponent implements OnInit {
         title: '',
         name: '',
         description: '',
-        category: 'null',
         productNumber: '',
         makeFlag: true,
         finishedGoodsFlag: true,
         safetyStockLevel: 0,
         reorderPoint: 0,
         size: '',
-
         sizeUnitMeasureCode: '0',
         weightUnitMeasureCode: 'm',
         weight: 0,
@@ -60,7 +59,6 @@ export class AdminProductNewComponent implements OnInit {
         productLine: '',
         class: 'm',
         style: 'm',
-        productSubcategory: null,
         sellStartDate: new Date(),
         sellEndDate: new Date(),
         discontinuedDate: new Date(),
@@ -92,6 +90,12 @@ export class AdminProductNewComponent implements OnInit {
         { name: 'High', value: 'high' },
         { name: 'Medium', value: 'medium' },
         { name: 'Low', value: 'low' }
+    ];
+
+    sizes: DropdownOption[] = [
+        { name: 'S', value: 's' },
+        { name: 'M', value: 'm' },
+        { name: 'L', value: 'l' }
     ];
 
     styles: DropdownOption[] = [
@@ -134,23 +138,22 @@ export class AdminProductNewComponent implements OnInit {
 
     initializeForm(): void {
         this.productForm = this.fb.group({
-            title: '',
-            name: '',
-            description: [''],
-            category: [null],
-            productNumber: [''],
-            makeFlag: [''],
-            finishedGoodsFlag: [''],
+            title: [0],
+            name: [0],
+            description: [0],
+            productNumber: [0],
+            makeFlag: [0],
+            finishedGoodsFlag: [0],
             safetyStockLevel: [0],
             reorderPoint: [0],
-            size: [''],
+            size: [0],
             sizeUnitMeasureCode: [0],
             weightUnitMeasureCode: [0],
             weight: [0],
             daysToManufacture: [0],
             productLine: [''],
-            class: [null],
-            style: [null],
+            class: [''],
+            style: [''],
             productSubcategory: [null],
             sellStartDate: [null],
             sellEndDate: [null],
@@ -178,48 +181,49 @@ export class AdminProductNewComponent implements OnInit {
     public saveProduct(): void {
         this.submitted = true;
 
-       // if (this.productForm.invalid) {
-       //     this.markFormGroupTouched();
-       //      return;
-       // }
+        // if (this.productForm.invalid) {
+        //     this.markFormGroupTouched();
+        //      return;
+        // }
 
         this.loading = true;
 
         const productData: Product = {
-            color: this.product.color,
-            availableUntil: this.product.availableUntil,
-            code: this.product.code,
-            daysToManufacture: this.product.daysToManufacture,
-            discountPercentage: this.product.discountPercentage,
-            discountPrice: this.product.discountPrice,
+            productID: this.getPrimaryKey(),
+            title: this.productFormControls['title'].value,
+            name: this.productFormControls['name'].value,
+            color: this.productFormControls['color'].value,
+            availableUntil: this.productFormControls['availableUntil'].value,
+            code: this.productFormControls['code'].value,
+            daysToManufacture: this.productFormControls['daysToManufacture'].value,
+            discountPercentage: this.productFormControls['discountPercentage'].value,
+            discountPrice: this.productFormControls['discountPrice'].value,
             imageUrl: '',
-            inventoryStatus: this.product.inventoryStatus,
-            isFeatured: false,
-            isNew: false,
-            listPrice: this.product.listPrice,
-            modifiedDate: this.product.modifiedDate,
-            originalPrice: this.product.originalPrice,
-            price: this.product.price,
-            productID: 0,
-            productNumber: this.product.productNumber,
-            quantityInStock: this.product.quantityInStock,
-            rating: this.product.rating,
-            reorderPoint: this.product.reorderPoint,
-            sellStartDate: this.product.sellStartDate,
-            sellEndDate: this.product.sellEndDate,
-            standardCost: this.product.standardCost,
-            tags: this.product.tags,
-            title: this.product.title,
-            name: this.product.name,
-            description: this.product.description,
-            category: this.product.category,
-            safetyStockLevel: this.product.safetyStockLevel,
-            makeFlag: this.product.makeFlag,
-            finishedGoodsFlag: this.product.finishedGoodsFlag,
-            size: this.product.size,
-            sizeUnitMeasureCode: this.product.sizeUnitMeasureCode,
-            weightUnitMeasureCode: this.product.weightUnitMeasureCode,
-            productLine: this.product.productLine
+            inventoryStatus: this.productFormControls['inventoryStatus'].value,
+            isFeatured: this.productFormControls['isFeatured'].value,
+            isNew: this.productFormControls['isNew'].value,
+            listPrice: this.productFormControls['listPrice'].value,
+            modifiedDate: new Date(),
+            originalPrice: this.productFormControls['price'].value,
+            price: this.productFormControls['price'].value,
+            productNumber: this.productFormControls['productNumber'].value,
+            quantityInStock: this.productFormControls['quantityInStock'].value,
+            reorderPoint: this.productFormControls['reorderPoint'].value,
+            sellStartDate: this.productFormControls['sellStartDate'].value,
+            sellEndDate: this.productFormControls['sellEndDate'].value,
+            standardCost: this.productFormControls['standardCost'].value,
+            tags: this.productFormControls['tags'].value,
+            description: this.productFormControls['description'].value,
+            safetyStockLevel: this.productFormControls['safetyStockLevel'].value,
+            makeFlag: this.productFormControls['makeFlag'].value,
+            finishedGoodsFlag: this.productFormControls['finishedGoodsFlag'].value,
+            size: this.productFormControls['size'].value,
+            sizeUnitMeasureCode: this.productFormControls['sizeUnitMeasureCode'].value,
+            weightUnitMeasureCode: this.productFormControls['weightUnitMeasureCode'].value,
+            productLine: this.productFormControls['productLine'].value,
+
+            class: this.productFormControls['class'].value,
+            style: this.productFormControls['style'].value
         };
 
         this.productService
@@ -251,7 +255,6 @@ export class AdminProductNewComponent implements OnInit {
         this.productForm.reset();
         this.product = {
             availableUntil: undefined,
-            category: undefined,
             code: undefined,
             daysToManufacture: undefined,
             description: undefined,
@@ -326,7 +329,7 @@ export class AdminProductNewComponent implements OnInit {
         const field = this.productForm.get(fieldName);
         if (field?.errors && (field.dirty || field.touched || this.submitted)) {
             if (field.errors['name']) return `${this.getFieldDisplayName(fieldName)} is required`;
-            if (field.errors['title']) return 'Please enter a valid email address';
+            if (field.errors['title']) return `${this.getFieldDisplayName(fieldName)} is required`;
             if (field.errors['minlength']) return `${this.getFieldDisplayName(fieldName)} must be at least ${field.errors['minlength'].requiredLength} characters`;
         }
         return '';
@@ -334,9 +337,39 @@ export class AdminProductNewComponent implements OnInit {
 
     private getFieldDisplayName(fieldName: string): string {
         const displayNames: { [key: string]: string } = {
-            email: 'name',
-            password: 'title'
+            name: 'name',
+            title: 'title'
         };
         return displayNames[fieldName] || fieldName;
+    }
+    // private getPrimaryKey(): number {
+    //     let key: number;
+    //     this.productService.getProducts().subscribe((product) => {
+    //         key == product.filter((p) => p.productID).length;
+    //     });
+    //
+    //     return key + 1;
+    // }
+
+    private getPrimaryKey(id: number): number {
+        let index = -1;
+        for (let i = 0; i < this.allProducts().length; i++) {
+            if (this.product.productID === id) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    loadProductData() {
+        this.productService
+            .getProducts()
+            .pipe(tap((p) => console.log(JSON.stringify(p))))
+            .subscribe((data: any) => {
+                this.allProducts.set(data);
+                console.log(JSON.stringify(data));
+            });
     }
 }

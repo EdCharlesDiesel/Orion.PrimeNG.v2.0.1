@@ -29,6 +29,7 @@ import { TimelineDemo } from './uikit/timelinedemo';
 import { OverlayDemo } from './uikit/overlaydemo';
 import { TreeDemo } from './uikit/treedemo';
 import { MenuDemo } from './uikit/menudemo';
+import { AdminOrderingTrackingMapPage } from './admin-ordering-tracking-map-page/admin-ordering-tracking-mapp-page';
 
 export default [
     { path: 'blog', component: BlogPage },
@@ -46,7 +47,7 @@ export default [
     { path: 'shopping-cart', component: ShoppingCartPageComponent },
     { path: 'check-out', component: CheckOutPage },
     { path: 'order-confirmation', component: OrderConfirmationComponent },
-    { path: 'empty', component: Empty },
+    { path: 'admin-order-tracking-map', component: AdminOrderingTrackingMapPage  },
     { path: 'empty', component: Empty },
 
 

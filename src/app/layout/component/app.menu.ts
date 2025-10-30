@@ -64,15 +64,18 @@ export class AppMenu {
             items: [
                 {
                     label: 'Tracker',
-                    icon: 'pi pi-fw pi-compass'
+                    icon: 'pi pi-fw pi-compass',
+                    routerLink: ['./production/admin-shipping-tracking']
                 },
                 {
                     label: 'Map',
-                    icon: 'pi pi-fw pi-map-marker'
+                    icon: 'pi pi-fw pi-map-marker',
+                    routerLink: ['./production/admin-order-tracking-map']
                 },
                 {
                     label: 'Manage',
-                    icon: 'pi pi-fw pi-pencil'
+                    icon: 'pi pi-fw pi-pencil',
+
                 }
             ]
         },

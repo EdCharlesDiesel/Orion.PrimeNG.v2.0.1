@@ -160,7 +160,6 @@ class ProductsComponent implements OnInit {
                 originalPrice: 299.99,
                 discountPrice: 199.99,
                 discountPercentage: 33,
-                category: 'Electronics',
                 imageUrl: 'assets/images/headphones.jpg',
                 isFeatured: true,
                 tags: ['Limited Time', 'Best Seller', 'Audio'],
@@ -193,7 +192,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 120.0,
                 discountPrice: 79.99,
                 discountPercentage: 33,
-                category: 'Beauty',
+
                 imageUrl: 'assets/images/skincare.jpg',
                 isFeatured: false,
                 tags: ['Organic', 'Bestseller', 'Skincare'],
@@ -226,7 +225,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 249.99,
                 discountPrice: 179.99,
                 discountPercentage: 28,
-                category: 'Sports',
+
                 imageUrl: 'assets/images/smartwatch.jpg',
                 isFeatured: false,
                 tags: ['Smart', 'Fitness', 'Tech'],
@@ -260,7 +259,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 189.99,
                 discountPrice: 129.99,
                 discountPercentage: 32,
-                category: 'Fashion',
+
                 imageUrl: 'assets/images/handbag.jpg',
                 isFeatured: false,
                 tags: ['Designer', 'Leather', 'Fashion'],
@@ -293,7 +292,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 159.99,
                 discountPrice: 99.99,
                 discountPercentage: 38,
-                category: 'Electronics',
+
                 imageUrl: 'assets/images/speaker.jpg',
                 isFeatured: false,
                 tags: ['Smart Home', 'Audio', 'Voice Control'],
@@ -327,7 +326,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 299.99,
                 discountPrice: 199.99,
                 discountPercentage: 33,
-                category: 'Home & Kitchen',
+
                 imageUrl: 'assets/images/cookware.jpg',
                 isFeatured: false,
                 tags: ['Kitchen', 'Professional', 'Non-Stick'],
@@ -367,7 +366,10 @@ class ProductsComponent implements OnInit {
             return products;
         }
 
-        return products.filter((product) => product.category === category);
+        return products.filter((product) => product.productLine === category);
+        // return products.filter((product) => product.category === category);
+
+
     });
 
     getTimeRemaining(endDate: Date): { days: number; hours: number; minutes: number } {

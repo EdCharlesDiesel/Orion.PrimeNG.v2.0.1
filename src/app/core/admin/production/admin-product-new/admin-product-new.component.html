@@ -60,11 +60,11 @@
                 <!-- Category & Safety Stock -->
                 <div class="form-field">
                     <div class="form-row">
-                        <label for="category" class="field-label">
-                            Categories <span class="required">*</span>
-                            <p-dropdown [options]="categories" optionLabel="name" formControlName="category"
-                                        placeholder="Category" inputId="category" />
-                        </label>
+<!--                        <label for="category" class="field-label">-->
+<!--                            Categories <span class="required">*</span>-->
+<!--                            <p-dropdown [options]="categories" optionLabel="name" formControlName="category"-->
+<!--                                        placeholder="Category" inputId="category" />-->
+<!--                        </label>-->
                         <label for="safetyStockLevel" class="field-label">
                             Safety Stock Level <span class="required">*</span>
                             <input pInputText formControlName="safetyStockLevel" type="number"
@@ -77,8 +77,10 @@
                     <div class="form-row">
                         <label for="size" class="field-label">
                             Size <span class="required">*</span>
-                            <input pInputText formControlName="size" type="number" placeholder="Size"
-                                   id="size" />
+                            <input pInputText formControlName="size" type="text"
+                                   placeholder="size" id="size" />
+<!--                            <p-dropdown [options]="sizes" optionLabel="name" formControlName="size"-->
+<!--                                        placeholder="size" inputId="name" />-->
                         </label>
                         <label for="sizeUnitMeasureCode" class="field-label">
                             Size Unit Measure Code <span class="required">*</span>
@@ -139,10 +141,10 @@
                 <!-- Subcategories & Tags -->
                 <div class="form-field">
                     <div class="form-row">
-                        <label for="productSubcategory" class="field-label">
-                            Subcategories <span class="required">*</span>
-                            <input pInputText formControlName="productSubcategory" type="text"
-                                   placeholder="Sub Categories" id="productSubcategory" />
+                        <label for="productNumber" class="field-label">
+                            Product Number <span class="required">*</span>
+                            <input pInputText formControlName="productNumber" type="text"
+                                   placeholder="productNumber" id="productNumber" />
                         </label>
                         <label for="tags" class="field-label">
                             Tags <span class="required">*</span>
@@ -273,8 +275,12 @@
                         </label>
                         <label for="color" class="field-label">
                             Color <span class="required">*</span>
-                            <p-dropdown [options]="colors" formControlName="color" optionLabel="name"
-                                        placeholder="Color" inputId="color" />
+                            <input pInputText type="text" formControlName="color"
+                                   placeholder="Color" id="color" />
+<!--                            <p-dropdown [options]="colors" formControlName="color" optionLabel="name"-->
+<!--                                        placeholder="Color" inputId="color" />-->
+
+
                         </label>
 
                     </div>

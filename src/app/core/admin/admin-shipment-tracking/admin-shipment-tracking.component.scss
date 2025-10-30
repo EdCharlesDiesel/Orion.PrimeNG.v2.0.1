@@ -1,0 +1,22 @@
+:host ::ng-deep {
+    .p-timeline-event-opposite {
+        display: none;
+    }
+
+    .p-card {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .p-card .p-card-header {
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    .custom-timeline .p-timeline-event-content {
+        padding-bottom: 2rem;
+    }
+
+    .p-tag {
+        font-weight: 600;
+    }
+}
