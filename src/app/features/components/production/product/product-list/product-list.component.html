@@ -1,0 +1,58 @@
+@if (vm$ | async; as vm) {
+    <div class="grid p-3">
+        <div class="col-12 md:col-4">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h4 class="m-0">{{ pageTitle }}</h4>
+                </ng-template>
+
+                <ng-template pTemplate="content">
+                    <div class="col-12 md:col-8">
+<!--                        @if (loadProductsSuccess) {-->
+                            <div class="products-container">
+                                <div class="products-grid">
+                                    @for (product of paginatedProducts; track product.productID) {
+                                        <app-product-card
+                                            [product]="product">
+                                        </app-product-card>
+                                    }
+                                </div>
+                                <div class="pagination-container">
+                                    <p-paginator
+                                        [rows]="rows"
+                                        [totalRecords]="vm.products.length"
+                                        [first]="first"
+                                        (onPageChange)="onPageChange($event)">
+                                    </p-paginator>
+                                </div>
+                            </div>
+<!--                        } @else {-->
+<!--                            <div class="no-products">-->
+<!--                                <i class="pi pi-box"></i>-->
+<!--                                <p>No products available at the moment.</p>-->
+<!--                                <p-button-->
+<!--                                    label="Retry"-->
+<!--                                    icon="pi pi-refresh"-->
+<!--                                    class="p-button-raised p-button-primary"-->
+<!--                                    (click)="loadProducts()">-->
+<!--                                </p-button>-->
+<!--                            </div>-->
+<!--                        }-->
+                    </div>
+
+                </ng-template>
+            </p-card>
+
+
+            <p-message
+                *ngIf="errorMessage()"
+                severity="error"
+                text="{{ errorMessage() }}"
+                class="mt-2">
+            </p-message>
+        </div>
+
+
+    </div>
+
+}

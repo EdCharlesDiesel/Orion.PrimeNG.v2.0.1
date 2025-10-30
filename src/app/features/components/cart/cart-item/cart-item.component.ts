@@ -1,18 +1,20 @@
 import { Component, Input, OnInit, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartItem } from '../../../../store/cart/cart.state';
 import { Store } from '@ngrx/store';
 import { selectProductById } from '../../../../store/products/product.selectors';
 import *  as CartActions from '../../../../store/cart/cart.actions';
 import *  as ProductActions from '../../../../store/products/product.actions';
-import { DropdownModule } from 'primeng/dropdown';
 import { Card } from 'primeng/card';
+import { PrimeTemplate } from 'primeng/api';
+import { ButtonDirective } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
     selector: 'app-cart-item',
     standalone: true,
-    imports: [CommonModule, FormsModule, DropdownModule, Card],
+    imports: [CommonModule, FormsModule, Card, PrimeTemplate, ButtonDirective, NgOptimizedImage, DropdownModule],
     templateUrl: './cart-item.component.html',
     styleUrls: ['./cart-item.component.scss']
 })
@@ -94,15 +96,12 @@ export class CartItemComponent implements OnInit {
 
     removeFromCart(): void {
         if (confirm('Are you sure you want to remove this item from cart?')) {
-            // Return items to stock
             this.store.dispatch(
                 ProductActions.incrementProductQuantity({
                     id: this.cartItem.product.productID,
                     amount: this.cartItem.quantity
                 })
             );
-
-            // Remove from cart
             this.store.dispatch(
                 CartActions.removeFromCart({
                     productId: this.cartItem.product.productID

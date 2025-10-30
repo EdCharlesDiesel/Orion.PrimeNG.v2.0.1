@@ -1,0 +1,359 @@
+<p-card>
+    <div class="reports-container p-4">
+        <form [formGroup]="productForm">
+            <div class="card flex flex-col gap-6 w-full">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800 mb-2">New Product</h1>
+                        <p class="text-gray-600">Add, import or bulk import new products</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <p-button
+                            label="Bulk Import"
+                            icon="pi pi-plus"
+                            severity="primary"
+                            (onClick)="bulkInsert()" />
+                        <p-button
+                            label="Import Product"
+                            icon="pi pi-download"
+                            severity="secondary"
+                            (onClick)="importProduct()" />
+                    </div>
+                </div>
+
+                <!-- Title & Name -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="title" class="field-label">
+                            Title <span class="required">*</span>
+                            <input pInputText type="text" formControlName="title" placeholder="Title" id="title" />
+                        </label>
+                        @if (isFieldInvalid('title')){
+
+                        <small  class="error-message" >
+                            {{ getFieldError('title') }}
+                        </small>
+                        }
+                            <label for="name" class="field-label">
+                            Name <span class="required">*</span>
+                            <input pInputText type="text" formControlName="name" placeholder="Name" id="name" />
+                        </label>
+                        <small
+                            class="error-message"
+                            *ngIf="isFieldInvalid('name')">
+                            {{ getFieldError('name') }}
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="description" class="field-label">
+                            Description <span class="required">*</span>
+                            <textarea pTextarea formControlName="description" placeholder="Description"
+                                      [autoResize]="true" rows="3" id="description"></textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Category & Safety Stock -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="category" class="field-label">
+                            Categories <span class="required">*</span>
+                            <p-dropdown [options]="categories" optionLabel="name" formControlName="category"
+                                        placeholder="Category" inputId="category" />
+                        </label>
+                        <label for="safetyStockLevel" class="field-label">
+                            Safety Stock Level <span class="required">*</span>
+                            <input pInputText formControlName="safetyStockLevel" type="number"
+                                   placeholder="Safety Stock Level" id="safetyStockLevel" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="size" class="field-label">
+                            Size <span class="required">*</span>
+                            <input pInputText formControlName="size" type="number" placeholder="Size"
+                                   id="size" />
+                        </label>
+                        <label for="sizeUnitMeasureCode" class="field-label">
+                            Size Unit Measure Code <span class="required">*</span>
+                            <input pInputText type="text" formControlName="sizeUnitMeasureCode"
+                                   placeholder="Size Unit" id="sizeUnitMeasureCode" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Weight Unit & Weight -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="weightUnitMeasureCode" class="field-label">
+                            Weight Unit Measure Code <span class="required">*</span>
+                            <input pInputText formControlName="weightUnitMeasureCode" type="text"
+                                   placeholder="Weight Unit" id="weightUnitMeasureCode" />
+                        </label>
+                        <label for="weight" class="field-label">
+                            Weight <span class="required">*</span>
+                            <input pInputText type="number" formControlName="weight"
+                                   placeholder="Weight" id="weight" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Days to Manufacture & Product Line -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="daysToManufacture" class="field-label">
+                            Days To Manufacture <span class="required">*</span>
+                            <input pInputText formControlName="daysToManufacture" type="number"
+                                   placeholder="Days To Manufacture" id="daysToManufacture" />
+                        </label>
+                        <label for="productLine" class="field-label">
+                            Product Line <span class="required">*</span>
+                            <input pInputText type="text" formControlName="productLine"
+                                   placeholder="Product Line" id="productLine" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Class & Style -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="class" class="field-label">
+                            Class <span class="required">*</span>
+                            <input pInputText formControlName="class" type="text" placeholder="Class"
+                                   id="class" />
+                        </label>
+                        <label for="style" class="field-label">
+                            Style <span class="required">*</span>
+                            <input pInputText type="text" formControlName="style" placeholder="Style"
+                                   id="style" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Subcategories & Tags -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="productSubcategory" class="field-label">
+                            Subcategories <span class="required">*</span>
+                            <input pInputText formControlName="productSubcategory" type="text"
+                                   placeholder="Sub Categories" id="productSubcategory" />
+                        </label>
+                        <label for="tags" class="field-label">
+                            Tags <span class="required">*</span>
+                            <input pInputText type="text" formControlName="tags" placeholder="Tags"
+                                   id="tags" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Date Fields -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="sellStartDate" class="field-label">
+                            Sell Start Date <span class="required">*</span>
+                            <p-calendar formControlName="sellStartDate" inputId="sellStartDate"
+                                        placeholder="Sell Start Date" [showIcon]="true" />
+                        </label>
+                        <label for="sellEndDate" class="field-label">
+                            Sell End Date <span class="required">*</span>
+                            <p-calendar formControlName="sellEndDate" inputId="sellEndDate"
+                                        placeholder="Sell End Date" [showIcon]="true" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="discontinuedDate" class="field-label">
+                            Discontinued Date
+                            <p-calendar formControlName="discontinuedDate" inputId="discontinuedDate"
+                                        placeholder="Discontinued Date" [showIcon]="true" />
+                        </label>
+                        <label for="availableUntil" class="field-label">
+                            Available Until
+                            <p-calendar formControlName="availableUntil" inputId="availableUntil"
+                                        placeholder="Available Until" [showIcon]="true" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Code & Quantity -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="code" class="field-label">
+                            Code <span class="required">*</span>
+                            <input pInputText type="text" formControlName="code" placeholder="Code" id="code" />
+                        </label>
+                        <label for="quantityInStock" class="field-label">
+                            Quantity In Stock <span class="required">*</span>
+                            <input pInputText type="number" formControlName="quantityInStock"
+                                   placeholder="Quantity In Stock" id="quantityInStock" />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pricing Section -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="standardCost" class="field-label">
+                            Standard Cost <span class="required">*</span>
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="standardCost"
+                                       placeholder="Standard Cost" id="standardCost" />
+                                <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                        <label for="originalPrice" class="field-label">
+                            Original Price <span class="required">*</span>
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="originalPrice"
+                                       placeholder="Original Price" id="originalPrice" />
+                                <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="discountPrice" class="field-label">
+                            Discount Price
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="discountPrice"
+                                       placeholder="Discount Price" id="discountPrice" />
+                                <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                        <label for="listPrice" class="field-label">
+                            List Price <span class="required">*</span>
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="listPrice"
+                                       placeholder="List Price" id="listPrice" />
+                                <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="price" class="field-label">
+                            Price <span class="required">*</span>
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="price"
+                                       placeholder="Price" id="price" />
+                                <p-inputgroup-addon>ZAR</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                        <label for="discountPercentage" class="field-label">
+                            Discount Percentage
+                            <p-inputgroup>
+                                <input pInputText type="number" formControlName="discountPercentage"
+                                       placeholder="Discount Percentage" id="discountPercentage" />
+                                <p-inputgroup-addon>%</p-inputgroup-addon>
+                            </p-inputgroup>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <div class="form-row">
+                        <label for="inventoryStatus" class="field-label">
+                            Inventory Status <span class="required">*</span>
+                            <p-dropdown [options]="inventoryStatuses" optionLabel="name"
+                                        formControlName="inventoryStatus" placeholder="Inventory Status"
+                                        inputId="inventoryStatus" />
+                        </label>
+                        <label for="color" class="field-label">
+                            Color <span class="required">*</span>
+                            <p-dropdown [options]="colors" formControlName="color" optionLabel="name"
+                                        placeholder="Color" inputId="color" />
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="checkbox-color-row flex items-center gap-4">
+                            <div class="checkbox-item flex items-center">
+                                <p-checkbox formControlName="isFeatured" [binary]="true" inputId="isFeatured" />
+                                <label for="isFeatured" class="ml-2">Featured</label>
+                            </div>
+                            <div class="checkbox-item flex items-center">
+                                <p-checkbox formControlName="isNew" [binary]="true" inputId="isNew" />
+                                <label for="new" class="ml-2">New</label>
+                            </div>
+                            <div class="checkbox-item flex items-center">
+                                <p-checkbox formControlName="makeFlag" [binary]="true" inputId="makeFlag" />
+                                <label for="makeFlag" class="ml-2">makeFlag</label>
+                            </div>
+                            <div class="checkbox-item flex items-center">
+                                <p-checkbox formControlName="finishedGoodsFlag" [binary]="true"
+                                            inputId="finishedGoodsFlag" />
+                                <label for="finishedGoodsFlag" class="ml-2">Finished Goods</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- File Upload -->
+                <div class="form-field">
+                    <div class="form-row">
+                        <p-fileupload
+                            name="productImages"
+                            (onUpload)="onUpload($event)"
+                            (onSelect)="onSelect($event)"
+                            [multiple]="true"
+                            accept="image/*"
+                            [maxFileSize]="10000000"
+                            mode="advanced"
+                            chooseLabel="Select Images"
+                            uploadLabel="Upload"
+                            cancelLabel="Cancel"
+                            [url]="uploadUrl">
+                            <ng-template pTemplate="content" let-files>
+                                <div *ngIf="files && files.length > 0" class="m-3">
+                                    <div *ngFor="let file of files"
+                                         class="flex items-center justify-between p-2 border-b">
+                                        <div class="flex items-center">
+                                            <i class="pi pi-image mr-2"></i>
+                                            <span>{{ file.name }}</span>
+                                        </div>
+                                        <span class="text-sm text-gray-500">
+                                            {{ (file.size / 1024).toFixed(2) }} KB
+                                        </span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-fileupload>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2 mt-6">
+                    <p-button
+                        label="Save Product"
+                        icon="pi pi-check"
+                        severity="primary"
+                        raised
+                        (onClick)="saveProduct()"
+                        [disabled]="!productForm.valid" />
+                    <p-button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        severity="secondary"
+                        raised
+                        (onClick)="onCancel()" />
+                </div>
+            </div>
+        </form>
+    </div>
+</p-card>
+<p-toast position="top-right"></p-toast>

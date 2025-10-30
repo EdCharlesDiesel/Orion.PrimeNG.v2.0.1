@@ -25,7 +25,8 @@ export class BlogService {
             tags: ['Angular', 'Web Development', 'TypeScript'],
             featured: true,
             views: 1250,
-            likes: 45
+            likes: 45,
+            summary:"summary"
         },
         {
             id: '2',
@@ -38,7 +39,8 @@ export class BlogService {
             readTime: '12 min read',
             tags: ['RxJS', 'JavaScript', 'Reactive Programming'],
             views: 890,
-            likes: 32
+            likes: 32,
+            summary:"summary"
         },
         {
             id: '3',
@@ -51,7 +53,8 @@ export class BlogService {
             readTime: '10 min read',
             tags: ['Angular', 'State Management', 'NgRx'],
             views: 1100,
-            likes: 56
+            likes: 56,
+            summary:"summary"
         },
         {
             id: '4',
@@ -64,7 +67,8 @@ export class BlogService {
             readTime: '7 min read',
             tags: ['Accessibility', 'Web Development', 'UX'],
             views: 750,
-            likes: 28
+            likes: 28,
+            summary:"summary"
         },
         {
             id: '5',
@@ -77,7 +81,8 @@ export class BlogService {
             readTime: '15 min read',
             tags: ['Performance', 'Angular', 'Optimization'],
             views: 1450,
-            likes: 67
+            likes: 67,
+            summary:"summary"
         },
         {
             id: '6',
@@ -90,7 +95,8 @@ export class BlogService {
             readTime: '11 min read',
             tags: ['Testing', 'Angular', 'Jest', 'Cypress'],
             views: 980,
-            likes: 41
+            likes: 41,
+            summary:"summary"
         }
     ];
 

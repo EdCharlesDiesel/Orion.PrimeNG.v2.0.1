@@ -1,0 +1,141 @@
+.orders-container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+    }
+
+    .stats-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+
+        .stat-card {
+            text-align: center;
+
+            .stat-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                justify-content: center;
+
+                i {
+                    font-size: 2rem;
+                }
+
+                .stat-number {
+                    display: block;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                }
+
+                .stat-label {
+                    display: block;
+                    font-size: 0.9rem;
+                    color: #666;
+                }
+            }
+        }
+    }
+
+    .filters-section {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+
+            h3 {
+                margin: 0;
+                font-weight: 600;
+            }
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            label {
+                font-weight: 500;
+                color: #444;
+            }
+
+            .filter-control {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        .active-filters {
+            margin-top: 1rem;
+
+            h4 {
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .filter-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+        }
+    }
+
+    .orders-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+
+        .order-card {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .empty-state {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+
+            .empty-content {
+                text-align: center;
+                color: #555;
+
+                h2 {
+                    font-weight: 600;
+                    margin-top: 1rem;
+                }
+
+                p {
+                    margin: 0.5rem 0 1.5rem;
+                }
+            }
+        }
+    }
+}

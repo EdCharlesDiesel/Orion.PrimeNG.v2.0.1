@@ -6,7 +6,7 @@ import { AdminGuard } from './app/core/authentication/guards/admin.guard';
 import { Dashboard } from './app/core/admin/dashboard/dashboard';
 import { DatabaseLog } from './app/core/admin/database-log/database-log';
 import { ManageOrders } from './app/core/admin/manage-orders/manage-orders';
-import { ProfileComponent } from './app/core/authentication/profile/profile.component';
+import ProfileComponent from './app/core/authentication/profile/profile.component';
 import { Documentation } from './app/core/admin/documentation/documentation';
 import { AppLayout } from './app/layout/component/app.layout';
 

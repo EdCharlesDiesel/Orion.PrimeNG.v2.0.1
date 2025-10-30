@@ -3,7 +3,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { ErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ProfileComponent } from './profile/profile.component';
+import ProfileComponent from './profile/profile.component';
 
 
 

@@ -1,7 +1,11 @@
-import { ProductComponent } from './product/product.component';
+
 import { Routes } from '@angular/router';
+import { AdminProductComponent } from './admin-product/admin-product.component';
+import { AdminProductNewComponent } from './admin-product-new/admin-product-new.component';
 
 export default [
-    { path: 'product', data: { breadcrumb: 'Button' }, component: ProductComponent },
+    { path: 'admin-product', data: { breadcrumb: 'Button' }, component: AdminProductComponent },
+    { path: 'admin-product-new', data: { breadcrumb: 'Button' }, component: AdminProductNewComponent },
+
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;

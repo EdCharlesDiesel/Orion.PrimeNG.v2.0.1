@@ -1,0 +1,192 @@
+<div class="orders-container">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <div class="header-section">
+        <h1>My Orders</h1>
+
+        <div class="stats-section">
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-shopping-bag text-blue-500"></i>
+                    <div>
+                        <span class="stat-number">{{ orders.length }}</span>
+                        <span class="stat-label">Total Orders</span>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-dollar text-green-500"></i>
+                    <div>
+                        <span class="stat-number">${{ getTotalRevenue().toFixed(2) }}</span>
+                        <span class="stat-label">Total Spent</span>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-truck text-orange-500"></i>
+                    <div>
+                        <span class="stat-number">{{ getOrdersCountByStatus('Shipped') }}</span>
+                        <span class="stat-label">In Transit</span>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-filter text-purple-500"></i>
+                    <div>
+                        <span class="stat-number">{{ getFilteredOrdersCount() }}</span>
+                        <span class="stat-label">Showing</span>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-header">
+                <h3>Filters</h3>
+                @if (hasActiveFilters()) {
+                    <p-button
+                        label="Clear All Filters"
+                        icon="pi pi-times"
+                        (click)="clearFilters()"
+                        styleClass="p-button-outlined p-button-secondary">
+                    </p-button>
+                }
+            </div>
+
+            <div class="grid">
+                <div class="col-12 md:col-4">
+                    <div class="field">
+                        <label>Status</label>
+                        <div class="filter-control">
+                            <p-dropdown
+                                [options]="statusOptions"
+                                [(ngModel)]="statusFilter"
+                                (onChange)="applyFilters()"
+                                placeholder="Filter by status">
+                            </p-dropdown>
+                            @if (statusFilter !== 'All') {
+                                <p-button
+                                    icon="pi pi-times"
+                                    styleClass="p-button-text p-button-danger clear-filter-btn"
+                                    (click)="statusFilter = 'All'; applyFilters()"
+                                    tooltip="Clear status filter">
+                                </p-button>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-4">
+                    <div class="field">
+                        <label>Date Range</label>
+                        <div class="filter-control">
+                            <p-calendar
+                                [(ngModel)]="dateRange"
+                                selectionMode="range"
+                                [readonlyInput]="true"
+                                (onSelect)="applyFilters()"
+                                placeholder="Select date range">
+                            </p-calendar>
+                            @if (dateRange) {
+                                <p-button
+                                    icon="pi pi-times"
+                                    styleClass="p-button-text p-button-danger clear-filter-btn"
+                                    (click)="clearDateRange()"
+                                    tooltip="Clear date filter">
+                                </p-button>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-4">
+                    <div class="field">
+                        <label>Search</label>
+                        <div class="filter-control">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    type="text"
+                    pInputText
+                    [(ngModel)]="searchText"
+                    (input)="applyFilters()"
+                    placeholder="Search orders...">
+              </span>
+                            @if (searchText) {
+                                <p-button
+                                    icon="pi pi-times"
+                                    styleClass="p-button-text p-button-danger clear-filter-btn"
+                                    (click)="clearSearch()"
+                                    tooltip="Clear search">
+                                </p-button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (hasActiveFilters()) {
+                <div class="active-filters">
+                    <h4>Active Filters:</h4>
+                    <div class="filter-tags">
+                        @if (statusFilter !== 'All') {
+                            <p-tag
+                                [value]="'Status: ' + statusFilter"
+                                severity="info"
+                                [style]="{'margin-right': '0.5rem'}"
+                                (onClose)="statusFilter = 'All'; applyFilters()">
+                            </p-tag>
+                        }
+                        @if (dateRange && dateRange[0] && dateRange[1]) {
+                            <p-tag
+                                [value]="'Date: ' + (dateRange[0] | date:'shortDate') + ' - ' + (dateRange[1] | date:'shortDate')"
+                                severity="info"
+                                [style]="{'margin-right': '0.5rem'}"
+                                (onClose)="clearDateRange()">
+                            </p-tag>
+                        }
+                        @if (searchText) {
+                            <p-tag
+                                [value]="'Search: ' + searchText"
+                                severity="info"
+                                [style]="{'margin-right': '0.5rem'}"
+                                (onClose)="clearSearch()">
+                            </p-tag>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="orders-list">
+        @if (filteredOrders.length > 0) {
+            @for (order of filteredOrders; track order.id) {
+                <p-card class="order-card"></p-card>
+            }
+        } @else {
+            <div class="empty-state">
+                <p-card>
+                    <div class="empty-content">
+                        <i class="pi pi-inbox text-6xl text-gray-400"></i>
+                        <h2>No orders found</h2>
+                        <p>No orders match your current filters.</p>
+                        <p-button
+                            label="Clear Filters"
+                            icon="pi pi-refresh"
+                            (click)="clearFilters()"
+                            styleClass="p-button-outlined">
+                        </p-button>
+                    </div>
+                </p-card>
+            </div>
+        }
+    </div>
+</div>

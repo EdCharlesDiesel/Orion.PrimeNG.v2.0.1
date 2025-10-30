@@ -1,0 +1,277 @@
+
+<div class="todays-special-container">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <p-megamenu [model]="megaMenuItems"></p-megamenu>
+    <br>
+<!--    <div class="category-section">-->
+<!--        <div class="category-filter">-->
+<!--            <h3>Browse Categories</h3>-->
+<!--            <div class="category-tags">-->
+<!--                @for (category of categories(); track category) {-->
+<!--                    <p-button-->
+<!--                        [label]="category"-->
+<!--                        [outlined]="selectedCategory() !== category"-->
+<!--                        [severity]="selectedCategory() === category ? 'primary' : 'secondary'"-->
+<!--                        (click)="selectCategory(category)"-->
+<!--                        styleClass="category-tag">-->
+<!--                    </p-button>-->
+<!--                }-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="products-section">
+
+        @if (filteredProducts().length > 0) {
+            <div class="products-grid">
+                @for (product of filteredProducts(); track product.productID; let i = $index) {
+                    <p-card class="product-card">
+                        <div class="product-badges">
+                            @if (product.isNew) {
+                                <p-tag value="NEW" severity="success" styleClass="mr-1"></p-tag>
+                            }
+                            <p-tag
+                                [value]="product.discountPercentage + '% OFF'"
+                                [severity]="getDiscountColor(product?.discountPercentage)">
+                            </p-tag>
+                        </div>
+
+                        <div class="product-image" (click)="openGallery(product, i)">
+                            <img [src]="product.imageUrl" [alt]="product.name">
+                            <div class="image-overlay">
+                                <p-button
+                                    icon="pi pi-eye"
+                                    styleClass="p-button-rounded p-button-outlined">
+                                </p-button>
+                            </div>
+                        </div>
+
+                        <div class="product-details">
+                            <h4 class="product-name">{{ product.name }}</h4>
+
+                            <div class="product-rating">
+                                <p-rating
+                                    [ngModel]="product.rating"
+                                    [readonly]="true"
+                                    class="mr-2">
+                                </p-rating>
+                                <small>({{ product.rating?.rate }})</small>
+                            </div>
+
+                            <p class="product-description">{{ product.description | slice:0:100 }}...</p>
+
+                            <div class="price-section">
+                                <span class="original-price">${{ product.originalPrice }}</span>
+                                <span class="discount-price">${{ product.discountPrice }}</span>
+                            </div>
+
+                            <div class="time-section">
+<!--                                <i class="pi pi-clock" [class.text-danger]="isAlmostExpired(product.availableUntil?.getDate())"></i>-->
+<!--                                <span [class.text-danger]="isAlmostExpired(product.availableUntil?.toDateString())">-->
+<!--                                    {{ product.availableUntil?.getDate() }}-->
+<!--                                </span>-->
+                            </div>
+
+                            <div class="stock-section">
+                                @let stockStatus = getStockStatus(product.quantityInStock);
+                                <p-tag
+                                    [value]="stockStatus.label"
+                                    [severity]="stockStatus.severity"
+                                    icon="pi pi-box">
+                                </p-tag>
+                            </div>
+
+                            <div class="product-tags">
+                                @for (tag of product.tags; track tag) {
+                                    <p-tag
+                                        [value]="tag"
+                                        severity="info"
+                                        styleClass="mr-1 mb-1">
+                                    </p-tag>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="action-buttons">
+                            <p-button
+                                label="Add to Cart"
+                                icon="pi pi-shopping-cart"
+                                styleClass="p-button-success w-full"
+                                [disabled]="product.quantityInStock === 0"
+                                (click)="addToCart(product)">
+                            </p-button>
+                            <div class="secondary-actions">
+                                <p-button
+                                    icon="pi pi-heart"
+                                    styleClass="p-button-outlined p-button-danger"
+                                    (click)="addToWishlist(product)">
+                                </p-button>
+                                <p-button
+                                    icon="pi pi-eye"
+                                    styleClass="p-button-outlined p-button-info ml-1"
+                                    (click)="viewProductDetails(product)">
+                                </p-button>
+                            </div>
+                        </div>
+                    </p-card>
+                }
+            </div>
+        } @else {
+            <div class="empty-state">
+                <p-card>
+                    <div class="empty-content">
+                        <i class="pi pi-search text-6xl text-gray-400"></i>
+                        <h3>No special offers found</h3>
+                        <p>Try selecting a different category</p>
+                        <p-button
+                            label="Show All"
+                            icon="pi pi-refresh"
+                            (click)="selectCategory('All')"
+                            styleClass="p-button-outlined">
+                        </p-button>
+                    </div>
+                </p-card>
+            </div>
+        }
+    </div>
+
+    @if (selectedProduct() && displayProductDialog()) {
+        <p-dialog
+
+            [style]="{width: '800px'}"
+            [header]="selectedProduct()!.name"
+            [modal]="true"
+            styleClass="product-details-dialog">
+
+            <div class="product-details-content">
+                <div class="details-image">
+                    <img [src]="selectedProduct()!.imageUrl" [alt]="selectedProduct()!.name">
+                </div>
+
+                <div class="details-info">
+                    <div class="details-header">
+                        <h2>{{ selectedProduct()!.name }}</h2>
+                        <div class="product-badges">
+                            @if (selectedProduct()!.isNew) {
+                                <p-tag value="NEW" severity="success" styleClass="mr-1"></p-tag>
+                            }
+                            <p-tag
+                                [value]="selectedProduct()!.discountPercentage + '% OFF'"
+                                [severity]="getDiscountColor(selectedProduct()?.discountPercentage)">
+                            </p-tag>
+                        </div>
+                    </div>
+
+                    <div class="product-rating">
+                        <p-rating
+                            [ngModel]="selectedProduct()!.rating"
+                            [readonly]="true"
+                        >
+                        </p-rating>
+                        <span class="rating-text ml-2">
+                            {{ selectedProduct()!.rating }} ({{ selectedProduct()!.rating?.count }} reviews)
+                        </span>
+                    </div>
+
+                    <p class="product-description">{{ selectedProduct()!.description }}</p>
+
+                    <div class="price-section">
+                        <span class="original-price">${{ selectedProduct()!.originalPrice }}</span>
+                        <span class="discount-price">${{ selectedProduct()!.discountPrice }}</span>
+<!--                        <span class="savings">You save ${{ (selectedProduct()!.discountPrice) - (selectedProduct()?.originalPrice) | number:'1.2-2' }}</span>-->
+                    </div>
+
+                    <div class="details-meta">
+                        <div class="meta-item">
+                            <strong>Category:</strong> {{ selectedProduct()!.category }}
+                        </div>
+                        <div class="meta-item">
+                            <strong>Available Until:</strong> {{ selectedProduct()!.availableUntil | date:'fullDate' }}
+                        </div>
+                        <div class="meta-item">
+                            @let stockStatus = getStockStatus(selectedProduct()!.quantityInStock);
+                            <strong>Stock:</strong>
+                            <p-tag
+                                [value]="stockStatus.label"
+                                [severity]="stockStatus.severity"
+                                styleClass="ml-1">
+                            </p-tag>
+                            ({{ selectedProduct()!.quantityInStock }} items left)
+                        </div>
+                    </div>
+
+                    <div class="time-remaining">
+                        <i class="pi pi-clock text-danger"></i>
+                        <strong class="text-danger">
+                            {{ selectedProduct()!.availableUntil?.toString() }}
+                        </strong>
+                    </div>
+
+                    <div class="product-tags">
+                        <strong>Tags:</strong>
+                        @for (tag of selectedProduct()!.tags; track tag) {
+                            <p-tag [value]="tag" severity="info" styleClass="ml-1"></p-tag>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <p-button
+                    label="Close"
+                    icon="pi pi-times"
+                    (click)="displayProductDialog.set(false)"
+                    styleClass="p-button-text">
+                </p-button>
+                <p-button
+                    label="Add to Wishlist"
+                    icon="pi pi-heart"
+                    styleClass="p-button-outlined p-button-danger"
+                    (click)="addToWishlist(selectedProduct()!)">
+                </p-button>
+                <p-button
+                    label="Add to Cart"
+                    icon="pi pi-shopping-cart"
+                    styleClass="p-button-success"
+                    [disabled]="selectedProduct()!.quantityInStock === 0"
+                    (click)="addToCart(selectedProduct()!)">
+                </p-button>
+            </ng-template>
+        </p-dialog>
+    }
+
+    <!-- Image Gallery -->
+    @if (selectedProduct() && displayGallery()) {
+        <p-dialog
+
+            [style]="{width: '90vw', height: '90vh'}"
+            [header]="selectedProduct()!.name"
+            [modal]="true"
+            [dismissableMask]="true"
+            styleClass="gallery-dialog">
+
+            <p-galleria
+                [value]="getGalleryImages(selectedProduct()!)"
+                [activeIndex]="activeIndex()"
+                [numVisible]="5"
+                [circular]="true"
+                [fullScreen]="true"
+                [showItemNavigators]="true"
+                [showThumbnails]="false">
+
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item.itemImageSrc" [alt]="item.alt" style="width: 100%; max-height: 70vh; object-fit: contain;"/>
+                </ng-template>
+
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item.thumbnailImageSrc" [alt]="item.alt" style="width: 60px; height: 60px; object-fit: cover;"/>
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </p-dialog>
+    }
+</div>

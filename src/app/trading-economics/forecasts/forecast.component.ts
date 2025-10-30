@@ -1,110 +1,333 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Card } from 'primeng/card';
-import { DatePipe } from '@angular/common';
-import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng/dropdown';
+// import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
-import { EconomicIndicator } from '../../core/models/economic-indicator.model';
+import { DatePipe, NgIf } from '@angular/common';
+import { UIChart } from 'primeng/chart';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
+interface ForecastData {
+    indicator: string;
+    period: string;
+    forecast: string;
+    q1?: string;
+    q2?: string;
+    q3?: string;
+    q4?: string;
+    confidence: number;
+}
+
+interface ChartDataset {
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+    fill: boolean;
+    tension: number;
+}
 
 @Component({
-    selector: 'app-forecast',
+    selector: 'app-trading-economics-forecast',
     templateUrl: './forecast.component.html',
-    imports: [Card, DatePipe, TableModule, DropdownModule, FormsModule, Tag],
+    imports: [Card, FormsModule, TableModule, Tag, DatePipe, UIChart, ProgressSpinner],
     styleUrls: ['./forecast.component.scss']
 })
 export class ForecastComponent implements OnInit {
-    data: EconomicIndicator[] = [];
-    loading: boolean = true;
-    countries: any[] = [];
-    selectedCountry: any = null;
+    // API Configuration
+    private readonly API_KEY = 'guest'; // Replace with your Trading Economics API key
+    private readonly BASE_URL = 'https://api.tradingeconomics.com';
 
-    // Mock data simulating Trading Economics API
-    private mockData: { [key: string]: EconomicIndicator[] } = {
-        'United States': [
-            { indicator: 'GDP Growth Rate', value: '2.8%', previous: '3.0%', date: '2024-Q3', change: -0.2 },
-            { indicator: 'Unemployment Rate', value: '3.8%', previous: '3.9%', date: 'Sep 2024', change: -0.1 },
-            { indicator: 'Inflation Rate', value: '3.2%', previous: '3.7%', date: 'Sep 2024', change: -0.5 },
-            { indicator: 'Interest Rate', value: '5.50%', previous: '5.50%', date: 'Sep 2024', change: 0 },
-            { indicator: 'Consumer Confidence', value: '102.6', previous: '105.6', date: 'Sep 2024', change: -3.0 },
-            { indicator: 'Trade Balance', value: '-$64.3B', previous: '-$70.4B', date: 'Aug 2024', change: 6.1 },
-            { indicator: 'Retail Sales', value: '0.7%', previous: '0.1%', date: 'Sep 2024', change: 0.6 }
-        ],
-        'United Kingdom': [
-            { indicator: 'GDP Growth Rate', value: '0.2%', previous: '0.5%', date: '2024-Q3', change: -0.3 },
-            { indicator: 'Unemployment Rate', value: '4.3%', previous: '4.2%', date: 'Aug 2024', change: 0.1 },
-            { indicator: 'Inflation Rate', value: '2.2%', previous: '2.0%', date: 'Sep 2024', change: 0.2 },
-            { indicator: 'Interest Rate', value: '5.25%', previous: '5.25%', date: 'Sep 2024', change: 0 },
-            { indicator: 'Consumer Confidence', value: '-21', previous: '-25', date: 'Sep 2024', change: 4 }
-        ],
-        Germany: [
-            { indicator: 'GDP Growth Rate', value: '-0.1%', previous: '0.0%', date: '2024-Q3', change: -0.1 },
-            { indicator: 'Unemployment Rate', value: '5.8%', previous: '5.7%', date: 'Sep 2024', change: 0.1 },
-            { indicator: 'Inflation Rate', value: '2.4%', previous: '2.6%', date: 'Sep 2024', change: -0.2 },
-            { indicator: 'Interest Rate', value: '4.50%', previous: '4.50%', date: 'Sep 2024', change: 0 },
-            { indicator: 'Consumer Confidence', value: '-21.2', previous: '-22.0', date: 'Sep 2024', change: 0.8 }
-        ],
-        Japan: [
-            { indicator: 'GDP Growth Rate', value: '0.7%', previous: '0.8%', date: '2024-Q3', change: -0.1 },
-            { indicator: 'Unemployment Rate', value: '2.5%', previous: '2.5%', date: 'Aug 2024', change: 0 },
-            { indicator: 'Inflation Rate', value: '2.8%', previous: '3.0%', date: 'Sep 2024', change: -0.2 },
-            { indicator: 'Interest Rate', value: '0.25%', previous: '0.10%', date: 'Sep 2024', change: 0.15 },
-            { indicator: 'Consumer Confidence', value: '36.9', previous: '36.7', date: 'Sep 2024', change: 0.2 }
-        ]
+    // Data properties
+    forecastData: ForecastData[] = [];
+    loading = false;
+    today = new Date();
+
+    // Dropdown options
+    countries = [
+        { label: 'United States', value: 'united states' },
+        { label: 'United Kingdom', value: 'united kingdom' },
+        { label: 'Germany', value: 'germany' },
+        { label: 'France', value: 'france' },
+        { label: 'Japan', value: 'japan' },
+        { label: 'China', value: 'china' },
+        { label: 'India', value: 'india' },
+        { label: 'Brazil', value: 'brazil' },
+        { label: 'Canada', value: 'canada' },
+        { label: 'Australia', value: 'australia' }
+    ];
+
+    indicators = [
+        { label: 'GDP Growth Rate', value: 'GDP' },
+        { label: 'Inflation Rate', value: 'Inflation Rate' },
+        { label: 'Interest Rate', value: 'Interest Rate' },
+        { label: 'Unemployment Rate', value: 'Unemployment Rate' },
+        { label: 'Government Debt to GDP', value: 'Government Debt to GDP' },
+        { label: 'Current Account', value: 'Current Account' },
+        { label: 'Consumer Spending', value: 'Consumer Spending' },
+        { label: 'Manufacturing PMI', value: 'Manufacturing PMI' }
+    ];
+
+    selectedCountry = 'united states';
+    selectedIndicator = 'GDP';
+
+    // Summary metrics
+    expectedGrowth = '2.5';
+    forecastHorizon = '2025-2026';
+    avgConfidence = '85';
+
+    // Chart data
+    chartData: any = {
+        labels: [],
+        datasets: []
     };
-    today= new Date().getUTCDate();
+
+    chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            },
+            title: {
+                display: true,
+                text: 'Economic Forecast Trend'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Period'
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Value'
+                }
+            }
+        }
+    };
 
     constructor(private http: HttpClient) {}
 
-    ngOnInit() {
-        this.countries = Object.keys(this.mockData).map((country) => ({
-            label: country,
-            value: country
-        }));
-        this.selectedCountry = this.countries[0].value;
-        this.loadData();
+    ngOnInit(): void {
+        this.loadForecastData();
     }
 
-    loadData() {
+    onCountryChange(event: any): void {
+        this.loadForecastData();
+    }
+
+    onIndicatorChange(event: any): void {
+        this.loadForecastData();
+    }
+
+    loadForecastData(): void {
         this.loading = true;
 
-        // Simulate API call delay
-        setTimeout(() => {
-            this.data = this.mockData[this.selectedCountry];
+        // Real API call (uncomment when you have an API key)
+        /*
+        const url = `${this.BASE_URL}/forecast/country/${this.selectedCountry}/indicator/${this.selectedIndicator}`;
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${this.API_KEY}`
+        });
+
+        this.http.get<any[]>(url, { headers }).subscribe({
+          next: (response) => {
+            this.processForecastData(response);
             this.loading = false;
-        }, 500);
+          },
+          error: (error) => {
+            console.error('Error fetching forecast data:', error);
+            this.loadMockData();
+            this.loading = false;
+          }
+        });
+        */
 
-        // To use real Trading Economics API:
-        // const apiKey = 'YOUR_API_KEY';
-        // const url = `https://api.tradingeconomics.com/country/${this.selectedCountry}?c=${apiKey}`;
-        // this.http.get<any[]>(url).subscribe(
-        //   response => {
-        //     this.data = this.transformApiData(response);
-        //     this.loading = false;
-        //   },
-        //   error => {
-        //     console.error('Error fetching data:', error);
-        //     this.loading = false;
-        //   }
-        // );
+        // Mock data (remove when using real API)
+        setTimeout(() => {
+            this.loadMockData();
+            this.loading = false;
+        }, 1000);
     }
 
-    onCountryChange(event: any) {
-        this.selectedCountry = event.value;
-        this.loadData();
+    processForecastData(apiResponse: any[]): void {
+        this.forecastData = apiResponse.map((item) => ({
+            indicator: item.Category || this.selectedIndicator,
+            period: item.Period || item.Quarter || item.Year,
+            forecast: item.Value?.toFixed(2) || 'N/A',
+            q1: item.Q1?.toFixed(2),
+            q2: item.Q2?.toFixed(2),
+            q3: item.Q3?.toFixed(2),
+            q4: item.Q4?.toFixed(2),
+            confidence: item.Confidence || Math.floor(Math.random() * 20) + 75
+        }));
+
+        this.updateChartData(apiResponse);
+        this.calculateSummaryMetrics();
     }
 
-    getChangeClass(change: number): string {
-        if (change > 0) return 'change-positive';
-        if (change < 0) return 'change-negative';
-        return 'change-neutral';
+    loadMockData(): void {
+        const currentYear = new Date().getFullYear();
+
+        this.forecastData = [
+            {
+                indicator: this.selectedIndicator,
+                period: `Q1 ${currentYear}`,
+                forecast: '2.3',
+                q1: '2.3',
+                q2: '2.5',
+                q3: '2.7',
+                q4: '2.8',
+                confidence: 88
+            },
+            {
+                indicator: this.selectedIndicator,
+                period: `Q2 ${currentYear}`,
+                forecast: '2.5',
+                q1: '2.4',
+                q2: '2.5',
+                q3: '2.6',
+                q4: '2.7',
+                confidence: 85
+            },
+            {
+                indicator: this.selectedIndicator,
+                period: `Q3 ${currentYear}`,
+                forecast: '2.7',
+                q1: '2.5',
+                q2: '2.7',
+                q3: '2.8',
+                q4: '2.9',
+                confidence: 82
+            },
+            {
+                indicator: this.selectedIndicator,
+                period: `Q4 ${currentYear}`,
+                forecast: '2.8',
+                q1: '2.6',
+                q2: '2.8',
+                q3: '2.9',
+                q4: '3.0',
+                confidence: 80
+            },
+            {
+                indicator: this.selectedIndicator,
+                period: `Q1 ${currentYear + 1}`,
+                forecast: '2.9',
+                q1: '2.7',
+                q2: '2.9',
+                q3: '3.0',
+                q4: '3.1',
+                confidence: 75
+            },
+            {
+                indicator: this.selectedIndicator,
+                period: `Q2 ${currentYear + 1}`,
+                forecast: '3.0',
+                q1: '2.8',
+                q2: '3.0',
+                q3: '3.1',
+                q4: '3.2',
+                confidence: 73
+            }
+        ];
+
+        this.updateMockChartData();
+        this.calculateSummaryMetrics();
     }
 
-    getChangeIcon(change: number): string {
-        if (change > 0) return 'pi pi-arrow-up';
-        if (change < 0) return 'pi pi-arrow-down';
-        return 'pi pi-minus';
+    updateChartData(data: any[]): void {
+        const labels = data.map((item) => item.Period || item.Quarter || item.Year);
+        const forecastValues = data.map((item) => parseFloat(item.Value) || 0);
+
+        this.chartData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: `${this.selectedIndicator} Forecast`,
+                    data: forecastValues,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        };
+    }
+
+    updateMockChartData(): void {
+        const labels = this.forecastData.map((item) => item.period);
+        const forecastValues = this.forecastData.map((item) => parseFloat(item.forecast));
+        const q1Values = this.forecastData.map((item) => parseFloat(item.q1 || '0'));
+        const q4Values = this.forecastData.map((item) => parseFloat(item.q4 || '0'));
+
+        this.chartData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Base Forecast',
+                    data: forecastValues,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Optimistic (Q4)',
+                    data: q4Values,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                },
+                {
+                    label: 'Pessimistic (Q1)',
+                    data: q1Values,
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                }
+            ]
+        };
+    }
+
+    calculateSummaryMetrics(): void {
+        if (this.forecastData.length === 0) return;
+
+        // Calculate expected growth
+        const firstValue = parseFloat(this.forecastData[0].forecast);
+        const lastValue = parseFloat(this.forecastData[this.forecastData.length - 1].forecast);
+        this.expectedGrowth = (((lastValue - firstValue) / firstValue) * 100).toFixed(1);
+
+        // Calculate forecast horizon
+        const firstPeriod = this.forecastData[0].period;
+        const lastPeriod = this.forecastData[this.forecastData.length - 1].period;
+        this.forecastHorizon = `${firstPeriod} - ${lastPeriod}`;
+
+        // Calculate average confidence
+        const totalConfidence = this.forecastData.reduce((sum, item) => sum + item.confidence, 0);
+        this.avgConfidence = (totalConfidence / this.forecastData.length).toFixed(0);
+    }
+
+    getConfidenceClass(confidence: number): string {
+        if (confidence >= 85) return 'confidence-high';
+        if (confidence >= 70) return 'confidence-medium';
+        return 'confidence-low';
     }
 }

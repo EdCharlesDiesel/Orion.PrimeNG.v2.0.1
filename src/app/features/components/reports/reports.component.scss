@@ -1,0 +1,159 @@
+.reports-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+
+    h1 {
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    ::ng-deep {
+        // Card styling
+        .p-card {
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+            .p-card-header {
+                font-weight: 600;
+                font-size: 1.25rem;
+                color: #1e293b;
+            }
+
+            .p-card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        // Table styling
+        .p-datatable {
+            .p-datatable-thead > tr > th {
+                background-color: #f1f5f9;
+                color: #475569;
+                font-weight: 600;
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            .p-datatable-tbody > tr {
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: #f8fafc;
+                }
+
+                > td {
+                    padding: 1rem;
+                    border-bottom: 1px solid #e2e8f0;
+                }
+            }
+        }
+
+        // Button styling
+        .p-button {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: translateY(-1px);
+            }
+        }
+
+        // Input styling
+        .p-inputtext {
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+
+            &:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
+        }
+
+        // Select styling
+        .p-select {
+            border-radius: 8px;
+
+            .p-select-label {
+                padding: 0.75rem;
+            }
+        }
+
+        // DatePicker styling
+        .p-datepicker {
+            border-radius: 8px;
+
+            input {
+                border-radius: 8px;
+            }
+        }
+
+        // Tag styling
+        .p-tag {
+            border-radius: 6px;
+            padding: 0.25rem 0.75rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        // Tabs styling
+        .p-tabs {
+            .p-tablist {
+                background: transparent;
+                border-bottom: 2px solid #e2e8f0;
+
+                .p-tab {
+                    padding: 1rem 1.5rem;
+                    font-weight: 500;
+                    color: #64748b;
+                    border: none;
+                    border-bottom: 2px solid transparent;
+                    margin-bottom: -2px;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        color: #3b82f6;
+                        background: transparent;
+                    }
+
+                    &.p-tab-active {
+                        color: #3b82f6;
+                        border-bottom-color: #3b82f6;
+                        background: transparent;
+                    }
+                }
+            }
+
+            .p-tabpanels {
+                padding: 1.5rem 0;
+                background: transparent;
+            }
+        }
+
+        // Chart styling
+        .p-chart {
+            canvas {
+                max-height: 400px;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .reports-container {
+        padding: 1rem;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        .flex {
+            flex-direction: column;
+            align-items: stretch;
+
+            .p-button {
+                width: 100%;
+            }
+        }
+    }
+}

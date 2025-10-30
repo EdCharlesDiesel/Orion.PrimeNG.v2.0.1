@@ -1,18 +1,18 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { Component, computed, OnInit, signal } from '@angular/core';
+import { MessageService, MenuItem } from 'primeng/api';
 import { Mail } from '../../../core/models/mail.model';
 import { MailService } from '../../../service/mail.service';
 import { Toast } from 'primeng/toast';
 import { Toolbar } from 'primeng/toolbar';
 import { Button } from 'primeng/button';
-import { TabMenu } from 'primeng/tabmenu';
 import { TableModule } from 'primeng/table';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
+import { TabMenu } from 'primeng/tabmenu';
 
 @Component({
     selector: 'app-mail-inbox',
     standalone: true,
-    imports: [Toast, Toolbar, Button, TabMenu, TableModule, NgClass, DatePipe, NgIf],
+    imports: [Toast, Toolbar, Button, TableModule, NgClass, DatePipe, TabMenu],
     providers: [MessageService],
     templateUrl: './mail-inbox.component.html',
     styleUrls: ['./mail-inbox.component.scss']
@@ -20,9 +20,8 @@ import { DatePipe, NgClass, NgIf } from '@angular/common';
 export class MailInboxComponent implements OnInit {
     mails: Mail[] = [];
     selectedMail: Mail | null = null;
-    folders = ['Inbox', 'Sent', 'Trash'];
+    folders = signal(['Inbox', 'Sent', 'Trash']);
     activeFolder = signal('Inbox');
-    f: any;
 
     constructor(
         private mailService: MailService,
@@ -60,4 +59,19 @@ export class MailInboxComponent implements OnInit {
     getUnreadCount(): number {
         return this.mails.filter((m) => !m.read).length;
     }
+
+    menuItems = computed(() => {
+        return this.folders().map(
+            (f) =>
+                ({
+                    label: f,
+                    command: () => this.switchFolder(f),
+                    data: f
+                }) as MenuItem
+        );
+    });
+
+    activeMenuItem = computed(() => {
+        return this.menuItems().find((item) => item['data'] === this.activeFolder());
+    });
 }

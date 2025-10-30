@@ -6,22 +6,91 @@ import { AppMenuitem } from './app.menuitem';
 import { selectCartItemCount } from '../../store/cart/cart.selectors';
 import { Store } from '@ngrx/store';
 import { CartService } from '../../service/cart.service';
-import { AuthService } from '../../core/authentication/services/auth.service';
 import { Observable } from 'rxjs';
+import { PanelMenu } from 'primeng/panelmenu';
+import { TieredMenu } from 'primeng/tieredmenu';
+import { Divider } from 'primeng/divider';
 
 @Component({
     selector: 'app-menu',
     standalone: true,
-    imports: [CommonModule, AppMenuitem, RouterModule],
-    template: `<ul class="layout-menu">
-        <ng-container *ngFor="let item of model; let i = index">
-            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
-            <li *ngIf="item.separator" class="menu-separator"></li>
-        </ng-container>
-    </ul> `
+    imports: [CommonModule, AppMenuitem, RouterModule, PanelMenu, Divider],
+    template: `
+        <ul class="layout-menu">
+            <ng-container *ngFor="let item of model; let i = index">
+                <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+                <li *ngIf="item.separator" class="menu-separator"></li>
+            </ng-container>
+            <p-divider></p-divider>
+            <p-panelmenu [model]="panelMenuItems"></p-panelmenu>
+        </ul> `
 })
 export class AppMenu {
     model: MenuItem[] = [];
+    panelMenuItems = [
+        {
+            label: 'Products',
+            icon: 'pi pi-fw pi-table',
+            items: [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-list',
+                    routerLink: ['./production/admin-product']
+                },
+                {
+                    label: 'New',
+                    icon: 'pi pi-fw pi-user-plus',
+                    routerLink: ['./production/admin-product-new']
+                }
+            ]
+        },
+        {
+            label: 'Orders',
+            icon: 'pi pi-fw pi-shopping-cart',
+            items: [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-list'
+                },
+                {
+                    label: 'Search',
+                    icon: 'pi pi-fw pi-search'
+                }
+            ]
+        },
+        {
+            label: 'Shipments',
+            icon: 'pi pi-fw pi-envelope',
+            items: [
+                {
+                    label: 'Tracker',
+                    icon: 'pi pi-fw pi-compass'
+                },
+                {
+                    label: 'Map',
+                    icon: 'pi pi-fw pi-map-marker'
+                },
+                {
+                    label: 'Manage',
+                    icon: 'pi pi-fw pi-pencil'
+                }
+            ]
+        },
+        {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Settings',
+                    icon: 'pi pi-fw pi-cog'
+                },
+                {
+                    label: 'Billing',
+                    icon: 'pi pi-fw pi-file'
+                }
+            ]
+        }
+    ];
 
     ngOnInit() {
         this.model = [
@@ -53,6 +122,11 @@ export class AppMenu {
                         label: 'Shopping Cart',
                         icon: 'pi pi-fw pi-cart-arrow-down',
                         routerLink: ['./shopping-cart']
+                    },
+                    {
+                        label: 'Orders',
+                        icon: 'pi pi-fw pi-cart-plus',
+                        routerLink: ['./orders']
                     },
                     {
                         label: 'Check-out',
@@ -125,7 +199,8 @@ export class AppMenu {
                                 label: 'Business-Entity-Address',
                                 icon: 'pi pi-fw pi-bookmark',
                                 routerLink: ['/person/business-entity-address']
-                            },         {
+                            },
+                            {
                                 label: 'Business-Entity-Contact',
                                 icon: 'pi pi-fw pi-bookmark',
                                 routerLink: ['/person/business-entity-contact']
@@ -185,6 +260,11 @@ export class AppMenu {
                                 label: 'Currencies',
                                 icon: 'pi pi-fw pi-bookmark',
                                 routerLink: ['/sales/currency']
+                            },
+                            {
+                                label: 'Products',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['production/admin-product']
                             }
                         ]
                     },
@@ -234,7 +314,7 @@ export class AppMenu {
                                 routerLink: ['/sales/currency-rate']
                             }
                         ]
-                    },
+                    }
                 ]
             },
             {
@@ -264,7 +344,7 @@ export class AppMenu {
                         label: 'Tasks',
                         icon: 'pi pi-fw pi-list-check',
                         routerLink: ['/pages/task-list']
-                    }                    ,
+                    },
                     {
                         label: 'Reports',
                         icon: 'pi pi-fw pi-verified',
@@ -295,11 +375,12 @@ export class AppMenu {
                         label: 'News',
                         icon: 'pi pi-fw pi-history',
                         routerLink: ['news']
-                    },     {
+                    },
+                    {
                         label: 'GDP Per Country',
                         icon: 'pi pi-fw pi-map-marker',
                         routerLink: ['gdp-per-country']
-                    },
+                    }
                 ]
             },
             {

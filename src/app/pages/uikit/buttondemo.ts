@@ -15,7 +15,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
                 <div class="flex flex-wrap gap-2">
                     <p-button label="Submit"></p-button>
                     <p-button label="Disabled" [disabled]="true"></p-button>
-                    <p-button label="Link" class="p-button-link" />
+                    <p-button label="Link" class="p-button-link"  />
                 </div>
             </div>
             <div class="card flex flex-col gap-4">

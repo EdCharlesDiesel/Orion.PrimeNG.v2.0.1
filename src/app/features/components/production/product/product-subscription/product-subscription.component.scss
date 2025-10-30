@@ -1,0 +1,52 @@
+:host {
+    display: block;
+}
+
+// Custom table styles
+::ng-deep .p-datatable {
+    .p-datatable-thead > tr > th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .p-datatable-tbody > tr {
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: #f8f9fa;
+        }
+    }
+}
+
+// Image styling
+::ng-deep .p-image-preview {
+    cursor: pointer;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    ::ng-deep .p-datatable {
+        .p-datatable-thead {
+            display: none;
+        }
+
+        .p-datatable-tbody > tr > td {
+            display: block;
+            text-align: right;
+            border: none;
+            position: relative;
+            padding-left: 50%;
+
+            &::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0.5rem;
+                width: 45%;
+                padding-right: 0.5rem;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+    }
+}

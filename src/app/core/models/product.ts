@@ -14,6 +14,7 @@ import { ProductVendor } from "./product-vendor.model";
 import { PurchaseOrderDetail } from "./purchase-order-detail.model";
 import { ShoppingCartItem } from "./shopping-cart-item.model"
 import { ProductCostHistory } from "./product-cost-history.model"
+import { Rating } from './rating.model';
 
 export class Product {
     productID!: number ;
@@ -43,18 +44,19 @@ export class Product {
     sellStartDate: Date | undefined;
     sellEndDate?: Date | undefined;
     discontinuedDate?: Date | undefined;
-    rowguid: string | undefined;
-    image: string | undefined;
+    imageUrl: string = '';
+    tags: string[] | undefined;
     code: number | undefined;
     modifiedDate: Date | undefined;
-    quantityInStock?: number; // Add this field
-    rating: {
-              rate: number;
-              count: number;
-          }| undefined;
+    quantityInStock: number = 5;
+    rating: Rating | undefined;
+    originalPrice: number | undefined;
+    discountPercentage: number | undefined;
+    availableUntil: Date | undefined;
+    isNew: boolean | undefined;
     unitMeasure?: UnitMeasure | undefined;
     unitMeasure1?: UnitMeasure | undefined;
-    productSubcategory?: ProductSubcategory | undefined;
+    productSubcategory?: ProductSubcategory | null;
     productModel?: ProductModel | undefined;
     billOfMaterials?: BillOfMaterials[] | undefined;
     billOfMaterials1?: BillOfMaterials[] | undefined;
@@ -71,7 +73,8 @@ export class Product {
     shoppingCartItems?: ShoppingCartItem[] | undefined;
     specialOfferProducts?: SpecialOfferProduct[] | undefined;
     inventoryStatus: any;
-
+    discountPrice: number | undefined;
+    isFeatured: boolean = false;
 }
 
 export interface IProduct {

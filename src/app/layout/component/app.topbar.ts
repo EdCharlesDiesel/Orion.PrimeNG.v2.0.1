@@ -77,7 +77,7 @@ import { Tooltip } from 'primeng/tooltip';
                         <i class="pi pi-calendar"></i>
                         <span>Calendar</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
+                    <button type="button" class="layout-topbar-action" (click)="getNotification()" pTooltip="notifications">
                         <i class="pi pi-inbox"></i>
                         <span>Messages</span>
                     </button>
@@ -104,6 +104,10 @@ class AppTopbar {
 
     public getUserProfile() {
         this.router.navigate(['admin/profile']);
+    }
+
+    public getNotification() {
+        this.router.navigate(['pages/notifications']);
     }
 }
 

@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 import { Product } from '../core/models/product';
+import { environment } from '../../environments/environment';
 
 
 
@@ -10,15 +11,12 @@ import { Product } from '../core/models/product';
 })
 export class ProductService {
   private readonly http = inject(HttpClient);
-  private API_URL = 'api/products';
+  private API_URL = environment.productionBaseURL;
 
-  // Signal to store products
+
   products = signal<Product[]>([]);
-    categories$: any;
+  categories$: any;
 
-  /**
-   * Fetch all products from the API
-   */
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.API_URL).pipe(
       tap(products => {
@@ -32,9 +30,6 @@ export class ProductService {
     );
   }
 
-  /**
-   * Fetch a single product by ID
-   */
   public getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`).pipe(
       catchError(error => {
@@ -44,9 +39,6 @@ export class ProductService {
     );
   }
 
-  /**
-   * Fetch products by category
-   */
   public getProductsByCategory(category: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.API_URL}/category/${category}`).pipe(
       catchError(error => {
@@ -56,11 +48,9 @@ export class ProductService {
     );
   }
 
-  /**
-   * Get all categories
-   */
+
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>('https://fakestoreapi.com/products/categories').pipe(
+    return this.http.get<string[]>(this.API_URL).pipe(
       catchError(error => {
         console.error('Error fetching categories:', error);
         return of([]);
@@ -68,23 +58,14 @@ export class ProductService {
     );
   }
 
-  /**
-   * Add a new product (this will simulate adding on the API)
-   */
   addProduct(product: Partial<Product>): Observable<Product> {
     return this.http.post<Product>(this.API_URL, product);
   }
 
-  /**
-   * Update a product
-   */
   updateProduct(id: number, product: Partial<Product>): Observable<Product> {
     return this.http.put<Product>(`${this.API_URL}/${id}`, product);
   }
 
-  /**
-   * Delete a product
-   */
   deleteProduct(id: number): Observable<Product> {
     return this.http.delete<Product>(`${this.API_URL}/${id}`);
   }

@@ -19,10 +19,8 @@ import {PaginatorModule} from "primeng/paginator";
 import {TaskService} from "../../../service/task.service";
 import {TaskListComponent} from "./task-list.component";
 import {TaskDialogComponent} from "./task-dialog.component";
-import {CalendarModule} from "primeng/calendar";
 import {CheckboxModule} from "primeng/checkbox";
 import {ReactiveFormsModule} from "@angular/forms";
-// import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
 
 @NgModule({
@@ -45,10 +43,8 @@ import {InputTextModule} from "primeng/inputtext";
         ToastModule,
         ConfirmDialogModule,
         PaginatorModule,
-        CalendarModule,
         CheckboxModule,
         ReactiveFormsModule,
-        // InputTextareaModule,
         InputTextModule,
         TaskListComponent,
         TaskDialogComponent

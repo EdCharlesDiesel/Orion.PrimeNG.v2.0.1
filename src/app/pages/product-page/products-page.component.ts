@@ -1,21 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Product } from '../../core/models/product';
-import { Carousel } from 'primeng/carousel';
-import { GalleriaModule } from 'primeng/galleria';
-import { Tag } from 'primeng/tag';
-import { ProductsComponent } from '../../features/components/products/products/products.component';
-import { GdpPerCountryComponent } from '../../trading-economics/gdp-per-country/gdp-per-country.component';
+import { Component,} from '@angular/core';
+import ProductsComponent from '../../features/components/production/product/products/products.component';
+import { Card } from 'primeng/card';
 
 @Component({
     selector: 'app-products-page',
-    template: `
-        <div class="card">
-            <app-product></app-product>
-        </div>
-    `,
-    imports: [ ProductsComponent],
+    template: `<p-card> <app-products></app-products> </p-card>`,
+    imports: [ProductsComponent, Card]
 })
-export class ProductsPageComponent {
-
-}
+export class ProductsPageComponent {}

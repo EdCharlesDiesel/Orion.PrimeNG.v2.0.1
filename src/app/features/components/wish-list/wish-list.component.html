@@ -1,0 +1,190 @@
+<!-- wish-list.component.html -->
+<div class="wish-list-container">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <!-- Header Section -->
+    <div class="header-section">
+        <h1>My Wish List</h1>
+        <div class="stats-section">
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-heart text-red-500"></i>
+                    <span>Total Items: {{ wishListItems.length }}</span>
+                </div>
+            </p-card>
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-check-circle text-green-500"></i>
+                    <span>Purchased: {{ getPurchasedCount() }}</span>
+                </div>
+            </p-card>
+            <p-card class="stat-card">
+                <div class="stat-item">
+                    <i class="pi pi-dollar text-blue-500"></i>
+                    <span>Total Value: ${{ getTotalValue().toFixed(2) }}</span>
+                </div>
+            </p-card>
+        </div>
+        <p-button
+            label="Add New Item"
+            icon="pi pi-plus"
+            (click)="showAddDialog()"
+            styleClass="p-button-success">
+        </p-button>
+    </div>
+
+    <!-- Priority Sections -->
+    <div class="priority-sections">
+        @for (priority of ['High', 'Medium', 'Low']; track priority) {
+            <div class="priority-section">
+                <h3>
+                    {{ priority }} Priority
+                    <p-tag
+                        [value]="getItemsByPriority(priority).length.toString()"
+                        [severity]="getPrioritySeverity(priority)">
+                    </p-tag>
+                </h3>
+                <div class="grid">
+                    @for (item of getItemsByPriority(priority); track item.id) {
+                        <div class="col-12 md:col-6 lg:col-4">
+<!--                            <app-wish-list-item-->
+<!--                                [item]="item"-->
+<!--                                (edit)="showEditDialog(item)"-->
+<!--                                (delete)="deleteItem(item)"-->
+<!--                                (togglePurchased)="togglePurchased(item)">-->
+<!--                            </app-wish-list-item>-->
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Purchased Items Section -->
+    @if (getPurchasedCount() > 0) {
+        <div class="purchased-section">
+            <h3>
+                Purchased Items
+                <p-tag [value]="getPurchasedCount().toString()" severity="success"></p-tag>
+            </h3>
+            <div class="grid">
+<!--                @for (item of wishListItems.filter(item => item.isPurchased); track item.id) {-->
+                    <div class="col-12 md:col-6 lg:col-4">
+
+<!--                        <app-wish-list-item-->
+<!--                            [item]="item"-->
+<!--                            (edit)="showEditDialog(item)"-->
+<!--                            (delete)="deleteItem(item)"-->
+<!--                            (togglePurchased)="togglePurchased(item)">-->
+<!--                        </app-wish-list-item>-->
+                    </div>
+<!--                }-->
+            </div>
+        </div>
+    }
+
+    <!-- Empty State -->
+    @if (wishListItems.length === 0) {
+        <div class="empty-state">
+            <p-card>
+                <div class="empty-content">
+                    <i class="pi pi-heart text-6xl text-gray-400"></i>
+                    <h2>Your wish list is empty</h2>
+                    <p>Start adding items you'd love to have!</p>
+                    <p-button
+                        label="Add Your First Item"
+                        icon="pi pi-plus"
+                        (click)="showAddDialog()"
+                        styleClass="p-button-success">
+                    </p-button>
+                </div>
+            </p-card>
+        </div>
+    }
+
+    <!-- Add/Edit Dialog -->
+    <p-dialog
+        [(visible)]="displayDialog"
+        [style]="{width: '500px'}"
+        [header]="selectedItem.id === initializeNewItem().id ? 'Add New Item' : 'Edit Item'"
+        [modal]="true"
+        styleClass="p-fluid">
+
+        <div class="field">
+            <label for="title">Title *</label>
+            <input
+                id="title"
+                pInputText
+                [(ngModel)]="selectedItem.title"
+                placeholder="Enter item title"
+                required>
+        </div>
+
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                pInputTextarea
+                [(ngModel)]="selectedItem.description"
+                rows="3"
+                placeholder="Enter item description">
+            </textarea>
+        </div>
+
+        <div class="grid">
+            <div class="field col-6">
+                <label for="price">Price ($)</label>
+                <input
+                    id="price"
+                    type="number"
+                    pInputText
+                    [(ngModel)]="selectedItem.price"
+                    placeholder="0.00">
+            </div>
+            <div class="field col-6">
+                <label for="priority">Priority</label>
+                <p-dropdown
+                    id="priority"
+                    [options]="priorityOptions"
+                    [(ngModel)]="selectedItem.priority"
+                    placeholder="Select Priority">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="category">Category</label>
+            <p-dropdown
+                id="category"
+                [options]="categoryOptions"
+                [(ngModel)]="selectedItem.category"
+                placeholder="Select Category">
+            </p-dropdown>
+        </div>
+
+        <div class="field">
+            <label for="url">URL</label>
+            <input
+                id="url"
+                pInputText
+                [(ngModel)]="selectedItem.url"
+                placeholder="https://example.com">
+        </div>
+
+        <ng-template pTemplate="footer">
+            <p-button
+                label="Cancel"
+                icon="pi pi-times"
+                (click)="displayDialog = false"
+                styleClass="p-button-text">
+            </p-button>
+            <p-button
+                label="Save"
+                icon="pi pi-check"
+                (click)="saveItem()"
+                styleClass="p-button-success">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+</div>

@@ -1,0 +1,215 @@
+<div class="notifications-container p-4">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-3">
+            <h1 class="text-3xl font-bold text-gray-800">Notifications</h1>
+            <p-badge
+                [value]="unreadCount().toString()"
+                severity="danger"
+                *ngIf="unreadCount() > 0" />
+        </div>
+        <div class="flex gap-2">
+            <p-button
+                label="Mark All Read"
+                icon="pi pi-check"
+                severity="secondary"
+                [outlined]="true"
+                [disabled]="unreadCount() === 0"
+                (onClick)="markAllAsRead()" />
+            <p-button
+                label="Clear All"
+                icon="pi pi-trash"
+                severity="danger"
+                [outlined]="true"
+                [disabled]="notifications().length === 0"
+                (onClick)="clearAll()" />
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-4">
+        <p-iconfield iconPosition="left" class="w-full">
+            <p-inputicon styleClass="pi pi-search" />
+            <input
+                type="text"
+                pInputText
+                placeholder="Search notifications..."
+                [(ngModel)]="searchQuery"
+                class="w-full" />
+        </p-iconfield>
+    </div>
+
+    <!-- Tabs with Badges -->
+    <p-tabs [(value)]="selectedTab" class="mb-4">
+        <p-tablist>
+            <p-tab value="all">
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-list"></i>
+                    <span>All</span>
+                    <p-badge
+                        [value]="unreadCount().toString()"
+                        *ngIf="unreadCount() > 0" />
+                </div>
+            </p-tab>
+            <p-tab value="cart">
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span>Cart</span>
+                    <p-badge
+                        [value]="cartNotificationsCount().toString()"
+                        severity="success"
+                        *ngIf="cartNotificationsCount() > 0" />
+                </div>
+            </p-tab>
+            <p-tab value="order">
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-box"></i>
+                    <span>Orders</span>
+                    <p-badge
+                        [value]="orderNotificationsCount().toString()"
+                        severity="info"
+                        *ngIf="orderNotificationsCount() > 0" />
+                </div>
+            </p-tab>
+            <p-tab value="message">
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-envelope"></i>
+                    <span>Messages</span>
+                    <p-badge
+                        [value]="messageNotificationsCount().toString()"
+                        severity="warn"
+                        *ngIf="messageNotificationsCount() > 0" />
+                </div>
+            </p-tab>
+            <p-tab value="system">
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-cog"></i>
+                    <span>System</span>
+                    <p-badge
+                        [value]="systemNotificationsCount().toString()"
+                        *ngIf="systemNotificationsCount() > 0" />
+                </div>
+            </p-tab>
+        </p-tablist>
+
+        <p-tabpanels>
+            <p-tabpanel [value]="selectedTab()">
+                <!-- Notifications List -->
+                <p-scrollpanel [style]="{'width': '100%', 'height': 'calc(100vh - 300px)'}">
+                    <div class="notifications-list space-y-3">
+                        <div
+                            *ngFor="let notification of displayedNotifications()"
+                            class="notification-item"
+                            [class.unread]="!notification.read"
+                            (click)="handleNotificationClick(notification)">
+
+                            <p-card>
+                                <div class="flex gap-4">
+                                    <!-- Icon/Avatar -->
+                                    <div class="notification-icon-wrapper">
+                                        <div
+                                            class="notification-icon"
+                                            [style.background-color]="notification.iconColor + '20'"
+                                            [style.color]="notification.iconColor">
+                                            <i
+                                                *ngIf="!notification.image && !isCartNotification(notification)"
+                                                [class]="'pi ' + notification.icon"
+                                                class="text-xl"></i>
+                                            <p-avatar
+                                                *ngIf="notification.image"
+                                                [image]="notification.image"
+                                                shape="circle"
+                                                size="large" />
+                                            <p-avatar
+                                                *ngIf="isCartNotification(notification) && notification.productImage"
+                                                [image]="notification.productImage"
+                                                shape="square"
+                                                size="large" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <h3 class="notification-title font-semibold text-gray-900">
+                                                    {{ notification.title }}
+                                                </h3>
+                                                <div
+                                                    *ngIf="!notification.read"
+                                                    class="unread-indicator"></div>
+                                            </div>
+                                            <span class="notification-time text-sm text-gray-500">
+                        {{ getTimeAgo(notification.timestamp) }}
+                      </span>
+                                        </div>
+
+                                        <p class="notification-message text-gray-600 mb-2">
+                                            {{ notification.message }}
+                                        </p>
+
+                                        <!-- Cart Specific Info -->
+                                        <div
+                                            *ngIf="isCartNotification(notification)"
+                                            class="cart-details flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-900">{{ notification.productName }}</p>
+                                                <p class="text-sm text-gray-600">Quantity: {{ notification.quantity }}</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-green-600 text-lg">${{ notification.price.toFixed(2) }}</p>
+                                                <p-button
+                                                    label="View Cart"
+                                                    size="small"
+                                                    [outlined]="true"
+                                                    severity="success"
+                                                    (onClick)="$event.stopPropagation()" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Type Badge -->
+                                        <div class="flex items-center gap-2 mt-3">
+                                            <p-tag
+                                                [value]="notification.type"
+                                                [severity]="getTagSeverity(notification.type)"
+                                                styleClass="capitalize text-xs" />
+
+                                            <div class="flex gap-2 ml-auto">
+                                                <p-button
+                                                    *ngIf="!notification.read"
+                                                    icon="pi pi-check"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    size="small"
+                                                    severity="success"
+                                                    pTooltip="Mark as read"
+                                                    (onClick)="markAsRead(notification); $event.stopPropagation()" />
+                                                <p-button
+                                                    icon="pi pi-trash"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    size="small"
+                                                    severity="danger"
+                                                    pTooltip="Delete"
+                                                    (onClick)="deleteNotification(notification); $event.stopPropagation()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-card>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div
+                            *ngIf="displayedNotifications().length === 0"
+                            class="empty-state text-center py-12">
+                            <i class="pi pi-bell-slash text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">No notifications</h3>
+                            <p class="text-gray-500">You're all caught up!</p>
+                        </div>
+                    </div>
+                </p-scrollpanel>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+</div>

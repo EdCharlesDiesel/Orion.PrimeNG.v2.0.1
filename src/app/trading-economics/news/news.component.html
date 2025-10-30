@@ -2,89 +2,261 @@
     <p-card>
         <ng-template pTemplate="header">
             <div class="card-header">
-                <h2>Trading Economics Dashboard</h2>
-                <p>Real-time economic indicators and statistics</p>
+                <h2>Economic News Dashboard</h2>
+                <p>Latest economic news and updates from Trading Economics</p>
             </div>
         </ng-template>
 
         <div class="controls-section">
             <div class="p-field">
                 <label for="country">Select Country</label>
+            </div>
+
+            <div class="p-field">
+                <label for="category">Category</label>
                 <p-dropdown
-                    [options]="countries"
-                    [(ngModel)]="selectedCountry"
-                    (onChange)="onCountryChange($event)"
-                    placeholder="Select a Country"
-                    [showClear]="false"
-                    id="country">
+                    [options]="categories"
+                    [(ngModel)]="selectedCategory"
+                    (onChange)="onCategoryChange($event)"
+                    placeholder="All Categories"
+                    [showClear]="true"
+                    id="category">
                 </p-dropdown>
+            </div>
+
+            <div class="p-field">
+                <label for="dateRange">Date Range</label>
+                <p-calendar
+                    [(ngModel)]="dateRange"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    dateFormat="yy-mm-dd"
+                    placeholder="Select date range"
+                    (onSelect)="onDateRangeChange($event)"
+                    id="dateRange">
+                </p-calendar>
+            </div>
+
+            <div class="p-field search-field">
+                <label for="search">Search News</label>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                        type="text"
+                        pInputText
+                        [(ngModel)]="searchTerm"
+                        (input)="onSearch()"
+                        placeholder="Search by keyword..."
+                        id="search">
+                </span>
             </div>
         </div>
 
+        @if (!loading && newsData.length > 0) {
+            <div class="news-grid">
+                @for (news of paginatedNews; track news.id) {
+                    <div class="news-card">
+                        <div class="news-header">
+                            <span class="news-category" [class]="getCategoryClass(news.category)">
+                                {{ news.category }}
+                            </span>
+                            <span class="news-date">
+                                <i class="pi pi-clock"></i>
+                                {{ news.date | date:'short' }}
+                            </span>
+                        </div>
+
+                        <h3 class="news-title">{{ news.title }}</h3>
+
+                        <p class="news-description">{{ news.description }}</p>
+
+                        <div class="news-meta">
+                            <div class="news-country">
+                                <i class="pi pi-map-marker"></i>
+                                {{ news.country }}
+                            </div>
+                            <div class="news-importance" [class]="getImportanceClass(news.importance)">
+                                <i class="pi pi-star-fill"></i>
+                                {{ news.importance }}
+                            </div>
+                        </div>
+
+                        <div class="news-footer">
+                            <button
+                                pButton
+                                label="Read More"
+                                icon="pi pi-external-link"
+                                class="p-button-text p-button-sm"
+                                (click)="openNewsLink(news.url)">
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (loading) {
+            <div class="loading-container">
+                <p-progressSpinner></p-progressSpinner>
+                <p>Loading latest news...</p>
+            </div>
+        }
+
+        @if (!loading && newsData.length === 0) {
+            <div class="empty-state">
+                <i class="pi pi-inbox"></i>
+                <h3>No news available</h3>
+                <p>Try adjusting your filters or check back later for updates.</p>
+            </div>
+        }
+
+        @if (newsData.length > 0) {
+            <div class="pagination-container">
+                <p-paginator
+                    [rows]="pageSize"
+                    [totalRecords]="filteredNews.length"
+                    (onPageChange)="onPageChange($event)"
+                    [rowsPerPageOptions]="[6, 12, 24, 48]">
+                </p-paginator>
+            </div>
+        }
+
+        <ng-template pTemplate="footer">
+            <div class="footer-info">
+                <i class="pi pi-info-circle"></i>
+                Last updated: {{ today | date:'medium' }} |
+                Showing {{ filteredNews.length }} of {{ totalNews }} articles
+            </div>
+        </ng-template>
+    </p-card>
+
+    <p-card class="table-view-card">
+        <ng-template pTemplate="header">
+            <div class="card-header-simple">
+                <h3>News List View</h3>
+                <button
+                    pButton
+                    icon="pi pi-refresh"
+                    class="p-button-rounded p-button-text"
+                    (click)="loadNewsData()"
+                    [loading]="loading">
+                </button>
+            </div>
+        </ng-template>
+
         <p-table
-            [value]="data"
+            [value]="filteredNews"
             [loading]="loading"
             [paginator]="true"
             [rows]="10"
             [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} indicators"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} news articles"
             styleClass="p-datatable-gridlines p-datatable-striped"
             responsiveLayout="scroll">
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="indicator">
-                        Indicator <p-sortIcon field="indicator"></p-sortIcon>
-                    </th>
-                    <th>Current Value</th>
-                    <th>Previous Value</th>
-                    <th pSortableColumn="date">
+                    <th pSortableColumn="date" style="width: 150px;">
                         Date <p-sortIcon field="date"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="change">
-                        Change <p-sortIcon field="change"></p-sortIcon>
+                    <th pSortableColumn="title">
+                        Title <p-sortIcon field="title"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="country" style="width: 150px;">
+                        Country <p-sortIcon field="country"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="category" style="width: 130px;">
+                        Category <p-sortIcon field="category"></p-sortIcon>
+                    </th>
+                    <th style="width: 120px;">Importance</th>
+                    <th style="width: 100px;">Action</th>
                 </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-row>
+            <ng-template pTemplate="body" let-news>
                 <tr>
-                    <td><strong>{{ row.indicator }}</strong></td>
+                    <td>{{ news.date | date:'short' }}</td>
                     <td>
-                        <p-tag [value]="row.value" severity="info"></p-tag>
+                        <strong class="news-title-text">{{ news.title }}</strong>
+                        <div class="news-desc-small">{{ news.description | slice:0:100 }}...</div>
                     </td>
-                    <td>{{ row.previous }}</td>
-                    <td>{{ row.date }}</td>
+                    <td>{{ news.country }}</td>
+                    <td></td>
                     <td>
-            <span [class]="getChangeClass(row.change)">
-              <i [class]="getChangeIcon(row.change)"></i>
-                {{ row.change > 0 ? '+' : '' }}{{ row.change }}
-            </span>
+                        <span [class]="getImportanceClass(news.importance)">
+                            {{ news.importance }}
+                        </span>
+                    </td>
+                    <td>
+                        <button
+                            pButton
+                            icon="pi pi-external-link"
+                            class="p-button-rounded p-button-text"
+                            (click)="openNewsLink(news.url)"
+                            pTooltip="Read full article">
+                        </button>
                     </td>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="5" style="text-align: center;">No data available</td>
+                    <td colspan="6" style="text-align: center;">No news articles found</td>
                 </tr>
             </ng-template>
         </p-table>
-
-        <ng-template pTemplate="footer">
-            <div class="footer-info">
-                <i class="pi pi-info-circle"></i>
-                Data updated: {{ today | date:'medium' }} | Source: Trading Economics (Mock Data)
-            </div>
-        </ng-template>
     </p-card>
+
+    <div class="stats-grid">
+        <p-card class="stat-card">
+            <div class="stat-content">
+                <i class="pi pi-file stat-icon"></i>
+                <div>
+                    <div class="stat-value">{{ totalNews }}</div>
+                    <div class="stat-label">Total Articles</div>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="stat-card">
+            <div class="stat-content">
+                <i class="pi pi-calendar stat-icon"></i>
+                <div>
+                    <div class="stat-value">{{ todayNews }}</div>
+                    <div class="stat-label">Today's Updates</div>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="stat-card">
+            <div class="stat-content">
+                <i class="pi pi-globe stat-icon"></i>
+                <div>
+                    <div class="stat-value">{{ countriesCount }}</div>
+                    <div class="stat-label">Countries Covered</div>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="stat-card">
+            <div class="stat-content">
+                <i class="pi pi-tags stat-icon"></i>
+                <div>
+                    <div class="stat-value">{{ categoriesCount }}</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+        </p-card>
+    </div>
 
     <p-card class="info-card">
         <div class="info-content">
-            <i class="pi pi-exclamation-triangle"></i>
+            <i class="pi pi-info-circle"></i>
             <div>
-                <strong>Note:</strong> This component uses mock data. To connect to the real Trading Economics API,
-                obtain an API key from tradingeconomics.com and uncomment the API call code in the component.
+                <strong>About News API:</strong> This component displays economic news from Trading Economics.
+                To connect to the live API, use the endpoint:
+                <code>https://api.tradingeconomics.com/news</code> with your API key.
+                You can filter by country, category, and date range using query parameters.
             </div>
         </div>
     </p-card>

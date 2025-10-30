@@ -51,39 +51,40 @@ interface ExportColumn {
 @Component({
     selector: 'app-product-vendors',
     standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    CheckboxModule,
-    RadioButtonModule,
-    SelectButtonModule,
-    InputGroupModule,
-    FluidModule,
-    IconFieldModule,
-    InputIconModule,
-    FloatLabelModule,
-    AutoCompleteModule,
-    InputNumberModule,
-    SliderModule,
-    RatingModule,
-    ColorPickerModule,
-    KnobModule,
-    SelectModule,
-    DatePickerModule,
-    ToggleButtonModule,
-    ToggleSwitchModule,
-    TreeSelectModule,
-    MultiSelectModule,
-    ListboxModule,
-    InputGroupAddonModule,
-    TextareaModule,
-    TableModule,
-    ConfirmDialogModule,
-    DialogModule
-  ],
-    templateUrl: 'product-vendors.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        InputTextModule,
+        ButtonModule,
+        CheckboxModule,
+        RadioButtonModule,
+        SelectButtonModule,
+        InputGroupModule,
+        FluidModule,
+        IconFieldModule,
+        InputIconModule,
+        FloatLabelModule,
+        AutoCompleteModule,
+        InputNumberModule,
+        SliderModule,
+        RatingModule,
+        ColorPickerModule,
+        KnobModule,
+        SelectModule,
+        DatePickerModule,
+        ToggleButtonModule,
+        ToggleSwitchModule,
+        TreeSelectModule,
+        MultiSelectModule,
+        ListboxModule,
+        InputGroupAddonModule,
+        TextareaModule,
+        TableModule,
+        ConfirmDialogModule,
+        DialogModule,
+        Toolbar
+    ],
+    templateUrl: 'product-vendor.component.html',
     providers: [MessageService, ProductVendorService, ConfirmationService]
 })
 export class ProductVendorComponent implements OnInit {
@@ -120,21 +121,19 @@ export class ProductVendorComponent implements OnInit {
     }
 
     loadDemoData() {
-        this.productVendorService.getProductVendors().pipe(
-            tap((p) => console.log(JSON.stringify(p))),
-        ).subscribe((data) => {
+        this.productVendorService
+            .getProductVendors()
+            .pipe(tap((p) => console.log(JSON.stringify(p))))
+            .subscribe((data) => {
                 // this.productVendors.set(data);
-
                 //
                 // this.product-vendorService.getProductVendors().then((data) => {
                 //     this.product-vendors.set(data);
                 // });
-
                 // this.product-vendorService.product-vendorsResult$.subscribe(
                 //     (data: any) => {
                 //         this.product-vendors.set(data);
-            }
-        );
+            });
 
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
@@ -146,7 +145,7 @@ export class ProductVendorComponent implements OnInit {
             { field: 'ProductVendor ID', header: 'Code', customExportHeader: 'ProductVendor Code' },
             { field: 'Name', header: 'Name' },
             { field: 'GroupName', header: 'Group Name' },
-            { field: 'ModifiedDate', header: 'Modified Date' },
+            { field: 'ModifiedDate', header: 'Modified Date' }
         ];
 
         this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -158,18 +157,17 @@ export class ProductVendorComponent implements OnInit {
 
     public openNew() {
         this.productVendor = {
-            businessEntityID : 0,
-            productID:0,
+            businessEntityID: 0,
+            productID: 0,
             averageLeadTime: 0,
-            standardPrice:0,
-            lastReceiptCost:0,
+            standardPrice: 0,
+            lastReceiptCost: 0,
             lastReceiptDate: new Date(),
             minOrderQty: 0,
-            maxOrderQty:0,
-            onOrderQty:0,
+            maxOrderQty: 0,
+            onOrderQty: 0,
             unitMeasureCode: '0',
-            modifiedDate: new Date(),
-
+            modifiedDate: new Date()
         };
         this.submitted = false;
         this.productVendorDialog = true;
@@ -211,17 +209,17 @@ export class ProductVendorComponent implements OnInit {
             accept: () => {
                 // this.productVendors.set(this.productVendors().filter((val) => val.productID !== productVendor.productID));
                 this.productVendor = {
-                    businessEntityID : 0,
-                    productID:0,
+                    businessEntityID: 0,
+                    productID: 0,
                     averageLeadTime: 0,
-                    standardPrice:0,
-                    lastReceiptCost:0,
+                    standardPrice: 0,
+                    lastReceiptCost: 0,
                     lastReceiptDate: new Date(),
                     minOrderQty: 0,
-                    maxOrderQty:0,
-                    onOrderQty:0,
+                    maxOrderQty: 0,
+                    onOrderQty: 0,
                     unitMeasureCode: '0',
-                    modifiedDate: new Date(),
+                    modifiedDate: new Date()
                 };
                 this.messageService.add({
                     severity: 'success',
