@@ -1,0 +1,78 @@
+.reports-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    width: 100%;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+
+    input,
+    textarea,
+    p-select,
+    p-datepicker,
+    p-inputgroup,
+    p-fileupload {
+        width: 100%;
+    }
+
+    textarea {
+        grid-column: 1 / -1;
+    }
+
+    p-fileupload {
+        grid-column: 1 / -1;
+    }
+}
+
+.slider-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.checkbox-color-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .color-picker-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+::ng-deep {
+    .p-inputtext,
+    .p-dropdown,
+    .p-calendar {
+        width: 100%;
+    }
+
+    .p-fileupload {
+        width: 100%;
+    }
+
+    .p-card .p-card-body {
+        padding: 1.5rem;
+    }
+
+    .p-inputgroup {
+        width: 100%;
+    }
+}

@@ -190,7 +190,11 @@ export class AppMenu {
                                 label: 'Currencies',
                                 icon: 'pi pi-fw pi-bookmark',
                                 routerLink: ['/sales/currency']
-                            }
+                            },{
+                                label: 'Products',
+                                icon: 'pi pi-fw pi-bookmark',
+                                routerLink: ['production/admin-product']
+                            },
                         ]
                     },
                     {

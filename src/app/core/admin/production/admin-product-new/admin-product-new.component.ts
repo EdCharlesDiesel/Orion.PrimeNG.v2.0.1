@@ -1,312 +1,345 @@
-import { MessageService} from 'primeng/api';
-import { Component,  OnInit } from '@angular/core';
-import { Fluid } from 'primeng/fluid';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { FloatLabel } from 'primeng/floatlabel';
-import { Textarea } from 'primeng/textarea';
-import { InputText } from 'primeng/inputtext';
-import { Slider } from 'primeng/slider';
-import { Rating } from 'primeng/rating';
-import { Knob } from 'primeng/knob';
-import { Checkbox } from 'primeng/checkbox';
-import { ToggleSwitch } from 'primeng/toggleswitch';
-import { Listbox } from 'primeng/listbox';
-import { Select } from 'primeng/select';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../authentication/services/auth.service';
-import { Router } from '@angular/router';
-import { ProductService } from '../../../../service/product.service';
-import { Button } from 'primeng/button';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { Product } from '../../../models/product';
 import { Card } from 'primeng/card';
-import { DatePicker } from 'primeng/datepicker';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
-import { TableModule } from 'primeng/table';
-import { Tag } from 'primeng/tag';
-import { UIChart } from 'primeng/chart';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { Textarea } from 'primeng/textarea';
+import { Toast } from 'primeng/toast';
+import {  tap } from 'rxjs/operators';
+import { ProductService } from '../../../../service/product.service';
+import { Select } from 'primeng/select';
+import { Slider } from 'primeng/slider';
+import { FileUpload } from 'primeng/fileupload';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
-import { InputNumber } from 'primeng/inputnumber';
-import { ColorPicker } from 'primeng/colorpicker';
-import {
-    ImageUploadAdvancedComponent
-} from '../../../../features/components/files/image-upload-advanced/image-upload-advanced.component';
-import { FileSelectEvent, FileUpload, FileUploadEvent } from 'primeng/fileupload';
-import { Toast } from 'primeng/toast';
+import { Checkbox } from 'primeng/checkbox';
+import { NgForOf, NgIf } from '@angular/common';
+import { DropdownModule } from 'primeng/dropdown';
+import { Calendar } from 'primeng/calendar';
 
+interface DropdownOption {
+    name: string;
+    value: string;
+}
 
 @Component({
-    selector: 'app-admin-product-new',
+    selector: 'app-admin-product-new.',
     templateUrl: './admin-product-new.component.html',
-    styleUrls: ['./admin-product-new.component.scss'],
-    imports: [
-        InputText,
-        Textarea,
-        Button,
-        Card,
-        DatePicker,
-        FormsModule,
-        Tab,
-        TabList,
-        TabPanel,
-        TabPanels,
-        TableModule,
-        Tabs,
-        InputGroup,
-        InputGroupAddon,
-        Checkbox,
-        ColorPicker,
-        FileUpload,
-        NgForOf,
-        NgIf,
-        Select,
-        Slider,
-        Toast,
-        ReactiveFormsModule
-    ],
-    providers: [MessageService]
+    styleUrls: ['admin-product-new.component.scss'],
+    imports: [Card, Button, ReactiveFormsModule, FormsModule, InputText, Textarea, Toast, FileUpload, InputGroup, InputGroupAddon, Checkbox, NgIf, NgForOf, DropdownModule, Calendar],
+    providers: [MessageService],
+    standalone: true
 })
-class AdminProductNewComponent implements OnInit {
-    productForm: FormGroup;
-    loading = false;
-    submitted = false;
-    passwordVisible = false;
-    confirmPasswordVisible = false;
+export class AdminProductNewComponent implements OnInit {
+    productForm!: FormGroup;
+    sliderValue: number = 0;
+    uploadUrl: string = 'http://localhost:3000/api/images/upload-multiple';
 
-    colorValue: string = '#1976D2';
-    calendarValue: any = null;
-    dropdownValues = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
+    product: Product = {
+        imageUrl: '',
+        modifiedDate: undefined,
+        productID: 0,
+        rating: undefined,
+        rowguid: undefined,
+        title: '',
+        name: '',
+        description: '',
+        category: 'null',
+        productNumber: '',
+        makeFlag: true,
+        finishedGoodsFlag: true,
+        safetyStockLevel: 0,
+        reorderPoint: 0,
+        size: '',
+
+        sizeUnitMeasureCode: '0',
+        weightUnitMeasureCode: 'm',
+        weight: 0,
+        daysToManufacture: 0,
+        productLine: '',
+        class: 'm',
+        style: 'm',
+        productSubcategory: null,
+        sellStartDate: new Date(),
+        sellEndDate: new Date(),
+        discontinuedDate: new Date(),
+        availableUntil: new Date(),
+        tags: [''],
+        code: 0,
+        quantityInStock: 0,
+        standardCost: 0,
+        originalPrice: 0,
+        discountPrice: 0,
+        listPrice: 0,
+        price: 0,
+        discountPercentage: 0,
+        inventoryStatus: null,
+        isFeatured: false,
+        isNew: false,
+        color: '#000000'
+    };
+
+    categories: DropdownOption[] = [
+        { name: 'Electronics', value: 'electronics' },
+        { name: 'Fashion', value: 'fashion' },
+        { name: 'Beauty', value: 'beauty' },
+        { name: 'Sports', value: 'sports' },
+        { name: 'Home & Kitchen', value: 'home' }
     ];
-    dropdownValue: any = null;
+
+    classes: DropdownOption[] = [
+        { name: 'High', value: 'high' },
+        { name: 'Medium', value: 'medium' },
+        { name: 'Low', value: 'low' }
+    ];
+
+    styles: DropdownOption[] = [
+        { name: 'Modern', value: 'modern' },
+        { name: 'Classic', value: 'classic' },
+        { name: 'Vintage', value: 'vintage' }
+    ];
+
+    subcategories: DropdownOption[] = [
+        { name: 'Subcategory 1', value: 'sub1' },
+        { name: 'Subcategory 2', value: 'sub2' },
+        { name: 'Subcategory 3', value: 'sub3' }
+    ];
+
+    inventoryStatuses: DropdownOption[] = [
+        { name: 'In Stock', value: 'instock' },
+        { name: 'Low Stock', value: 'lowstock' },
+        { name: 'Out of Stock', value: 'outofstock' }
+    ];
+
+    colors: DropdownOption[] = [
+        { name: 'Red', value: 'red' },
+        { name: 'White', value: 'white' },
+        { name: 'Black', value: 'black' }
+    ];
+
+    private submitted: boolean | undefined;
+    private loading: boolean | undefined;
+    flagOptions: any[] | undefined;
+
     constructor(
-        private formBuilder: FormBuilder,
-        private authService: AuthService,
-        private productService: ProductService,
-        private router: Router,
-        private messageService: MessageService
-    ) {
-        this.productForm = this.formBuilder.group(
-            {
-                title: ['', Validators.required],
-                name: ['', Validators.required],
-                description: ['', Validators.required],
-                category: ['', Validators.required],
-                price: ['', Validators.required],
-                productNumber: ['', Validators.required],
-                makeFlag: ['', Validators.required],
-                finishedGoodsFlag: ['', Validators.required],
-                color: ['', Validators.required],
-                safetyStockLevel: ['', Validators.required],
-                reorderPoint: ['', Validators.required],
-                standardCost: ['', Validators.required],
-                listPrice: ['', Validators.required],
-                size: ['', Validators.required],
-                sizeUnitMeasureCode: ['', Validators.required],
-                weightUnitMeasureCode: ['', Validators.required],
-                weight: ['', Validators.required],
-                daysToManufacture: ['', Validators.required],
-                productLine: ['', Validators.required],
-                class: ['', Validators.required],
-                style: ['', Validators.required],
-                productSubcategoryID: ['', [Validators.required, Validators.minLength(2)]],
-                productModelID: ['', [Validators.required]],
-                sellStartDate: ['', [Validators.required]],
-                sellEndDate: ['', Validators.required],
-                discontinuedDate: [false, Validators.requiredTrue],
-                imageUrl: ['', Validators.required],
-                availableUntil: ['', Validators.required],
-                tags: ['', Validators.required],
-                isNew: ['', Validators.required],
-                code: ['', Validators.required],
-                quantityInStock: ['', Validators.required],
-                originalPrice: ['', Validators.required],
-                discountPrice: ['', Validators.required],
-                discountPercentage: ['', Validators.required],
-                productProductPhotos: ['', Validators.required],
-                inventoryStatus: ['', Validators.required],
-                modifiedDate: ['', Validators.required],
-                isFeatured: ['', Validators.required]
-            },
-            {
-                validators: this.passwordMatchValidator
-            }
-        );
-    }
+        private fb: FormBuilder,
+        private messageService: MessageService,
+        private productService: ProductService
+    ) {}
 
     ngOnInit(): void {
-        // // if (!this.authService.isAuthenticated()) {
-        //     this.router.navigate(['/login']);
-        // }
+        this.initializeForm();
     }
 
-    // Custom validator for password match
-    passwordMatchValidator(form: FormGroup) {
-        const password = form.get('password');
-        const confirmPassword = form.get('confirmPassword');
-
-        if (password && confirmPassword && password.value !== confirmPassword.value) {
-            confirmPassword.setErrors({ passwordMismatch: true });
-            return { passwordMismatch: true };
-        }
-
-        if (confirmPassword?.hasError('passwordMismatch')) {
-            delete confirmPassword.errors!['passwordMismatch'];
-            confirmPassword.updateValueAndValidity({ emitEvent: false });
-        }
-
-        return null;
+    initializeForm(): void {
+        this.productForm = this.fb.group({
+            title: '',
+            name: '',
+            description: [''],
+            category: [null],
+            productNumber: [''],
+            makeFlag: [''],
+            finishedGoodsFlag: [''],
+            safetyStockLevel: [0],
+            reorderPoint: [0],
+            size: [''],
+            sizeUnitMeasureCode: [0],
+            weightUnitMeasureCode: [0],
+            weight: [0],
+            daysToManufacture: [0],
+            productLine: [''],
+            class: [null],
+            style: [null],
+            productSubcategory: [null],
+            sellStartDate: [null],
+            sellEndDate: [null],
+            discontinuedDate: [null],
+            availableUntil: [null],
+            tags: [''],
+            code: [0],
+            quantityInStock: [0],
+            standardCost: [0],
+            originalPrice: [0],
+            discountPrice: [0],
+            listPrice: [0],
+            price: [0],
+            discountPercentage: [0],
+            inventoryStatus: [null],
+            isFeatured: [false],
+            isNew: [false],
+            color: ''
+        });
     }
 
     get productFormControls() {
         return this.productForm.controls;
     }
-
-    public onSubmit(): void {
+    public saveProduct(): void {
         this.submitted = true;
 
-        // if (this.productForm.invalid) {
-        //     this.markFormGroupTouched();
-        //     this.messageService.add({
-        //         severity: 'error',
-        //         summary: 'Adding Product Failed',
-        //         detail: 'An error occurred during submissionplease check all the data.'
-        //     });
-        //     return;
-        // }
+       // if (this.productForm.invalid) {
+       //     this.markFormGroupTouched();
+       //      return;
+       // }
 
         this.loading = true;
 
-        let productData: any = {
-            title: this.productFormControls['title'].value.trim(),
-            name: this.productFormControls['name'].value.trim().toLowerCase(),
-            description: this.productFormControls['description'].value,
-
-            category: this.productFormControls['category'].value,
-            price: this.productFormControls['price'].value,
-            productNumber: this.productFormControls['productNumber'].value,
-            makeFlag: this.productFormControls['makeFlag'].value,
-            finishedGoodsFlag: this.productFormControls['finishedGoodsFlag'].value,
-            color: this.productFormControls['color'].value,
-            safetyStockLevel: this.productFormControls['safetyStockLevel'].value,
-            reorderPoint: this.productFormControls['reorderPoint'].value,
-            standardCost: this.productFormControls['standardCost'].value,
-            listPrice: this.productFormControls['listPrice'].value,
-            size: this.productFormControls['size'].value,
-            sizeUnitMeasureCode: this.productFormControls['sizeUnitMeasureCode'].value,
-            weightUnitMeasureCode: this.productFormControls['weightUnitMeasureCode'].value,
-            weight: this.productFormControls['weight'].value,
-            daysToManufacture: this.productFormControls['daysToManufacture'].value,
-            productLine: this.productFormControls['description'].value,
-            class: this.productFormControls['description'].value,
-            style: this.productFormControls['description'].value,
-            productSubcategoryID: this.productFormControls['productSubcategoryID'].value,
-            productModelID:  this.productFormControls['productModelID'].value,
-            sellStartDate:  this.productFormControls['sellStartDate'].value,
-            sellEndDate: this.productFormControls['description'].value,
-            discontinuedDate: this.productFormControls['discontinuedDate'].value,
-            imageUrl: this.productFormControls['imageUrl'].value,
-            availableUntil: this.productFormControls['availableUntil'].value,
-            tags: this.productFormControls['tags'].value,
-            isNew: this.productFormControls['isNew'].value,
-            code: this.productFormControls['code'].value,
-            quantityInStock: this.productFormControls['quantityInStock'].value,
-            originalPrice: this.productFormControls['originalPrice'].value,
-            discountPrice: this.productFormControls['discountPrice'].value,
-            discountPercentage: this.productFormControls['discountPercentage'].value,
-            productProductPhotos: this.productFormControls['productProductPhotos'].value,
-            inventoryStatus: this.productFormControls['inventoryStatus'].value,
-            modifiedDate: this.productFormControls['modifiedDate'].value,
-            isFeatured: this.productFormControls['isFeatured'].value,
+        const productData: Product = {
+            color: this.product.color,
+            availableUntil: this.product.availableUntil,
+            code: this.product.code,
+            daysToManufacture: this.product.daysToManufacture,
+            discountPercentage: this.product.discountPercentage,
+            discountPrice: this.product.discountPrice,
+            imageUrl: '',
+            inventoryStatus: this.product.inventoryStatus,
+            isFeatured: false,
+            isNew: false,
+            listPrice: this.product.listPrice,
+            modifiedDate: this.product.modifiedDate,
+            originalPrice: this.product.originalPrice,
+            price: this.product.price,
+            productID: 0,
+            productNumber: this.product.productNumber,
+            quantityInStock: this.product.quantityInStock,
+            rating: this.product.rating,
+            reorderPoint: this.product.reorderPoint,
+            rowguid: this.product.rowguid,
+            sellStartDate: this.product.sellStartDate,
+            sellEndDate: this.product.sellEndDate,
+            standardCost: this.product.standardCost,
+            tags: this.product.tags,
+            title: this.product.title,
+            name: this.product.name,
+            description: this.product.description,
+            category: this.product.category,
+            safetyStockLevel: this.product.safetyStockLevel,
+            makeFlag: this.product.makeFlag,
+            finishedGoodsFlag: this.product.finishedGoodsFlag,
+            size: this.product.size,
+            sizeUnitMeasureCode: this.product.sizeUnitMeasureCode,
+            weightUnitMeasureCode: this.product.weightUnitMeasureCode,
+            productLine: this.product.productLine
         };
 
-        this.productService.addProduct(productData).subscribe({
-            next: (response: any) => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Product add Successful',
-                    detail: 'Your account has been created successfully!'
-                });
-            },
-            error: (error: any) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Registration Failed',
-                    detail: error || 'An error occurred during registration'
-                });
-            },
-            complete: () => {
-                this.loading = false;
-            }
+        this.productService
+            .addProduct(productData)
+            .pipe(tap(() => console.log('Product added', productData)))
+            .subscribe({
+                next: (response: any) => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Adding Product Successful',
+                        detail: `Adding Product Successful!`
+                    });
+                },
+                error: (error: any) => {
+                    this.loading = false;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error Saving Product',
+                        detail: `Error adding Product`
+                    });
+                },
+                complete: () => {
+                    this.loading = false;
+                }
+            });
+    }
+
+    onCancel(): void {
+        this.productForm.reset();
+        this.product = {
+            availableUntil: undefined,
+            category: undefined,
+            code: undefined,
+            daysToManufacture: undefined,
+            description: undefined,
+            discountPercentage: undefined,
+            discountPrice: undefined,
+            finishedGoodsFlag: undefined,
+            imageUrl: '',
+            inventoryStatus: undefined,
+            isFeatured: false,
+            isNew: undefined,
+            listPrice: undefined,
+            makeFlag: undefined,
+            modifiedDate: undefined,
+            originalPrice: undefined,
+            price: 0,
+            productID: 0,
+            productNumber: undefined,
+            quantityInStock: 0,
+            rating: undefined,
+            reorderPoint: undefined,
+            rowguid: undefined,
+            safetyStockLevel: 0,
+            sellStartDate: undefined,
+            standardCost: undefined,
+            tags: undefined,
+            title: '',
+            name: ''
+        };
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Cancelled',
+            detail: 'Product creation cancelled'
         });
     }
 
-    togglePasswordVisibility(): void {
-        this.passwordVisible = !this.passwordVisible;
-    }
-
-    toggleConfirmPasswordVisibility(): void {
-        this.confirmPasswordVisible = !this.confirmPasswordVisible;
-    }
-
-    navigateToLogin(): void {
-        this.router.navigate(['/auth/login']);
-    }
-
-    private markFormGroupTouched(): void {
-        Object.keys(this.productForm.controls).forEach((key) => {
-            const control = this.productForm.get(key);
-            control?.markAsTouched();
+    bulkInsert(): void {
+        console.log('Bulk insert clicked');
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Bulk Import',
+            detail: 'Bulk import functionality triggered'
         });
     }
-    isFieldInvalid(fieldName: string): boolean {
+
+    importProduct(): void {
+        console.log('import selected clicked');
+        this.messageService.add({
+            severity: 'info',
+            summary: 'import',
+            detail: 'import functionality triggered'
+        });
+    }
+
+    onUpload(event: any): void {
+        console.log('Files uploaded:', event);
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Upload Success',
+            detail: 'Files uploaded successfully'
+        });
+    }
+
+    public onSelect(event: any): void {
+        console.log('Files selected:', event);
+    }
+
+    public isFieldInvalid(fieldName: string): boolean {
         const field = this.productForm.get(fieldName);
         return !!(field && field.invalid && (field.dirty || field.touched || this.submitted));
     }
 
-    getFieldError(fieldName: string): string {
+    public getFieldError(fieldName: string): string {
         const field = this.productForm.get(fieldName);
         if (field?.errors && (field.dirty || field.touched || this.submitted)) {
-            if (field.errors['required']) return `${this.getFieldDisplayName(fieldName)} is required`;
-            if (field.errors['email']) return 'Please enter a valid email address';
+            if (field.errors['name']) return `${this.getFieldDisplayName(fieldName)} is required`;
+            if (field.errors['title']) return 'Please enter a valid email address';
             if (field.errors['minlength']) return `${this.getFieldDisplayName(fieldName)} must be at least ${field.errors['minlength'].requiredLength} characters`;
-            if (field.errors['pattern']) return 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
-            if (field.errors['passwordMismatch']) return 'Passwords do not match';
         }
         return '';
     }
 
     private getFieldDisplayName(fieldName: string): string {
         const displayNames: { [key: string]: string } = {
-            name: 'Name',
-            email: 'Email',
-            password: 'Password',
-            confirmPassword: 'Confirm Password'
+            email: 'name',
+            password: 'title'
         };
         return displayNames[fieldName] || fieldName;
     }
-
-    autoValue: any[] | undefined;
-    autoFilteredValue: any[] = [];
-    sliderValue: number = 50;
-
-    exportSelected() {}
-
-    clearFilters() {}
-
-    bulkInsert() {}
-
-    onUpload($event: FileUploadEvent) {}
-
-    onSelect($event: FileSelectEvent) {}
-
-    protected readonly oncancel = oncancel;
 }
-
-export default AdminProductNewComponent;

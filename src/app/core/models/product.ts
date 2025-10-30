@@ -57,7 +57,7 @@ export class Product {
     isNew: boolean | undefined;
     unitMeasure?: UnitMeasure | undefined;
     unitMeasure1?: UnitMeasure | undefined;
-    productSubcategory?: ProductSubcategory | undefined;
+    productSubcategory?: ProductSubcategory | null;
     productModel?: ProductModel | undefined;
     billOfMaterials?: BillOfMaterials[] | undefined;
     billOfMaterials1?: BillOfMaterials[] | undefined;

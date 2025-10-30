@@ -34,8 +34,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductService } from '../../../../service/product.service';
 import { Product } from '../../../models/product';
 import { tap } from 'rxjs/operators';
-import { Router, RouterLink } from '@angular/router';
-import { Card } from 'primeng/card';
+import { Router } from '@angular/router';
 
 interface Column {
     field: string;
@@ -82,7 +81,7 @@ interface ExportColumn {
         Toolbar,
         TableModule,
         ConfirmDialogModule,
-        DialogModule,
+        DialogModule
     ],
     templateUrl: 'admin-product.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
@@ -149,7 +148,7 @@ export class AdminProductComponent implements OnInit {
     });
 
     public navigateToAddNewPropduct() {
-        return this.router.navigate(['admin-product-new']);
+        return this.router.navigate(['/production/admin-product-new']);
     }
 
     public editProduct(product: Product) {
@@ -246,10 +245,10 @@ export class AdminProductComponent implements OnInit {
     private findIndexById(id: number): number {
         let index = -1;
         for (let i = 0; i < this.allProducts().length; i++) {
-            // if (this.products()[i].productID === id) {
-            //     index = i;
-            //     break;
-            // }
+            if (this.product.productID === id) {
+                index = i;
+                break;
+            }
         }
 
         return index;

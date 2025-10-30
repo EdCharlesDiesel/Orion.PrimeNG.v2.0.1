@@ -63,6 +63,9 @@
         </tr>
     </ng-template>
     <ng-template #body let-product: this.product[]>
+
+
+
         @for (product of allProducts(); track product.productID; let i = $index) {
         <tr>
             <td style="width: 3rem">
@@ -79,7 +82,8 @@
             </td>
         </tr>
         }
-<!--        }   @else {-->
+
+<!--        @else {-->
 <!--        <div class="empty-state">-->
 <!--            <p-card>-->
 <!--                <div class="empty-content">-->
@@ -95,7 +99,7 @@
 <!--                </div>-->
 <!--            </p-card>-->
 <!--        </div>-->
-<!--    }-->
+
     </ng-template>
 </p-table>
 
