@@ -1,26 +1,26 @@
-<!-- todays-special.component.html -->
+
 <div class="todays-special-container">
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
 
-    <!-- Header Section -->
-
-    <div class="category-section">
-        <div class="category-filter">
-            <h3>Browse Categories</h3>
-            <div class="category-tags">
-                @for (category of categories(); track category) {
-                    <p-button
-                        [label]="category"
-                        [outlined]="selectedCategory() !== category"
-                        [severity]="selectedCategory() === category ? 'primary' : 'secondary'"
-                        (click)="selectCategory(category)"
-                        styleClass="category-tag">
-                    </p-button>
-                }
-            </div>
-        </div>
-    </div>
+    <p-megamenu [model]="megaMenuItems"></p-megamenu>
+    <br>
+<!--    <div class="category-section">-->
+<!--        <div class="category-filter">-->
+<!--            <h3>Browse Categories</h3>-->
+<!--            <div class="category-tags">-->
+<!--                @for (category of categories(); track category) {-->
+<!--                    <p-button-->
+<!--                        [label]="category"-->
+<!--                        [outlined]="selectedCategory() !== category"-->
+<!--                        [severity]="selectedCategory() === category ? 'primary' : 'secondary'"-->
+<!--                        (click)="selectCategory(category)"-->
+<!--                        styleClass="category-tag">-->
+<!--                    </p-button>-->
+<!--                }-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="products-section">
 
@@ -28,15 +28,14 @@
             <div class="products-grid">
                 @for (product of filteredProducts(); track product.productID; let i = $index) {
                     <p-card class="product-card">
-                        <!-- Product Badges -->
                         <div class="product-badges">
                             @if (product.isNew) {
                                 <p-tag value="NEW" severity="success" styleClass="mr-1"></p-tag>
                             }
-<!--                            <p-tag-->
-<!--                                [value]="product.discountPercentage + '% OFF'"-->
-<!--                                [severity]="getDiscountColor(product?.discountPercentage)">-->
-<!--                            </p-tag>-->
+                            <p-tag
+                                [value]="product.discountPercentage + '% OFF'"
+                                [severity]="getDiscountColor(product?.discountPercentage)">
+                            </p-tag>
                         </div>
 
                         <div class="product-image" (click)="openGallery(product, i)">
@@ -56,7 +55,7 @@
                                 <p-rating
                                     [ngModel]="product.rating"
                                     [readonly]="true"
-                                    styleClass="mr-2">
+                                    class="mr-2">
                                 </p-rating>
                                 <small>({{ product.rating?.rate }})</small>
                             </div>
@@ -68,12 +67,12 @@
                                 <span class="discount-price">${{ product.discountPrice }}</span>
                             </div>
 
-<!--                            <div class="time-section">-->
-<!--                                <i class="pi pi-clock" [class.text-danger]="isAlmostExpired(product.availableUntil?.getUTCDate())"></i>-->
-<!--                                <span [class.text-danger]="isAlmostExpired(product.availableUntil?.getUTCDate())">-->
-<!--                                    {{ formatTimeRemaining(product.availableUntil?.getUTCDate()) }}-->
+                            <div class="time-section">
+<!--                                <i class="pi pi-clock" [class.text-danger]="isAlmostExpired(product.availableUntil?.getDate())"></i>-->
+<!--                                <span [class.text-danger]="isAlmostExpired(product.availableUntil?.toDateString())">-->
+<!--                                    {{ product.availableUntil?.getDate() }}-->
 <!--                                </span>-->
-<!--                            </div>-->
+                            </div>
 
                             <div class="stock-section">
                                 @let stockStatus = getStockStatus(product.quantityInStock);
@@ -159,10 +158,10 @@
                             @if (selectedProduct()!.isNew) {
                                 <p-tag value="NEW" severity="success" styleClass="mr-1"></p-tag>
                             }
-<!--                            <p-tag-->
-<!--                                [value]="selectedProduct()!.discountPercentage + '% OFF'"-->
-<!--                                [severity]="getDiscountColor(selectedProduct()?.discountPercentage)">-->
-<!--                            </p-tag>-->
+                            <p-tag
+                                [value]="selectedProduct()!.discountPercentage + '% OFF'"
+                                [severity]="getDiscountColor(selectedProduct()?.discountPercentage)">
+                            </p-tag>
                         </div>
                     </div>
 
@@ -182,7 +181,7 @@
                     <div class="price-section">
                         <span class="original-price">${{ selectedProduct()!.originalPrice }}</span>
                         <span class="discount-price">${{ selectedProduct()!.discountPrice }}</span>
-<!--                        <span class="savings">You save ${{ selectedProduct().originalPrice - selectedProduct().discountPrice | number:'1.2-2' }}</span>-->
+<!--                        <span class="savings">You save ${{ (selectedProduct()!.discountPrice) - (selectedProduct()?.originalPrice) | number:'1.2-2' }}</span>-->
                     </div>
 
                     <div class="details-meta">
@@ -206,9 +205,9 @@
 
                     <div class="time-remaining">
                         <i class="pi pi-clock text-danger"></i>
-<!--                        <strong class="text-danger">-->
-<!--                            {{ formatTimeRemaining(selectedProduct()!.availableUntil?.getUTCDate()) }}-->
-<!--                        </strong>-->
+                        <strong class="text-danger">
+                            {{ selectedProduct()!.availableUntil?.toString() }}
+                        </strong>
                     </div>
 
                     <div class="product-tags">

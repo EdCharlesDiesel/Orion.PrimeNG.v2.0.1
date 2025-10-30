@@ -44,7 +44,6 @@ export class Product {
     sellStartDate: Date | undefined;
     sellEndDate?: Date | undefined;
     discontinuedDate?: Date | undefined;
-    rowguid: string | undefined;
     imageUrl: string = '';
     tags: string[] | undefined;
     code: number | undefined;

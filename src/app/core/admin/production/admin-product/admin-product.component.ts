@@ -119,7 +119,6 @@ export class AdminProductComponent implements OnInit {
             .pipe(tap((p) => console.log(JSON.stringify(p))))
             .subscribe((data: any) => {
                 this.allProducts.set(data);
-
                 console.log(JSON.stringify(data));
             });
 
@@ -148,7 +147,7 @@ export class AdminProductComponent implements OnInit {
     });
 
     public navigateToAddNewPropduct() {
-        return this.router.navigate(['/production/admin-product-new']);
+        return this.router.navigate(['http://localhost:4200/admin/production/admin-product-new']);
     }
 
     public editProduct(product: Product) {
@@ -198,7 +197,6 @@ export class AdminProductComponent implements OnInit {
                     inventoryStatus: '',
                     code: 0,
                     productSubcategoryID: 0,
-                    rowguid: '',
                     discontinuedDate: new Date(),
                     sellEndDate: new Date(),
                     sellStartDate: new Date(),

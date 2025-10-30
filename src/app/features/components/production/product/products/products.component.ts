@@ -1,8 +1,7 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
-import { AsyncPipe, CommonModule, CurrencyPipe, NgClass, SlicePipe } from '@angular/common';
-import { ProgressSpinner } from 'primeng/progressspinner';
-import { Paginator } from 'primeng/paginator';
+import {  CommonModule,   SlicePipe } from '@angular/common';
+
 import { Button } from 'primeng/button';
 import { ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -13,16 +12,125 @@ import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../../../core/models/product';
+import { MegaMenu } from 'primeng/megamenu';
 
 @Component({
     selector: 'app-products',
     standalone: true,
     templateUrl: 'products.component.html',
     styleUrls: ['products.component.scss'],
-    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule],
-    providers:[ ConfirmationService,MessageService ],
+    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule, MegaMenu],
+    providers: [ConfirmationService, MessageService]
 })
 class ProductsComponent implements OnInit {
+    megaMenuItems = [
+        {
+            label: 'Fashion',
+            icon: 'pi pi-fw pi-tag',
+            items: [
+                [
+                    {
+                        label: 'Woman',
+                        items: [{ label: 'Woman Item' }, { label: 'Woman Item' }, { label: 'Woman Item' }]
+                    },
+                    {
+                        label: 'Men',
+                        items: [{ label: 'Men Item' }, { label: 'Men Item' }, { label: 'Men Item' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Kids',
+                        items: [{ label: 'Kids Item' }, { label: 'Kids Item' }]
+                    },
+                    {
+                        label: 'Luggage',
+                        items: [{ label: 'Luggage Item' }, { label: 'Luggage Item' }, { label: 'Luggage Item' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Electronics',
+            icon: 'pi pi-fw pi-desktop',
+            items: [
+                [
+                    {
+                        label: 'Computer',
+                        items: [{ label: 'Computer Item' }, { label: 'Computer Item' }]
+                    },
+                    {
+                        label: 'Camcorder',
+                        items: [{ label: 'Camcorder Item' }, { label: 'Camcorder Item' }, { label: 'Camcorder Item' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'TV',
+                        items: [{ label: 'TV Item' }, { label: 'TV Item' }]
+                    },
+                    {
+                        label: 'Audio',
+                        items: [{ label: 'Audio Item' }, { label: 'Audio Item' }, { label: 'Audio Item' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Sports.7',
+                        items: [{ label: 'Sports.7.1' }, { label: 'Sports.7.2' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Furniture',
+            icon: 'pi pi-fw pi-image',
+            items: [
+                [
+                    {
+                        label: 'Living Room',
+                        items: [{ label: 'Living Room Item' }, { label: 'Living Room Item' }]
+                    },
+                    {
+                        label: 'Kitchen',
+                        items: [{ label: 'Kitchen Item' }, { label: 'Kitchen Item' }, { label: 'Kitchen Item' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Bedroom',
+                        items: [{ label: 'Bedroom Item' }, { label: 'Bedroom Item' }]
+                    },
+                    {
+                        label: 'Outdoor',
+                        items: [{ label: 'Outdoor Item' }, { label: 'Outdoor Item' }, { label: 'Outdoor Item' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Sports',
+            icon: 'pi pi-fw pi-star',
+            items: [
+                [
+                    {
+                        label: 'Basketball',
+                        items: [{ label: 'Basketball Item' }, { label: 'Basketball Item' }]
+                    },
+                    {
+                        label: 'Football',
+                        items: [{ label: 'Football Item' }, { label: 'Football Item' }, { label: 'Football Item' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Tennis',
+                        items: [{ label: 'Tennis Item' }, { label: 'Tennis Item' }]
+                    }
+                ]
+            ]
+        }
+    ];
     specialProducts = signal<Product[]>([]);
     featuredProduct = signal<Product | null>(null);
     selectedProduct = signal<Product | null>(null);
@@ -75,7 +183,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined
             },
@@ -108,7 +215,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined,
                 inventoryStatus: undefined
@@ -143,7 +249,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined,
                 inventoryStatus: undefined
@@ -177,7 +282,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined,
                 inventoryStatus: undefined
@@ -212,7 +316,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined,
                 inventoryStatus: undefined
@@ -246,7 +349,6 @@ class ProductsComponent implements OnInit {
                 listPrice: undefined,
                 daysToManufacture: undefined,
                 sellStartDate: undefined,
-                rowguid: undefined,
                 code: undefined,
                 modifiedDate: undefined,
                 inventoryStatus: undefined
@@ -257,7 +359,6 @@ class ProductsComponent implements OnInit {
         this.featuredProduct.set(sampleProducts.find((product) => product.isFeatured) || sampleProducts[0]);
     }
 
-    // Computed signals for filtered products
     filteredProducts = computed(() => {
         const products = this.specialProducts();
         const category = this.selectedCategory();
@@ -269,7 +370,6 @@ class ProductsComponent implements OnInit {
         return products.filter((product) => product.category === category);
     });
 
-    // Computed signal for time remaining
     getTimeRemaining(endDate: Date): { days: number; hours: number; minutes: number } {
         const now = new Date();
         const diff = endDate.getTime() - now.getTime();
@@ -281,10 +381,9 @@ class ProductsComponent implements OnInit {
         };
     }
 
-    // Computed signal for gallery images
+
     today: (new () => Date) | undefined;
     getGalleryImages(product: Product) {
-        // In a real app, you might have multiple images per product
         return [
             {
                 itemImageSrc: product.imageUrl,
@@ -312,7 +411,6 @@ class ProductsComponent implements OnInit {
             header: 'Add to Cart',
             icon: 'pi pi-shopping-cart',
             accept: () => {
-                // In a real app, you would call a cart service here
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Added to Cart',
@@ -324,7 +422,6 @@ class ProductsComponent implements OnInit {
     }
 
     addToWishlist(product: Product) {
-        // In a real app, you would call a wishlist service here
         this.messageService.add({
             severity: 'info',
             summary: 'Added to Wishlist',
@@ -340,7 +437,7 @@ class ProductsComponent implements OnInit {
         return { severity: 'danger', label: 'Out of Stock' };
     }
 
-    getDiscountColor(percentage: number): string {
+    getDiscountColor(percentage: number = 50): string {
         if (percentage >= 40) return 'danger';
         if (percentage >= 25) return 'warning';
         return 'success';
