@@ -83,7 +83,7 @@ interface ExportColumn {
         ConfirmDialogModule,
         DialogModule
     ],
-    templateUrl: 'admin-product.component.html',
+    templateUrl: 'admin-product-list.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
 export class AdminProductListComponent implements OnInit {
@@ -236,18 +236,6 @@ export class AdminProductListComponent implements OnInit {
                 });
             }
         });
-    }
-
-    private findIndexById(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.allProducts().length; i++) {
-            if (this.product.productID === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
     }
 
     private createId(): number {

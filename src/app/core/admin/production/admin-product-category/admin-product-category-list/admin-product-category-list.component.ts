@@ -11,20 +11,21 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { ProductCategory } from '../../../../models/product-category.model';
 import { Column } from '../../../../models/Column';
-import { ProductCategoryService } from '../../../../../service/product-category-service';
+import { ProductCategoryService } from '../../../services/product-category-service';
+import { Card } from 'primeng/card';
 
 @Component({
     selector: 'app-admin-product-category-list',
-    imports: [Button, ConfirmDialog, IconField, InputIcon, InputText, TableModule, Toolbar],
+    imports: [Button, ConfirmDialog, IconField, InputIcon, InputText, TableModule, Toolbar, Card],
     templateUrl: './admin-product-category-list.component.html',
     styleUrl: './admin-product-category-list.component.scss'
 })
 export class AdminProductCategoryListComponent {
-    productsCategoriesSignal = signal<ProductCategory[]>([]);
-    selectedProductCategory = signal<ProductCategory | null>(null);
+    protected productsCategoriesSignal = signal<ProductCategory[]>([]);
+    protected selectedProductCategory = signal<ProductCategory | null>(null);
 
     productCategory!: ProductCategory;
-    selectedProductCategorys!: AdminProductCategoryListComponent[] | null;
+    selectedProductCategories!: AdminProductCategoryListComponent[] | null;
     submitted: boolean = false;
     statuses!: any[];
     @ViewChild('dt') dt!: Table;
@@ -34,8 +35,7 @@ export class AdminProductCategoryListComponent {
     constructor(
         private productCategoryService: ProductCategoryService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private router: Router
+        private confirmationService: ConfirmationService
     ) {}
 
     exportCSV() {
@@ -46,7 +46,7 @@ export class AdminProductCategoryListComponent {
         this.loadProductCategoryData();
     }
 
-    loadProductCategoryData() {
+    public loadProductCategoryData() {
         this.productCategoryService
             .getProductCategories()
             .pipe(tap((p) => console.log(JSON.stringify(p))))
@@ -75,14 +75,13 @@ export class AdminProductCategoryListComponent {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    public deleteSelectedProductCategorys() {
+    public deleteSelectedProductCategories() {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete the selected products?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.products.set(this.products().filter((val) => !this.selectedProductCategorys?.includes(val)));
-                this.selectedProductCategorys = null;
+                this.selectedProductCategories = null;
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
@@ -103,7 +102,6 @@ export class AdminProductCategoryListComponent {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.productCategorys.set(this.productCategorys().filter((val) => val.productCategoryID !== productCategory.productCategoryID));
                 this.productCategory = {
                     productCategoryID: 0,
                     name: productCategory.name,
@@ -122,32 +120,5 @@ export class AdminProductCategoryListComponent {
     private createId(): number {
         let id = 17;
         return ++id;
-    }
-
-    public saveProductCategory() {
-        this.submitted = true;
-        let _products = this.allProductCategorys();
-        if (this.product.productID) {
-            if (this.product.productID) {
-                // _products[this.findIndexById(this.product.productID)] = this.product;
-                this.allProductCategorys.set([..._products]);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'ProductCategory Updated',
-                    life: 3000
-                });
-            } else {
-                this.product.productID = this.createId();
-                this.productService.addProductCategory(this.product);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'ProductCategory Created',
-                    life: 3000
-                });
-                // this.products.set([..._products, this.product]);
-            }
-        }
     }
 }

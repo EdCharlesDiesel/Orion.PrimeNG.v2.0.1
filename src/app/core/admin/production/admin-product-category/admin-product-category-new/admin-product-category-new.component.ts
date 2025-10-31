@@ -1,13 +1,13 @@
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductCategory } from '../../../../models/product-category.model';
 import { Component, signal } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { ProductCategoryService } from '../../../../../service/product-category-service';
-import { tap } from 'rxjs/operators';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { InputText } from 'primeng/inputtext';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Toast } from 'primeng/toast';
+import { ProductCategory } from '../../../../models/product-category.model';
+import { MessageService } from 'primeng/api';
+import { ProductCategoryService } from '../../../services/product-category-service';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-admin-product-category-new',
@@ -17,7 +17,7 @@ import { Toast } from 'primeng/toast';
 })
 export class AdminProductCategoryNewComponent {
     productCategoryForm!: FormGroup;
-    productCategories = signal<ProductCategory[]>([]);
+    productCategorySignal = signal<ProductCategory[]>([]);
     productCategory: ProductCategory = {
         productCategoryID: 0,
         name: '',
@@ -30,12 +30,12 @@ export class AdminProductCategoryNewComponent {
     constructor(
         private fb: FormBuilder,
         private messageService: MessageService,
-        private productService: ProductCategoryService
+        private productCategoryService: ProductCategoryService
     ) {}
 
     ngOnInit(): void {
         this.initializeForm();
-        this.loadProductCategorysFromDatabase();
+        this.loadProductCategoriesFromDatabase();
     }
 
     initializeForm(): void {
@@ -63,7 +63,7 @@ export class AdminProductCategoryNewComponent {
             modifiedDate: new Date()
         };
 
-        this.productService
+        this.productCategoryService
             .createProductCategory(productData)
             .pipe(tap(() => console.log('Product Category added', productData)))
             .subscribe({
@@ -168,17 +168,17 @@ export class AdminProductCategoryNewComponent {
         return displayNames[fieldName] || fieldName;
     }
     private getPrimaryKey(): number {
-        let key = this.products().length;
+        let key = this.productCategorySignal().length;
         return key + 1;
     }
 
-    private loadProductCategorysFromDatabase() {
-        this.productService
+    private loadProductCategoriesFromDatabase() {
+        this.productCategoryService
             .getProductCategories()
             .pipe(tap((p) => console.log(JSON.stringify(p))))
             .subscribe({
                 next: (data) => {
-                    this.products.set(data);
+                    this.productCategorySignal.set(data);
                 },
                 error: (err) => {
                     this.messageService.add({

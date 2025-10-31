@@ -2,8 +2,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ProductCategory } from '../core/models/product-category.model';
-import { environment } from '../../environments/environment';
+import { ProductCategory } from '../../models/product-category.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
