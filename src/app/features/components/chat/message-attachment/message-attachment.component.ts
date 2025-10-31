@@ -7,7 +7,7 @@ import { VideoService } from '../../../../service/video.service';
 import { VideoSourceUpdateModel } from '../../../../core/models/video-source-update.model';
 import { UrlFactoryService } from '../../../../service/url-factory.service';
 import { Tooltip } from 'primeng/tooltip';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgOptimizedImage } from '@angular/common';
 import { FileSizePipe } from '../../../../utility/file-size.pipe';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { ButtonDirective } from 'primeng/button';
@@ -19,7 +19,7 @@ import { DeferLoadDirective } from '../../../../utility/defer-load.directive';
 @Component({
     selector: 'app-message-attachment',
     templateUrl: './message-attachment.component.html',
-    imports: [Tooltip, DatePipe, FileSizePipe, ProgressSpinner, ButtonDirective, Ripple, DeferLoadDirective,CommonModule],
+    imports: [Tooltip, DatePipe, FileSizePipe, ProgressSpinner, ButtonDirective, Ripple, DeferLoadDirective, CommonModule, NgOptimizedImage],
     styleUrls: ['./message-attachment.component.scss']
 })
 export class MessageAttachmentComponent implements OnInit {

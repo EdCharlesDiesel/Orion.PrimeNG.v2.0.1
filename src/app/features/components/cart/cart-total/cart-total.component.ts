@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { CartService } from '../../../../service/cart.service';
 import { Card } from 'primeng/card';
+import { PrimeTemplate } from 'primeng/api';
 
 @Component({
     selector: 'app-cart-total',
     templateUrl: './cart-total.component.html',
     styleUrl: './cart-total.component.scss',
     standalone: true,
-    imports: [NgIf, CurrencyPipe, Card]
+    imports: [NgIf, CurrencyPipe, Card, PrimeTemplate, PrimeTemplate]
 })
 export class CartTotalComponent {
     private cartService = inject(CartService);

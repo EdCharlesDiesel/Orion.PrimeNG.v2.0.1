@@ -13,6 +13,7 @@ import { ScrollPanel } from 'primeng/scrollpanel';
 import { InputText } from 'primeng/inputtext';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
+import { Tooltip } from 'primeng/tooltip';
 
 export interface Notification {
     id: number;
@@ -38,20 +39,7 @@ export interface CartNotification extends Notification {
 @Component({
     selector: 'app-notifications',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        Badge,
-        Button,
-        Card,
-        Avatar,
-        TabsModule,
-        Tag,
-        ScrollPanel,
-        InputText,
-        IconField,
-        InputIcon
-    ],
+    imports: [CommonModule, FormsModule, Badge, Button, Card, Avatar, TabsModule, Tag, ScrollPanel, InputText, IconField, InputIcon, Tooltip],
     templateUrl: './notifications.component.html',
     styleUrls: ['./notifications.component.scss']
 })
@@ -62,38 +50,33 @@ export class NotificationsComponent implements OnInit {
 
     // Computed values
     unreadCount = computed(() => {
-        return this.notifications().filter(n => !n.read).length;
+        return this.notifications().filter((n) => !n.read).length;
     });
 
     cartNotificationsCount = computed(() => {
-        return this.filteredNotifications('cart').filter(n => !n.read).length;
+        return this.filteredNotifications('cart').filter((n) => !n.read).length;
     });
 
     orderNotificationsCount = computed(() => {
-        return this.filteredNotifications('order').filter(n => !n.read).length;
+        return this.filteredNotifications('order').filter((n) => !n.read).length;
     });
 
     systemNotificationsCount = computed(() => {
-        return this.filteredNotifications('system').filter(n => !n.read).length;
+        return this.filteredNotifications('system').filter((n) => !n.read).length;
     });
 
     messageNotificationsCount = computed(() => {
-        return this.filteredNotifications('message').filter(n => !n.read).length;
+        return this.filteredNotifications('message').filter((n) => !n.read).length;
     });
 
     displayedNotifications = computed(() => {
         const tab = this.selectedTab();
         const query = this.searchQuery().toLowerCase();
 
-        let filtered = tab === 'all'
-            ? this.notifications()
-            : this.notifications().filter(n => n.type === tab);
+        let filtered = tab === 'all' ? this.notifications() : this.notifications().filter((n) => n.type === tab);
 
         if (query) {
-            filtered = filtered.filter(n =>
-                n.title.toLowerCase().includes(query) ||
-                n.message.toLowerCase().includes(query)
-            );
+            filtered = filtered.filter((n) => n.title.toLowerCase().includes(query) || n.message.toLowerCase().includes(query));
         }
 
         return filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
@@ -202,27 +185,19 @@ export class NotificationsComponent implements OnInit {
     }
 
     filteredNotifications(type: string): Notification[] {
-        return this.notifications().filter(n => n.type === type);
+        return this.notifications().filter((n) => n.type === type);
     }
 
     markAsRead(notification: Notification): void {
-        this.notifications.update(notifications =>
-            notifications.map(n =>
-                n.id === notification.id ? { ...n, read: true } : n
-            )
-        );
+        this.notifications.update((notifications) => notifications.map((n) => (n.id === notification.id ? { ...n, read: true } : n)));
     }
 
     markAllAsRead(): void {
-        this.notifications.update(notifications =>
-            notifications.map(n => ({ ...n, read: true }))
-        );
+        this.notifications.update((notifications) => notifications.map((n) => ({ ...n, read: true })));
     }
 
     deleteNotification(notification: Notification): void {
-        this.notifications.update(notifications =>
-            notifications.filter(n => n.id !== notification.id)
-        );
+        this.notifications.update((notifications) => notifications.filter((n) => n.id !== notification.id));
     }
 
     clearAll(): void {

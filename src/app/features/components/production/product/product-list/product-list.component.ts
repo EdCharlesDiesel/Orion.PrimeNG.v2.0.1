@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Message } from 'primeng/message';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { MessageService, PrimeTemplate } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Store } from '@ngrx/store';
@@ -19,7 +19,7 @@ import { loadProductsSuccess } from '../../../../../store/products/product.actio
     standalone: true,
 
     templateUrl: './product-list.component.html',
-    imports: [Card, FormsModule, Message, PrimeTemplate, Paginator, AsyncPipe],
+    imports: [Card, FormsModule, Message, PrimeTemplate, Paginator, AsyncPipe, NgIf],
     styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent implements OnInit {

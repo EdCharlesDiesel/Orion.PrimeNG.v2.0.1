@@ -12,19 +12,22 @@ import { Column } from '../../../../models/Column';
 import { ProductSubCategoryService } from '../../../services/product-sub-category-service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { tap } from 'rxjs/operators';
+import { ExportColumn } from '../../../../models/ExportColumn';
 
 @Component({
     selector: 'app-admin-product-sub-category-list',
+    standalone: true,
     templateUrl: 'admin-product-sub-category-list.component.html',
     imports: [Button, Card, ConfirmDialog, IconField, InputIcon, InputText, TableModule, Toolbar],
-    styleUrl: './admin-product-sub-category-list.component.scss'
+    styleUrl: './admin-product-sub-category-list.component.scss',
+    providers:[ConfirmationService,MessageService ]
 })
 export class AdminProductSubCategoryListComponent {
     protected productsSubCategoriesSignal = signal<ProductSubcategory[]>([]);
     protected selectedProductSubCategory = signal<ProductSubcategory | null>(null);
 
-    productCategory!: ProductSubcategory;
-    selectedProductSubcategories!: AdminProductSubCategoryListComponent[] | null;
+    productSubCategory!: ProductSubcategory;
+    selectedProductSubcategories!: ProductSubcategory[] | null;
     submitted: boolean = false;
     statuses!: any[];
     @ViewChild('dt') dt!: Table;
@@ -101,7 +104,7 @@ export class AdminProductSubCategoryListComponent {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.productCategory = {
+                this.productSubCategory = {
                     productSubcategoryID: 0,
                     productCategoryID: 0,
                     name: productCategory.name,

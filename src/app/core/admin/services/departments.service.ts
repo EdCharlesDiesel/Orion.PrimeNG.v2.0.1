@@ -1,7 +1,7 @@
 import { Observable,tap } from 'rxjs';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Department } from '../human-resources/departments/department.model';
+import { Department } from '../models/department.model';
 import { environment } from '../../../../environments/environment';
 import { HttpErrorService } from '../../../shared/http-error.service';
 

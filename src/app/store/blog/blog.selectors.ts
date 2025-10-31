@@ -1,7 +1,7 @@
 // src/app/store/blog/blog.selectors.ts
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { BlogState, BlogPost } from '../../core/models/blog.models';
+import { BlogState } from '../../core/models/blog.models';
 
 // Feature selector
 export const selectBlogState = createFeatureSelector<BlogState>('blog');

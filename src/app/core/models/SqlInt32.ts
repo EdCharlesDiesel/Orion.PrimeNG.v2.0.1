@@ -4,9 +4,8 @@ export class SqlInt32 implements ISqlInt32 {
 
   constructor(data?: ISqlInt32) {
     if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (this as any)[property] = (data as any)[property];
+      for (let property in data) {
+          if (data.hasOwnProperty(property)) (this as any)[property] = (data as any)[property];
       }
     }
   }

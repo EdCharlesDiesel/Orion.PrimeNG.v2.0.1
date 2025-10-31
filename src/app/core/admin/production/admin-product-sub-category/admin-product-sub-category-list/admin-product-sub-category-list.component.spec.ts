@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AdminProductSubCategoryListComponent } from './admin-product-sub-category-list.component';
 
-import AdminProductSubCategoryListComponent from './admin-product-sub-category-list.component';
 
 describe('AdminProductCategoryListComponent', () => {
   let component: AdminProductSubCategoryListComponent;

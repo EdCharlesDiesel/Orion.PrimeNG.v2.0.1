@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
 import { AdminLayout } from './app/layout/component/admin.layout';
-import { AdminGuard } from './app/core/authentication/guards/admin.guard';
 import { Dashboard } from './app/core/admin/dashboard/dashboard';
 import { DatabaseLog } from './app/core/admin/database-log/database-log';
 import { ManageOrders } from './app/core/admin/manage-orders/manage-orders';

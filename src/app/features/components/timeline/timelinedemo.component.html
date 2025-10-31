@@ -54,7 +54,7 @@
         </ng-template>
         <ng-template pTemplate="content" let-event>
             <p-card [header]="event.status" [subheader]="event.date">
-                <img *ngIf="event.image" [src]="'assets/demo/images/product/' + event.image" [alt]="event.name" width="200" class="shadow-2" />
+                <img *ngIf="event.image" ngSrc="'assets/demo/images/product/' + event.image" [alt]="event.name" width="200" class="shadow-2" />
                 <p class="line-height-3 my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
                     quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
                 <button pButton label="Read more" class="p-button-outlined mb-5"></button>

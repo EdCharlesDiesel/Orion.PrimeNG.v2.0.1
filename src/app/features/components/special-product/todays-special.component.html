@@ -30,7 +30,7 @@
 
                 <div class="featured-content">
                     <div class="featured-image">
-                        <img [src]="featuredProduct()!.imageUrl" [alt]="featuredProduct()!.name">
+                        <img ngSrc="featuredProduct()!.imageUrl" [alt]="featuredProduct()!.name">
                         <div class="image-overlay">
                             <p-button
                                 icon="pi pi-eye"
@@ -147,7 +147,7 @@
 
                         <!-- Product Image -->
                         <div class="product-image" (click)="openGallery(product, i)">
-                            <img [src]="product.imageUrl" [alt]="product.name">
+                            <img ngSrc="product.imageUrl" [alt]="product.name">
                             <div class="image-overlay">
                                 <p-button
                                     icon="pi pi-eye"
@@ -258,7 +258,7 @@
 
             <div class="product-details-content">
                 <div class="details-image">
-                    <img [src]="selectedProduct()!.imageUrl" [alt]="selectedProduct()!.name">
+                    <img ngSrc="selectedProduct()!.imageUrl" [alt]="selectedProduct()!.name">
                 </div>
 
                 <div class="details-info">
@@ -373,12 +373,12 @@
                 [showThumbnails]="false">
 
                 <ng-template pTemplate="item" let-item>
-                    <img [src]="item.itemImageSrc" [alt]="item.alt" style="width: 100%; max-height: 70vh; object-fit: contain;"/>
+                    <img ngSrc="item.itemImageSrc" [alt]="item.alt" style="width: 100%; max-height: 70vh; object-fit: contain;"/>
                 </ng-template>
 
                 <ng-template pTemplate="thumbnail" let-item>
                     <div class="grid grid-nogutter justify-content-center">
-                        <img [src]="item.thumbnailImageSrc" [alt]="item.alt" style="width: 60px; height: 60px; object-fit: cover;"/>
+                        <img ngSrc="item.thumbnailImageSrc" [alt]="item.alt" style="width: 60px; height: 60px; object-fit: cover;"/>
                     </div>
                 </ng-template>
             </p-galleria>

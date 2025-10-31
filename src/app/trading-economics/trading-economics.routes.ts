@@ -1,4 +1,3 @@
-import { Documentation } from '../core/admin/documentation/documentation';
 import { Routes } from '@angular/router';
 import { Empty } from '../pages/empty/empty';
 import { GdpPerCountryComponent } from './gdp-per-country/gdp-per-country.component';

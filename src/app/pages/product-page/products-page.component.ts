@@ -5,6 +5,6 @@ import { Card } from 'primeng/card';
 @Component({
     selector: 'app-products-page',
     template: `<p-card> <app-products></app-products> </p-card>`,
-    imports: [ProductsComponent, Card]
+    imports: [Card, ProductsComponent]
 })
 export class ProductsPageComponent {}

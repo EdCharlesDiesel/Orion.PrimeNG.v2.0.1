@@ -5,7 +5,8 @@
 <p-toolbar styleClass="mb-6">
 
     <ng-template #start>
-        <!--        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteProductCategory" [disabled]="!selectedProductCategory()|| !selectedProductCategories().length" />-->
+<!--       <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedProductSubcategories()" -->
+<!--                 [disabled]="!selectedProductCategory()|| !selectedProductCategories().length" />-->
     </ng-template>
 
     <ng-template #end>
@@ -21,7 +22,7 @@
     [paginator]="true"
     [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
     [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedProductSubCategory()"
+    [(selection)]="selectedProductSubcategories"
     [rowHover]="true"
     dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"

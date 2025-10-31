@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { CartService } from '../../service/cart.service';
 import { Observable } from 'rxjs';
 import { PanelMenu } from 'primeng/panelmenu';
-import { TieredMenu } from 'primeng/tieredmenu';
 import { Divider } from 'primeng/divider';
 
 @Component({

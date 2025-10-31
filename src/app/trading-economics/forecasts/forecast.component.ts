@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Card } from 'primeng/card';
 // import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { UIChart } from 'primeng/chart';
 import { ProgressSpinner } from 'primeng/progressspinner';
 

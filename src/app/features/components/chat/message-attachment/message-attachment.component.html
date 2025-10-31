@@ -5,7 +5,7 @@
     <img [hidden]="doShowSpinner" class="img-thumb"
          (load)="this.doShowSpinner=false"
          (error)="this.doShowSpinner=false"
-         *ngIf="doLazyLoadImage" src="{{buildThumbUrl(attachment)}}" alt="{{attachment.type}}">
+         *ngIf="doLazyLoadImage" ngSrc="{{buildThumbUrl(attachment)}}" alt="{{attachment.type}}">
   </ng-container>
   <video [hidden]="!player" id="{{'vid'+attachment.fileId}}" controls crossorigin></video>
   <button pButton pRipple type="button" class="msg-attachment p-button-text p-button-secondary"

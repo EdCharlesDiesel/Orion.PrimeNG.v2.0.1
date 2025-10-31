@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
-import {  CommonModule,   SlicePipe } from '@angular/common';
+import {  CommonModule, NgOptimizedImage,   SlicePipe } from '@angular/common';
 
 import { Button } from 'primeng/button';
 import { ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
@@ -21,7 +21,7 @@ import { ProductService } from '../../../../../service/product.service';
     standalone: true,
     templateUrl: 'products.component.html',
     styleUrls: ['products.component.scss'],
-    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule, MegaMenu],
+    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule, MegaMenu, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage],
     providers: [ConfirmationService, MessageService]
 })
 class ProductsComponent implements OnInit {

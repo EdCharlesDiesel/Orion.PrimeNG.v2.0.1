@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PrimeIcons, PrimeTemplate } from 'primeng/api';
 import { Timeline } from 'primeng/timeline';
 import { Card } from 'primeng/card';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf, NgOptimizedImage } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 
 @Component({
     templateUrl: './timelinedemo.component.html',
-    imports: [Timeline, Card, NgClass, PrimeTemplate, ButtonDirective],
+    imports: [Timeline, Card, NgClass, PrimeTemplate, ButtonDirective, NgOptimizedImage, NgIf],
     styleUrls: ['./timelinedemo.scss']
 })
 export class TimelineDemoComponent implements OnInit {

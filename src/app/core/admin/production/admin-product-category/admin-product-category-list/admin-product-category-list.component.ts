@@ -1,31 +1,27 @@
-import { Component, computed, signal, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { InputText } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { ProductCategory } from '../../../../models/product-category.model';
 import { Column } from '../../../../models/Column';
 import { ProductCategoryService } from '../../../services/product-category-service';
-import { Card } from 'primeng/card';
+import { ExportColumn } from '../../../../models/ExportColumn';
 
 @Component({
     selector: 'app-admin-product-category-list',
-    imports: [Button, ConfirmDialog, IconField, InputIcon, InputText, TableModule, Toolbar, Card],
+    imports: [Button, ConfirmDialog,  TableModule, Toolbar,],
     templateUrl: './admin-product-category-list.component.html',
     styleUrl: './admin-product-category-list.component.scss'
 })
-export class AdminProductCategoryListComponent {
+export class AdminProductCategoryListComponent implements OnInit {
     protected productsCategoriesSignal = signal<ProductCategory[]>([]);
-    protected selectedProductCategory = signal<ProductCategory | null>(null);
+    // protected selectedProductCategory = signal<ProductCategory | null>(null);
 
     productCategory!: ProductCategory;
-    selectedProductCategories!: AdminProductCategoryListComponent[] | null;
+    selectedProductCategories!: ProductCategory[] | null;
     submitted: boolean = false;
     statuses!: any[];
     @ViewChild('dt') dt!: Table;

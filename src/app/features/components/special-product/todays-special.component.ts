@@ -1,6 +1,6 @@
 // todays-special.component.ts
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -30,7 +30,10 @@ import { SpecialProduct } from '../../../core/models/special-product.model';
         BadgeModule,
         GalleriaModule,
         ToastModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        NgOptimizedImage,
+        NgOptimizedImage,
+        NgOptimizedImage
     ],
     providers: [MessageService, ConfirmationService]
 })

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Product } from '../../../../models/product';
@@ -10,7 +10,6 @@ import { Toast } from 'primeng/toast';
 import {  tap } from 'rxjs/operators';
 import { ProductService } from '../../../../../service/product.service';
 import { Select } from 'primeng/select';
-import { Slider } from 'primeng/slider';
 import { FileUpload } from 'primeng/fileupload';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';

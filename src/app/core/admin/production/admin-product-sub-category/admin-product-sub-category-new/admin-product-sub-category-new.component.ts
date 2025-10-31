@@ -5,7 +5,7 @@ import { InputText } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Toast } from 'primeng/toast';
 import { ProductSubcategory } from '../../../../models/product-subcategory.model';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductSubCategoryService } from '../../../services/product-sub-category-service';
 import { tap } from 'rxjs/operators';
 
@@ -13,7 +13,8 @@ import { tap } from 'rxjs/operators';
     selector: 'app-admin-product-sub-category-new',
     imports: [Button, Card, InputText, ReactiveFormsModule, Toast],
     templateUrl: './admin-product-sub-category-new.component.html',
-    styleUrl: './admin-product-sub-category-new.component.scss'
+    styleUrl: './admin-product-sub-category-new.component.scss',
+    providers:[ConfirmationService,MessageService ]
 })
 export class AdminProductSubCategoryNewComponent implements OnInit {
     productSubCategoryForm!: FormGroup;

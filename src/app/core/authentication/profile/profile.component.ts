@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { takeUntil } from 'rxjs/operators';
 import { Tag } from 'primeng/tag';
-import { CommonModule, DatePipe, } from '@angular/common';
+import { CommonModule, DatePipe, NgOptimizedImage, } from '@angular/common';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
@@ -31,7 +31,7 @@ interface ProfileStats {
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     standalone: true,
-    imports: [FormsModule, Tag, DatePipe, ReactiveFormsModule, Button, InputText, CommonModule, Password, ConfirmDialog, Toast, FileUploadModule, TabView, TabPanel, DropdownModule, InputSwitch],
+    imports: [FormsModule, Tag, DatePipe, ReactiveFormsModule, Button, InputText, CommonModule, Password, ConfirmDialog, Toast, FileUploadModule, TabView, TabPanel, DropdownModule, InputSwitch, NgOptimizedImage],
     providers: [ConfirmationService, MessageService]
 })
 class ProfileComponent implements OnInit, OnDestroy {

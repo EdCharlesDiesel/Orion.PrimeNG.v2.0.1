@@ -4,9 +4,8 @@ export class SqlDouble implements ISqlDouble {
 
   constructor(data?: ISqlDouble) {
     if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (this as any)[property] = (data as any)[property];
+      for (let property in data) {
+          if (data.hasOwnProperty(property)) (this as any)[property] = (data as any)[property];
       }
     }
   }

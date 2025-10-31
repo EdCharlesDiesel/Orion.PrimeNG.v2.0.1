@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Toast } from 'primeng/toast';
-import { HttpClient } from '@angular/common/http';
-import { SubscriptionService } from './app/service/subscription.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
