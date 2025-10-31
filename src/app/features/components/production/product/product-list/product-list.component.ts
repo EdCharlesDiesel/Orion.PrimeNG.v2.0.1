@@ -1,13 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
-import { Listbox } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
 import { Message } from 'primeng/message';
-import { AsyncPipe, CurrencyPipe, NgClass, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MessageService, PrimeTemplate } from 'primeng/api';
-import { Button } from 'primeng/button';
 import { Paginator } from 'primeng/paginator';
-import { ProductCardComponent } from '../product-card/product-card.component';
 import { Store } from '@ngrx/store';
 import { CartService } from '../../../../../service/cart.service';
 import { Router } from '@angular/router';
@@ -22,7 +19,7 @@ import { loadProductsSuccess } from '../../../../../store/products/product.actio
     standalone: true,
 
     templateUrl: './product-list.component.html',
-    imports: [Card, FormsModule, Message, NgIf, PrimeTemplate, Button, Paginator, ProductCardComponent, AsyncPipe, NgClass, CurrencyPipe, SlicePipe, Listbox],
+    imports: [Card, FormsModule, Message, PrimeTemplate, Paginator, AsyncPipe],
     styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent implements OnInit {

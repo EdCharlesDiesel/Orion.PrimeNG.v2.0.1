@@ -134,7 +134,6 @@ class ProfileComponent implements OnInit, OnDestroy {
     }
 
     private loadProfileStats(): void {
-        // In a real app, this would come from an API
         this.profileStats = {
             loginCount: 127,
             lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago

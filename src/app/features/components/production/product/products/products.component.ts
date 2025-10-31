@@ -13,6 +13,8 @@ import { Toast } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../../../core/models/product';
 import { MegaMenu } from 'primeng/megamenu';
+import { tap } from 'rxjs/operators';
+import { ProductService } from '../../../../../service/product.service';
 
 @Component({
     selector: 'app-products',
@@ -23,6 +25,7 @@ import { MegaMenu } from 'primeng/megamenu';
     providers: [ConfirmationService, MessageService]
 })
 class ProductsComponent implements OnInit {
+    products = signal<Product[]>([]);
     megaMenuItems = [
         {
             label: 'Fashion',
@@ -142,11 +145,22 @@ class ProductsComponent implements OnInit {
 
     constructor(
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private productService: ProductService
     ) {}
 
     ngOnInit() {
-        this.loadTodaysSpecials();
+        this.loadProductData();
+    }
+
+    loadProductData() {
+        this.productService
+            .getProducts()
+            .pipe(tap((p) => console.log(JSON.stringify(p))))
+            .subscribe((data: any) => {
+                this.products.set(data);
+                console.log(JSON.stringify(data));
+            });
     }
 
     loadTodaysSpecials() {

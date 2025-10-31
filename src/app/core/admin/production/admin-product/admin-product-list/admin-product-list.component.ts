@@ -31,8 +31,8 @@ import { Table, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductService } from '../../../../service/product.service';
-import { Product } from '../../../models/product';
+import { ProductService } from '../../../../../service/product.service';
+import { Product } from '../../../../models/product';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -86,12 +86,12 @@ interface ExportColumn {
     templateUrl: 'admin-product.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
-export class AdminProductComponent implements OnInit {
+export class AdminProductListComponent implements OnInit {
     allProducts = signal<Product[]>([]);
     selectedProduct = signal<Product | null>(null);
 
     product!: Product;
-    selectedProducts!: AdminProductComponent[] | null;
+    selectedProducts!: AdminProductListComponent[] | null;
     submitted: boolean = false;
     statuses!: any[];
     @ViewChild('dt') dt!: Table;

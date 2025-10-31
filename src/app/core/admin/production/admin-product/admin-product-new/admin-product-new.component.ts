@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Product } from '../../../models/product';
+import { Product } from '../../../../models/product';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
 import { Toast } from 'primeng/toast';
 import {  tap } from 'rxjs/operators';
-import { ProductService } from '../../../../service/product.service';
+import { ProductService } from '../../../../../service/product.service';
 import { Select } from 'primeng/select';
 import { Slider } from 'primeng/slider';
 import { FileUpload } from 'primeng/fileupload';
@@ -18,26 +18,22 @@ import { Checkbox } from 'primeng/checkbox';
 import { NgForOf, NgIf } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { Calendar } from 'primeng/calendar';
+import { DropdownOption } from '../../interfaces/IDropdownOption';
 
-interface DropdownOption {
-    name: string;
-    value: string;
-}
+
 
 @Component({
     selector: 'app-admin-product-new.',
     templateUrl: './admin-product-new.component.html',
     styleUrls: ['admin-product-new.component.scss'],
-    imports: [Card, Button, ReactiveFormsModule, FormsModule, InputText, Textarea, Toast, FileUpload, InputGroup, InputGroupAddon, Checkbox, NgIf, NgForOf, DropdownModule, Calendar],
+    imports: [Card, Button, ReactiveFormsModule, FormsModule, InputText, Textarea, Toast, FileUpload, InputGroup, InputGroupAddon, Checkbox, NgIf, NgForOf, DropdownModule, Calendar, Select],
     providers: [MessageService],
     standalone: true
 })
 export class AdminProductNewComponent implements OnInit {
     productForm!: FormGroup;
-
-    sliderValue: number = 0;
     uploadUrl: string = 'http://localhost:3000/api/images/upload-multiple';
-    allProducts = signal<Product[]>([]);
+    products = signal<Product[]>([]);
     product: Product = {
         imageUrl: '',
         modifiedDate: undefined,
@@ -47,13 +43,13 @@ export class AdminProductNewComponent implements OnInit {
         name: '',
         description: '',
         productNumber: '',
-        makeFlag: true,
-        finishedGoodsFlag: true,
+        makeFlag: false,
+        finishedGoodsFlag: false,
         safetyStockLevel: 0,
         reorderPoint: 0,
         size: '',
-        sizeUnitMeasureCode: '0',
-        weightUnitMeasureCode: 'm',
+        sizeUnitMeasureCode: 's',
+        weightUnitMeasureCode: 's',
         weight: 0,
         daysToManufacture: 0,
         productLine: '',
@@ -79,11 +75,10 @@ export class AdminProductNewComponent implements OnInit {
     };
 
     categories: DropdownOption[] = [
-        { name: 'Electronics', value: 'electronics' },
-        { name: 'Fashion', value: 'fashion' },
-        { name: 'Beauty', value: 'beauty' },
-        { name: 'Sports', value: 'sports' },
-        { name: 'Home & Kitchen', value: 'home' }
+        { name: 'Bikes', value: 'bikes' },
+        { name: 'Components', value: 'components' },
+        { name: 'Clothing', value: 'clothing' },
+        { name: 'Accessories', value: 'accessories' }
     ];
 
     classes: DropdownOption[] = [
@@ -111,9 +106,9 @@ export class AdminProductNewComponent implements OnInit {
     ];
 
     inventoryStatuses: DropdownOption[] = [
-        { name: 'In Stock', value: 'instock' },
-        { name: 'Low Stock', value: 'lowstock' },
-        { name: 'Out of Stock', value: 'outofstock' }
+        { name: 'In Stock', value: 'in-stock' },
+        { name: 'Low Stock', value: 'low-stock' },
+        { name: 'Out of Stock', value: 'out-of-stock' }
     ];
 
     colors: DropdownOption[] = [
@@ -124,7 +119,6 @@ export class AdminProductNewComponent implements OnInit {
 
     private submitted: boolean | undefined;
     private loading: boolean | undefined;
-    flagOptions: any[] | undefined;
 
     constructor(
         private fb: FormBuilder,
@@ -134,14 +128,15 @@ export class AdminProductNewComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
+        this.loadProductsFromDatabase();
     }
 
     initializeForm(): void {
         this.productForm = this.fb.group({
-            title: [0],
-            name: [0],
-            description: [0],
-            productNumber: [0],
+            title: ['', [Validators.required, Validators.minLength(2)]],
+            name: ['', [Validators.required, Validators.minLength(2)]],
+            description: ['', [Validators.required, Validators.minLength(2)]],
+            productNumber: ['', [Validators.required, Validators.minLength(2)]],
             makeFlag: [0],
             finishedGoodsFlag: [0],
             safetyStockLevel: [0],
@@ -160,17 +155,17 @@ export class AdminProductNewComponent implements OnInit {
             discontinuedDate: [null],
             availableUntil: [null],
             tags: [''],
-            code: [0],
-            quantityInStock: [0],
-            standardCost: [0],
-            originalPrice: [0],
-            discountPrice: [0],
-            listPrice: [0],
-            price: [0],
-            discountPercentage: [0],
+            code: [''],
+            quantityInStock: 0,
+            standardCost: 0,
+            originalPrice: 0,
+            discountPrice: 0,
+            listPrice: 0,
+            price: 0,
+            discountPercentage: 0,
             inventoryStatus: [null],
-            isFeatured: [false],
-            isNew: [false],
+            isFeatured: false,
+            isNew: false,
             color: ''
         });
     }
@@ -181,10 +176,10 @@ export class AdminProductNewComponent implements OnInit {
     public saveProduct(): void {
         this.submitted = true;
 
-        // if (this.productForm.invalid) {
-        //     this.markFormGroupTouched();
-        //      return;
-        // }
+        if (this.productForm.invalid) {
+            this.markFormGroupTouched(this.productForm);
+            return;
+        }
 
         this.loading = true;
 
@@ -221,7 +216,6 @@ export class AdminProductNewComponent implements OnInit {
             sizeUnitMeasureCode: this.productFormControls['sizeUnitMeasureCode'].value,
             weightUnitMeasureCode: this.productFormControls['weightUnitMeasureCode'].value,
             productLine: this.productFormControls['productLine'].value,
-
             class: this.productFormControls['class'].value,
             style: this.productFormControls['style'].value
         };
@@ -249,8 +243,42 @@ export class AdminProductNewComponent implements OnInit {
                     this.loading = false;
                 }
             });
+
+        this.onCancel();
     }
 
+    clearForm(): void {
+        this.productForm.reset();
+        this.product = {
+            availableUntil: undefined,
+            code: undefined,
+            daysToManufacture: undefined,
+            description: undefined,
+            discountPercentage: undefined,
+            discountPrice: undefined,
+            finishedGoodsFlag: undefined,
+            imageUrl: '',
+            inventoryStatus: undefined,
+            isFeatured: false,
+            isNew: undefined,
+            listPrice: undefined,
+            makeFlag: undefined,
+            modifiedDate: undefined,
+            originalPrice: undefined,
+            price: 0,
+            productID: 0,
+            productNumber: undefined,
+            quantityInStock: 0,
+            rating: undefined,
+            reorderPoint: undefined,
+            safetyStockLevel: 0,
+            sellStartDate: undefined,
+            standardCost: undefined,
+            tags: undefined,
+            title: '',
+            name: ''
+        };
+    }
     onCancel(): void {
         this.productForm.reset();
         this.product = {
@@ -342,34 +370,36 @@ export class AdminProductNewComponent implements OnInit {
         };
         return displayNames[fieldName] || fieldName;
     }
-    // private getPrimaryKey(): number {
-    //     let key: number;
-    //     this.productService.getProducts().subscribe((product) => {
-    //         key == product.filter((p) => p.productID).length;
-    //     });
-    //
-    //     return key + 1;
-    // }
-
-    private getPrimaryKey(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.allProducts().length; i++) {
-            if (this.product.productID === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
+    private getPrimaryKey(): number {
+        let key = this.products().length;
+        return key + 1;
     }
 
-    loadProductData() {
+    private loadProductsFromDatabase() {
         this.productService
             .getProducts()
             .pipe(tap((p) => console.log(JSON.stringify(p))))
-            .subscribe((data: any) => {
-                this.allProducts.set(data);
-                console.log(JSON.stringify(data));
+            .subscribe({
+                next: (data) => {
+                    this.products.set(data);
+                },
+                error: (err) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Connection failed.',
+                        detail: 'Connection failed. please check your internet connection.'
+                    });
+                }
             });
+    }
+
+    private markFormGroupTouched(formGroup: FormGroup): void {
+        Object.keys(formGroup.controls).forEach((key) => {
+            const control = formGroup.get(key);
+            control?.markAsTouched();
+            if (control instanceof FormGroup) {
+                this.markFormGroupTouched(control);
+            }
+        });
     }
 }

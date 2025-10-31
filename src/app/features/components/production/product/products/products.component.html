@@ -24,9 +24,9 @@
 
     <div class="products-section">
 
-        @if (filteredProducts().length > 0) {
+       @if (products().length > 0) {
             <div class="products-grid">
-                @for (product of filteredProducts(); track product.productID; let i = $index) {
+                @for (product of products(); track product.productID; let i = $index) {
                     <p-card class="product-card">
                         <div class="product-badges">
                             @if (product.isNew) {
@@ -124,7 +124,7 @@
                 <p-card>
                     <div class="empty-content">
                         <i class="pi pi-search text-6xl text-gray-400"></i>
-                        <h3>No special offers found</h3>
+                        <h3>No products found</h3>
                         <p>Try selecting a different category</p>
                         <p-button
                             label="Show All"
