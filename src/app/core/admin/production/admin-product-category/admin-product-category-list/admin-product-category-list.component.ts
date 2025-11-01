@@ -9,16 +9,20 @@ import { ProductCategory } from '../../../../models/product-category.model';
 import { Column } from '../../../../models/Column';
 import { ProductCategoryService } from '../../../services/product-category-service';
 import { ExportColumn } from '../../../../models/ExportColumn';
+import { Card } from 'primeng/card';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { IconField } from 'primeng/iconfield';
 
 @Component({
     selector: 'app-admin-product-category-list',
-    imports: [Button, ConfirmDialog,  TableModule, Toolbar,],
+    imports: [Button, ConfirmDialog, TableModule, Toolbar, Card, InputIcon, InputText, IconField],
     templateUrl: './admin-product-category-list.component.html',
     styleUrl: './admin-product-category-list.component.scss'
 })
 export class AdminProductCategoryListComponent implements OnInit {
     protected productsCategoriesSignal = signal<ProductCategory[]>([]);
-    // protected selectedProductCategory = signal<ProductCategory | null>(null);
+    protected selectedProductCategory: ProductCategory[] | null | undefined;
 
     productCategory!: ProductCategory;
     selectedProductCategories!: ProductCategory[] | null;

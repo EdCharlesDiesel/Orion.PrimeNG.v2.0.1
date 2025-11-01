@@ -28,71 +28,6 @@ export class AppMenu {
     model: MenuItem[] = [];
     panelMenuItems = [
         {
-            label: 'Products',
-            icon: 'pi pi-fw pi-table',
-            items: [
-                {
-                    label: 'View',
-                    icon: 'pi pi-fw pi-list',
-                    routerLink: ['./production/admin-product']
-                },
-                {
-                    label: 'New',
-                    icon: 'pi pi-fw pi-user-plus',
-                    routerLink: ['./production/admin-product-new']
-                }
-            ]
-        },
-        {
-            label: 'Orders',
-            icon: 'pi pi-fw pi-shopping-cart',
-            items: [
-                {
-                    label: 'View',
-                    icon: 'pi pi-fw pi-list'
-                },
-                {
-                    label: 'Search',
-                    icon: 'pi pi-fw pi-search'
-                }
-            ]
-        },
-        {
-            label: 'Shipments',
-            icon: 'pi pi-fw pi-envelope',
-            items: [
-                {
-                    label: 'Tracker',
-                    icon: 'pi pi-fw pi-compass',
-                    routerLink: ['./production/admin-shipping-tracking']
-                },
-                {
-                    label: 'Map',
-                    icon: 'pi pi-fw pi-map-marker',
-                    routerLink: ['./production/admin-order-tracking-map']
-                },
-                {
-                    label: 'Manage',
-                    icon: 'pi pi-fw pi-pencil',
-
-                }
-            ]
-        },
-        {
-            label: 'Profile',
-            icon: 'pi pi-fw pi-user',
-            items: [
-                {
-                    label: 'Settings',
-                    icon: 'pi pi-fw pi-cog'
-                },
-                {
-                    label: 'Billing',
-                    icon: 'pi pi-fw pi-file'
-                }
-            ]
-        },
-        {
             label: 'Admin',
             icon: 'pi pi-fw pi-briefcase',
             items: [
@@ -224,7 +159,7 @@ export class AppMenu {
                                 {
                                     label: 'View',
                                     icon: 'pi pi-fw pi-list',
-                                    routerLink: ['./production/admin-product']
+                                    routerLink: ['./production/admin-product-list']
                                 },
                                 {
                                     label: 'New',
@@ -315,8 +250,72 @@ export class AppMenu {
                     ]
                 }
             ]
-        }
+        },
+        {
+            label: 'Products',
+            icon: 'pi pi-fw pi-table',
+            items: [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-list',
+                    routerLink: ['./production/admin-product']
+                },
+                {
+                    label: 'New',
+                    icon: 'pi pi-fw pi-user-plus',
+                    routerLink: ['./production/admin-product-new']
+                }
+            ]
+        },
+        {
+            label: 'Orders',
+            icon: 'pi pi-fw pi-shopping-cart',
+            items: [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-list'
+                },
+                {
+                    label: 'Search',
+                    icon: 'pi pi-fw pi-search'
+                }
+            ]
+        },
+        {
+            label: 'Shipments',
+            icon: 'pi pi-fw pi-envelope',
+            items: [
+                {
+                    label: 'Tracker',
+                    icon: 'pi pi-fw pi-compass',
+                    routerLink: ['./production/admin-shipping-tracking']
+                },
+                {
+                    label: 'Map',
+                    icon: 'pi pi-fw pi-map-marker',
+                    routerLink: ['./production/admin-order-tracking-map']
+                },
+                {
+                    label: 'Manage',
+                    icon: 'pi pi-fw pi-pencil',
 
+                }
+            ]
+        },
+        {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Settings',
+                    icon: 'pi pi-fw pi-cog'
+                },
+                {
+                    label: 'Billing',
+                    icon: 'pi pi-fw pi-file'
+                }
+            ]
+        }
     ];
 
     ngOnInit() {

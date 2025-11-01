@@ -21,7 +21,7 @@
     [paginator]="true"
     [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
     [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedProductCategory()"
+    [(selection)]="selectedProductCategory"
     [rowHover]="true"
     dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -59,7 +59,7 @@
         </tr>
     </ng-template>
     <ng-template>
-        @if (productsCategoriesSignal){
+        @if (productsCategoriesSignal()){
             @for (productCategories of productsCategoriesSignal(); track productCategories.productCategoryID) {
                 <tr>
                     <td style="width: 3rem">

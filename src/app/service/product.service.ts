@@ -18,7 +18,7 @@ export class ProductService {
   categories$: any;
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.API_URL).pipe(
+    return this.http.get<Product[]>(this.API_URL + `products`).pipe(
       tap(products => {
         this.products.set(products);
         console.log('Products loaded:', products.length);

@@ -16,10 +16,9 @@ import {
 } from './admin-product-sub-category/admin-product-sub-category-list/admin-product-sub-category-list.component';
 
 export default [
-    { path: 'admin-product', data: { breadcrumb: 'Button' }, component: AdminProductListComponent },
+    { path: 'admin-product-list', data: { breadcrumb: 'Button' }, component: AdminProductListComponent },
     { path: 'admin-product-new', data: { breadcrumb: 'Button' }, component: AdminProductNewComponent },
     { path: 'admin-shipping-tracking', data: { breadcrumb: 'Button' }, component: AdminShipmentTrackingComponent },
-
     { path: 'admin-product-category-new', data: { breadcrumb: 'Button' }, component: AdminProductCategoryNewComponent },
     { path: 'admin-product-category-list', data: { breadcrumb: 'Button' }, component: AdminProductCategoryListComponent },
     { path: 'admin-product-sub-category-new', data: { breadcrumb: 'Button' }, component: AdminProductSubCategoryListComponent },
