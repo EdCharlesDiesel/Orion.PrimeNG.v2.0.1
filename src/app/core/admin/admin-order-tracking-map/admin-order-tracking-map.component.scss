@@ -1,143 +1,51 @@
-// components/order-tracking-map.component.scss
-:host {
-    display: block;
+.tracking-map-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#tracking-map {
     width: 100%;
 }
 
-.map-container {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e5e7eb;
-
-    #tracking-map {
-        width: 100%;
-        border-radius: 12px;
-    }
-}
-
-.map-controls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
+:host ::ng-deep .custom-map-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     display: flex;
-    gap: 8px;
-
-    .p-button {
-        background: white;
-        border: 1px solid #d1d5db;
-        color: #374151;
-
-        &:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
-        }
-    }
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.map-legend {
+:host ::ng-deep .custom-marker {
+    background: transparent;
+    border: none;
+}
+
+:host ::ng-deep .marker-title {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    z-index: 1000;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
     background: white;
-    padding: 12px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+}
+
+:host ::ng-deep .leaflet-popup-content-wrapper {
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-
-    .legend-title {
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #374151;
-        font-size: 14px;
-    }
-
-    .legend-items {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: #6b7280;
-
-        .marker-preview {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            i {
-                font-size: 8px;
-                color: white;
-            }
-        }
-    }
+    padding: 0;
 }
 
-// Custom marker styles
-.custom-marker {
-    .custom-map-marker {
-        width: 30px;
-        height: 30px;
-        border-radius: 50% 50% 50% 0;
-        transform: rotate(-45deg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-        i {
-            transform: rotate(45deg);
-        }
-    }
-
-    .marker-title {
-        display: none;
-        position: absolute;
-        top: -25px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        white-space: nowrap;
-    }
-
-    &:hover .marker-title {
-        display: block;
-    }
-}
-
-// Leaflet overrides
-::ng-deep {
-    .leaflet-popup-content {
-        margin: 12px;
-        font-family: inherit;
-
-        strong {
-            color: #1f2937;
-        }
-
-        em {
-            color: #6b7280;
-            font-style: italic;
-        }
-    }
-
-    .leaflet-popup-tip {
-        background: white;
-    }
+:host ::ng-deep .leaflet-popup-content {
+    margin: 12px;
+    font-size: 13px;
+    line-height: 1.5;
 }
