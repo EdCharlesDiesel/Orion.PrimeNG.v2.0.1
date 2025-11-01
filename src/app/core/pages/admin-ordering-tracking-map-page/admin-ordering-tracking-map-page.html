@@ -1,0 +1,76 @@
+<div class="full-page-container">
+    <p-card class="full-page-card">
+        <div class="page-header">
+            <h1 class="page-title">Order Tracking Map</h1>
+            <p class="page-subtitle">Real-time shipment tracking and monitoring</p>
+        </div>
+
+        <div class="tracking-content">
+            <!-- Shipment Info Section -->
+            @if (currentShipment) {
+                <div class="shipment-info-section">
+                    <div class="shipment-details-grid">
+                        <div class="detail-item">
+                            <label>Tracking Number:</label>
+                            <span class="detail-value">{{ currentShipment.trackingNumber || 'N/A' }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Status:</label>
+                            <span class="status-badge" [class]="getStatusClass(currentShipment.status)">
+                                {{ currentShipment.status }}
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Origin:</label>
+                            <span class="detail-value">{{ currentShipment.origin }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Destination:</label>
+                            <span class="detail-value">{{ currentShipment.destination }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Shipped Date:</label>
+                            <span class="detail-value">{{ currentShipment.shippedDate | date: 'mediumDate' }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Estimated Delivery:</label>
+                            <span class="detail-value">{{ currentShipment.estimatedDelivery | date: 'mediumDate' }}</span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Map Section -->
+            <div class="map-section">
+                <app-admin-order-tracking-map
+                    [shipment]="currentShipment"
+                    [height]="'calc(100vh - 300px)'"
+                    [showRoute]="true"
+                    [showEvents]="true">
+                </app-admin-order-tracking-map>
+            </div>
+
+            <!-- Events Timeline Section -->
+            @if (currentShipment && currentShipment.events && currentShipment.events.length) {
+                <div class="events-section">
+                    <h3>Shipment Timeline</h3>
+                    <div class="timeline">
+                        @for (event of currentShipment.events; track event.timestamp) {
+                            <div class="timeline-item" [class.completed]="event.completed">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div class="event-header">
+                                        <span class="event-status">{{ event.status }}</span>
+                                        <span class="event-time">{{ event.timestamp | date: 'medium' }}</span>
+                                    </div>
+                                    <div class="event-location">{{ event.location }}</div>
+                                    <div class="event-description">{{ event.description }}</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </p-card>
+</div>

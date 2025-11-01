@@ -63,7 +63,7 @@
         </tr>
     </ng-template>
     <ng-template >
-        @if (productsSignal()) {
+<!--        @if (!productsSignal() == null) {-->
             @for (product of productsSignal(); track product.productID; ) {
                 <tr>
                     <td style="width: 3rem">
@@ -80,17 +80,17 @@
                     </td>
                 </tr>
             }
-        }  @else {
-        <div class="empty-state">
-            <p-card>
-                <div class="empty-content">
-                    <i class="pi pi-search text-6xl text-gray-400"></i>
-                    <h3>No products available</h3>
+<!--        }  @else {-->
+<!--        <div class="empty-state">-->
+<!--            <p-card>-->
+<!--                <div class="empty-content">-->
+<!--                    <i class="pi pi-search text-6xl text-gray-400"></i>-->
+<!--                    <h3>No products available</h3>-->
 
-                </div>
-            </p-card>
-        </div>
-        }
+<!--                </div>-->
+<!--            </p-card>-->
+<!--        </div>-->
+<!--        }-->
     </ng-template>
 </p-table>
 

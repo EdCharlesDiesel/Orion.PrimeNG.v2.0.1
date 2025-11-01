@@ -29,7 +29,9 @@ import { TimelineDemo } from './uikit/timelinedemo';
 import { OverlayDemo } from './uikit/overlaydemo';
 import { TreeDemo } from './uikit/treedemo';
 import { MenuDemo } from './uikit/menudemo';
-import { AdminOrderingTrackingMapPage } from './admin-ordering-tracking-map-page/admin-ordering-tracking-mapp-page';
+import {
+    AdminOrderingTrackingMapPage
+} from '../core/pages/admin-ordering-tracking-map-page/admin-ordering-tracking-map-page';
 
 export default [
     { path: 'blog', component: BlogPage },

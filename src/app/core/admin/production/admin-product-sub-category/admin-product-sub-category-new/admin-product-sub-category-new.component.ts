@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Toast } from 'primeng/toast';
 import { ProductSubcategory } from '../../../../models/product-subcategory.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductSubCategoryService } from '../../../services/product-sub-category-service';
 import { tap } from 'rxjs/operators';
+import { ProductSubCategoryService } from '../../../services/product-sub-category-service';
 
 @Component({
     selector: 'app-admin-product-sub-category-new',

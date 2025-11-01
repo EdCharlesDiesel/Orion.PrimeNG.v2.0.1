@@ -37,6 +37,7 @@ import { tap } from 'rxjs/operators';
 import { ExportColumn } from '../../../../models/ExportColumn';
 import { IColumn } from '../../interfaces/IColumn';
 import { Card } from 'primeng/card';
+import { Department } from '../../../models/department.model';
 
 
 
@@ -76,14 +77,13 @@ import { Card } from 'primeng/card';
         TableModule,
         ConfirmDialogModule,
         DialogModule,
-        Card
+
     ],
     templateUrl: 'admin-product-list.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
 export class AdminProductListComponent implements OnInit {
     productsSignal = signal<Product[]>([]);
-
     product!: Product;
     selectedProducts!: Product[] | null;
     submitted: boolean = false;
@@ -103,7 +103,7 @@ export class AdminProductListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadProductsData();
+         this.loadProductsData();
     }
 
     private loadProductsData() {
@@ -112,7 +112,6 @@ export class AdminProductListComponent implements OnInit {
             .pipe(tap((p) => console.log(JSON.stringify(p))))
             .subscribe((data: any) => {
                 this.productsSignal.set(data);
-                console.log(JSON.stringify(data));
             });
 
         this.statuses = [

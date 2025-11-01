@@ -15,7 +15,7 @@ export class ProductSubCategoryService {
     productSubCategoriesSignal = signal<ProductCategory[]>([]);
 
     public getProductSubCategories(): Observable<ProductSubcategory[]> {
-        return this.http.get<ProductSubcategory[]>(`${this.API_URL}/ProductSubcategory/`).pipe(
+        return this.http.get<ProductSubcategory[]>(`${this.API_URL}ProductSubcategory/`).pipe(
             catchError(error => {
                 console.error(`Error fetching products for product sub category`, error);
                 return of([]);
