@@ -1,97 +1,97 @@
-<div class="products-wrapper">
-    @if (vm$ | async; as vm) {
-        @if (vm.isLoading) {
-            <div class="loading-container">
-                <p-progressSpinner></p-progressSpinner>
-            </div>
-        } @else if (vm.error) {
-            <div class="error-container">
-                <i class="pi pi-exclamation-triangle text-red-500"></i>
-                <p>{{ vm.error }}</p>
-                <p-button
-                    label="Retry"
-                    icon="pi pi-refresh"
-                    class="p-button-raised p-button-primary"
-                    (click)="loadProducts()">
-                </p-button>
-            </div>
-        } @else if (vm.products.length > 0) {
-            <div class="header">
-                <p class="inventory-total">
-                    <i class="pi pi-box"></i>
-                    Total Stock: {{ vm.totalInventory }} items
-                </p>
-            </div>
+<!--<div class="products-wrapper">-->
+<!--    @if (vm$ | async; as vm) {-->
+<!--        @if (vm.isLoading) {-->
+<!--            <div class="loading-container">-->
+<!--                <p-progressSpinner></p-progressSpinner>-->
+<!--            </div>-->
+<!--        } @else if (vm.error) {-->
+<!--            <div class="error-container">-->
+<!--                <i class="pi pi-exclamation-triangle text-red-500"></i>-->
+<!--                <p>{{ vm.error }}</p>-->
+<!--                <p-button-->
+<!--                    label="Retry"-->
+<!--                    icon="pi pi-refresh"-->
+<!--                    class="p-button-raised p-button-primary"-->
+<!--                    (click)="loadProducts()">-->
+<!--                </p-button>-->
+<!--            </div>-->
+<!--        } @else if (vm.products.length > 0) {-->
+<!--            <div class="header">-->
+<!--                <p class="inventory-total">-->
+<!--                    <i class="pi pi-box"></i>-->
+<!--                    Total Stock: {{ vm.totalInventory }} items-->
+<!--                </p>-->
+<!--            </div>-->
 
-            <div class="products-container">
-                <div class="products-grid">
-<!--                    @for (product of paginatedProducts(); track product.productID) {-->
-                        <p-card
-                            class="product-card"
-                            [ngClass]="{
-                                'out-of-stock': isOutOfStock(product),
-                                'low-stock': isLowStock(product)
-                            }">
+<!--            <div class="products-container">-->
+<!--                <div class="products-grid">-->
+<!--&lt;!&ndash;                    @for (product of paginatedProducts(); track product.productID) {&ndash;&gt;-->
+<!--                        <p-card-->
+<!--                            class="product-card"-->
+<!--                            [ngClass]="{-->
+<!--                                'out-of-stock': isOutOfStock(product),-->
+<!--                                'low-stock': isLowStock(product)-->
+<!--                            }">-->
 
-                            <span
-                                class="stock-badge"
-                                [ngClass]="{
-                                    'out-of-stock-badge': isOutOfStock(product),
-                                    'low-stock-badge': isLowStock(product)
-                                }">
-                                <i class="pi pi-box"></i>
-                                {{ product.quantityInStock }} in stock
-                            </span>
+<!--                            <span-->
+<!--                                class="stock-badge"-->
+<!--                                [ngClass]="{-->
+<!--                                    'out-of-stock-badge': isOutOfStock(product),-->
+<!--                                    'low-stock-badge': isLowStock(product)-->
+<!--                                }">-->
+<!--                                <i class="pi pi-box"></i>-->
+<!--                                {{ product.quantityInStock }} in stock-->
+<!--                            </span>-->
 
-                            <img [src]="product.image" [alt]="product.title" class="product-image" />
+<!--                            <img [src]="product.image" [alt]="product.title" class="product-image" />-->
 
-                            <ng-template pTemplate="title">
-                                <span class="product-title">{{ product.title }}</span>
-                                <small class="product-category">{{ product.category }}</small>
-                            </ng-template>
+<!--                            <ng-template pTemplate="title">-->
+<!--                                <span class="product-title">{{ product.title }}</span>-->
+<!--                                <small class="product-category">{{ product.category }}</small>-->
+<!--                            </ng-template>-->
 
-                            <ng-template pTemplate="content">
-                                <div class="rating">
-                                    <i class="pi pi-star star-icon"></i>
-                                    <span>{{ product.rating?.rate }} ({{ product.rating?.count }} reviews)</span>
-                                </div>
-                                <p class="price">{{ product.price | currency:'USD' }}</p>
-                                <p class="description">{{ product.description | slice:0:100 }}...</p>
-                            </ng-template>
+<!--                            <ng-template pTemplate="content">-->
+<!--                                <div class="rating">-->
+<!--                                    <i class="pi pi-star star-icon"></i>-->
+<!--                                    <span>{{ product.rating?.rate }} ({{ product.rating?.count }} reviews)</span>-->
+<!--                                </div>-->
+<!--                                <p class="price">{{ product.price | currency:'USD' }}</p>-->
+<!--                                <p class="description">{{ product.description | slice:0:100 }}...</p>-->
+<!--                            </ng-template>-->
 
-                            <ng-template pTemplate="footer">
-                                <p-button
-                                    label="{{ isOutOfStock(product) ? 'Out of Stock' : 'Add to Cart' }}"
-                                    icon="pi pi-shopping-cart"
-                                    class="p-button-raised p-button-primary"
-                                    [disabled]="isOutOfStock(product)"
-                                    (click)="addToCart(product)">
-                                </p-button>
+<!--                            <ng-template pTemplate="footer">-->
+<!--                                <p-button-->
+<!--                                    label="{{ isOutOfStock(product) ? 'Out of Stock' : 'Add to Cart' }}"-->
+<!--                                    icon="pi pi-shopping-cart"-->
+<!--                                    class="p-button-raised p-button-primary"-->
+<!--                                    [disabled]="isOutOfStock(product)"-->
+<!--                                    (click)="addToCart(product)">-->
+<!--                                </p-button>-->
 
-                                <p-button
-                                    icon="pi pi-heart"
-                                    class="p-button-rounded p-button-help"
-                                    (click)="addToWishlist(product)">
-                                </p-button>
-                            </ng-template>
-                        </p-card>
-<!--                    }-->
-                </div>
+<!--                                <p-button-->
+<!--                                    icon="pi pi-heart"-->
+<!--                                    class="p-button-rounded p-button-help"-->
+<!--                                    (click)="addToWishlist(product)">-->
+<!--                                </p-button>-->
+<!--                            </ng-template>-->
+<!--                        </p-card>-->
+<!--&lt;!&ndash;                    }&ndash;&gt;-->
+<!--                </div>-->
 
 
-            </div>
-        } @else {
-            <div class="no-products">
-                <i class="pi pi-box"></i>
-                <p>No products available at the moment.</p>
-                <p-button
-                    label="Retry"
-                    icon="pi pi-refresh"
-                    class="p-button-raised p-button-primary"
-                    (click)="loadProducts()">
-                </p-button>
-            </div>
-        }
-    }
-</div>
+<!--            </div>-->
+<!--        } @else {-->
+<!--            <div class="no-products">-->
+<!--                <i class="pi pi-box"></i>-->
+<!--                <p>No products available at the moment.</p>-->
+<!--                <p-button-->
+<!--                    label="Retry"-->
+<!--                    icon="pi pi-refresh"-->
+<!--                    class="p-button-raised p-button-primary"-->
+<!--                    (click)="loadProducts()">-->
+<!--                </p-button>-->
+<!--            </div>-->
+<!--        }-->
+<!--    }-->
+<!--</div>-->
 

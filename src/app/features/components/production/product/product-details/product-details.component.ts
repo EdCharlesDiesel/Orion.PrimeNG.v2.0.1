@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,6 @@ import { ImageModule } from 'primeng/image';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
-import { ProgressSpinner } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { GalleriaModule } from 'primeng/galleria';
 import { RatingModule } from 'primeng/rating';
@@ -48,7 +47,9 @@ interface ProductDetails {
         TabViewModule,
         GalleriaModule,
         RatingModule,
-        FormsModule
+        FormsModule,
+        NgOptimizedImage,
+        NgOptimizedImage
         // Add your custom components:
         // AddToCartComponent,
         // AddToWishlistComponent,

@@ -6,13 +6,13 @@ import * as ImageUploadActions from '../../../../store/image-upload/image-upload
 import * as ImageUploadSelectors from '../../../../store/image-upload/image-upload.selectors';
 import { Toast } from 'primeng/toast';
 import { FileUpload } from 'primeng/fileupload';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { Button, ButtonDirective } from 'primeng/button';
+import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { ButtonDirective } from 'primeng/button';
 
 @Component({
     selector: 'app-image-upload-advanced',
     templateUrl: './image-upload-advanced.component.html',
-    imports: [Toast, FileUpload, NgIf, AsyncPipe, NgForOf, ButtonDirective],
+    imports: [Toast, FileUpload, NgIf, AsyncPipe, NgForOf, ButtonDirective, NgOptimizedImage],
     providers: [MessageService]
 })
 export class ImageUploadAdvancedComponent implements OnInit {

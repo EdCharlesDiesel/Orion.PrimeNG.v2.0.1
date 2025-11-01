@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal, ViewChild } from '@angular/core';
+import { Component,  OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -31,24 +31,19 @@ import { Table, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductService } from '../../../../service/product.service';
-import { Product } from '../../../models/product';
+import { ProductService } from '../../../../../service/product.service';
+import { Product } from '../../../../models/product';
 import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { ExportColumn } from '../../../../models/ExportColumn';
+import { IColumn } from '../../interfaces/IColumn';
+import { Card } from 'primeng/card';
+import { Department } from '../../../models/department.model';
 
-interface Column {
-    field: string;
-    header: string;
-    customExportHeader?: string;
-}
 
-interface ExportColumn {
-    title: string;
-    dataKey: string;
-}
+
 
 @Component({
-    selector: 'app-admin-product',
+    selector: 'app-admin-product-list',
     standalone: true,
     imports: [
         CommonModule,
@@ -81,28 +76,26 @@ interface ExportColumn {
         Toolbar,
         TableModule,
         ConfirmDialogModule,
-        DialogModule
+        DialogModule,
+
     ],
-    templateUrl: 'admin-product.component.html',
+    templateUrl: 'admin-product-list.component.html',
     providers: [MessageService, ProductService, ConfirmationService]
 })
-export class AdminProductComponent implements OnInit {
-    allProducts = signal<Product[]>([]);
-    selectedProduct = signal<Product | null>(null);
-
+export class AdminProductListComponent implements OnInit {
+    productsSignal = signal<Product[]>([]);
     product!: Product;
-    selectedProducts!: AdminProductComponent[] | null;
+    selectedProducts!: Product[] | null;
     submitted: boolean = false;
     statuses!: any[];
     @ViewChild('dt') dt!: Table;
     exportColumns!: ExportColumn[];
-    cols!: Column[];
+    cols!: IColumn[];
 
     constructor(
         private productService: ProductService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private router: Router
+        private confirmationService: ConfirmationService
     ) {}
 
     exportCSV() {
@@ -110,16 +103,15 @@ export class AdminProductComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadProductData();
+         this.loadProductsData();
     }
 
-    loadProductData() {
+    private loadProductsData() {
         this.productService
             .getProducts()
             .pipe(tap((p) => console.log(JSON.stringify(p))))
             .subscribe((data: any) => {
-                this.allProducts.set(data);
-                console.log(JSON.stringify(data));
+                this.productsSignal.set(data);
             });
 
         this.statuses = [
@@ -142,26 +134,12 @@ export class AdminProductComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    getAllProducts = computed(() => {
-        return this.allProducts;
-    });
-
-    public navigateToAddNewPropduct() {
-        return this.router.navigate(['http://localhost:4200/admin/production/admin-product-new']);
-    }
-
-    public editProduct(product: Product) {
-        this.product = { ...product };
-        // this.productDialog = true;
-    }
-
     public deleteSelectedProducts() {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete the selected products?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.products.set(this.products().filter((val) => !this.selectedProducts?.includes(val)));
                 this.selectedProducts = null;
                 this.messageService.add({
                     severity: 'success',
@@ -173,18 +151,12 @@ export class AdminProductComponent implements OnInit {
         });
     }
 
-    public hideDialog() {
-        // this.productDialog = false;
-        this.submitted = false;
-    }
-
     public deleteProduct(product: Product) {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete ' + product.productID + '?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.products.set(this.products().filter((val) => val.productID !== product.productID));
                 this.product = {
                     availableUntil: undefined,
                     discountPercentage: undefined,
@@ -196,7 +168,6 @@ export class AdminProductComponent implements OnInit {
                     productID: 0,
                     inventoryStatus: '',
                     code: 0,
-                    productSubcategoryID: 0,
                     discontinuedDate: new Date(),
                     sellEndDate: new Date(),
                     sellStartDate: new Date(),
@@ -216,7 +187,6 @@ export class AdminProductComponent implements OnInit {
                     imageUrl: '',
                     standardCost: 0,
                     price: 0,
-                    category: '0',
                     weightUnitMeasureCode: '',
                     sizeUnitMeasureCode: '',
                     finishedGoodsFlag: false,
@@ -224,10 +194,6 @@ export class AdminProductComponent implements OnInit {
                     productModelID: 0,
                     quantityInStock: 0,
                     title: '',
-                    rating: {
-                        rate: 0,
-                        count: 0
-                    },
                     modifiedDate: new Date()
                 };
                 this.messageService.add({
@@ -238,72 +204,6 @@ export class AdminProductComponent implements OnInit {
                 });
             }
         });
-    }
-
-    private findIndexById(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.allProducts().length; i++) {
-            if (this.product.productID === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    private createId(): number {
-        let id = 17;
-        return ++id;
-    }
-
-    public getSeverity(status: string) {
-        switch (status) {
-            case 'INSTOCK':
-                return 'success';
-            case 'LOWSTOCK':
-                return 'warn';
-            case 'OUTOFSTOCK':
-                return 'danger';
-            default:
-                return 'info';
-        }
-    }
-
-    public saveProduct() {
-        this.submitted = true;
-        let _products = this.allProducts();
-        if (this.product.productID) {
-            if (this.product.productID) {
-                // _products[this.findIndexById(this.product.productID)] = this.product;
-                this.allProducts.set([..._products]);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Updated',
-                    life: 3000
-                });
-            } else {
-                this.product.productID = this.createId();
-                this.productService.addProduct(this.product);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Created',
-                    life: 3000
-                });
-                // this.products.set([..._products, this.product]);
-            }
-
-            // this.productDialog = false;
-            // this.product = {
-            //     ProductID : 0,
-            //     Name : "",
-            //     GroupName :"",
-            //     ModifiedDate: new Date(),
-            //     EmployeeProductHistories: []
-            //  };
-        }
     }
 }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -15,15 +15,7 @@ import { CalendarEvent, CalendarService } from '../../../service/calendar.servic
 @Component({
     selector: 'app-calendar',
     standalone: true,
-    imports: [
-        CommonModule,
-        FullCalendarModule,
-        DialogModule,
-        InputTextModule,
-        ButtonModule,
-        ToastModule,
-        FormsModule
-    ],
+    imports: [CommonModule, FullCalendarModule, DialogModule, InputTextModule, ButtonModule, ToastModule, FormsModule, NgOptimizedImage],
     providers: [MessageService],
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss']
@@ -31,7 +23,7 @@ import { CalendarEvent, CalendarService } from '../../../service/calendar.servic
 export class CalendarComponent implements OnInit {
     private calendarEvents: CalendarEvent[] = [
         { id: 1, title: 'Team Standup', start: new Date().toISOString(), color: '#42A5F5' },
-        { id: 2, title: 'Client Meeting', start: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), color: '#66BB6A' },
+        { id: 2, title: 'Client Meeting', start: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), color: '#66BB6A' }
     ];
     calendarOptions: CalendarOptions = {};
     displayDialog = false;
@@ -44,7 +36,7 @@ export class CalendarComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.calendarService.events$.subscribe(events => {
+        this.calendarService.events$.subscribe((events) => {
             this.calendarEvents = events;
             this.initCalendarOptions();
         });

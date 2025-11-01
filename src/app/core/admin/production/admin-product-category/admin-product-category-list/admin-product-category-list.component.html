@@ -1,0 +1,90 @@
+<div class="card">
+    <div class="font-semibold text-xl mb-4">Product Categories</div>
+</div>
+
+<p-toolbar styleClass="mb-6">
+
+    <ng-template #start>
+<!--        <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteProductCategory" [disabled]="!selectedProductCategory()|| !selectedProductCategories().length" />-->
+    </ng-template>
+
+    <ng-template #end>
+        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+    </ng-template>
+</p-toolbar>
+
+<p-table
+    #dt
+    [value]="productsCategoriesSignal()"
+    [rows]="10"
+    [columns]="cols"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProductCategory"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]"
+>
+    <ng-template >
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Manage Products Sub Categories</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template >
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th style="min-width: 16rem">Product ID</th>
+            <th pSortableColumn="name" style="min-width:16rem">
+                Name
+                <p-sortIcon field="Name" />
+            </th>
+            <th pSortableColumn="productSubCategory" style="min-width:16rem">
+                Product Sub Category
+                <p-sortIcon field="Name" />
+            </th>
+            <th pSortableColumn="modifiedDate" style="min-width:16rem">
+                Modified Date
+                <p-sortIcon field="modifiedDate" />
+            </th>
+            <th style="min-width: 12rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template>
+        @if (productsCategoriesSignal()){
+            @for (productCategories of productsCategoriesSignal(); track productCategories.productCategoryID) {
+                <tr>
+                    <td style="width: 3rem">
+                        <p-tableCheckbox [value]="productCategories" />
+                    </td>
+                    <td style="min-width: 12rem">{{ productCategories.productCategoryID }}</td>
+                    <td style="min-width: 16rem">{{ productCategories.name }}</td>
+                    <td style="min-width: 16rem">{{ productCategories.modifiedDate }}</td>
+                    <td>
+                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProductCategory(productCategories)" />
+                    </td>
+                </tr>
+            }
+        } @else {
+                  <div class="empty-state">
+                  <p-card>
+                        <div class="empty-content">
+                            <i class="pi pi-search text-6xl text-gray-400"></i>
+                            <h3>No special offers found</h3>
+                            <p>Try selecting a different category</p>
+                        </div>
+                    </p-card>
+                </div>
+        }
+    </ng-template>
+</p-table>
+
+<p-confirmdialog [style]="{ width: '450px' }"></p-confirmdialog>

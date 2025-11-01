@@ -4,13 +4,14 @@ import { AuthService } from '../services/auth.service';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { PrimeTemplate } from 'primeng/api';
 
 
 @Component({
     selector: 'orion-access-denied',
     templateUrl: './access-denied.component.html',
     styleUrl: './access-denied.component.scss',
-    imports: [Card, Button,CommonModule],
+    imports: [Card, Button, CommonModule, PrimeTemplate]
 })
 export class AccessDeniedComponent implements OnInit {
     currentUser: any = null;

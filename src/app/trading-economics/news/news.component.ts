@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Card } from 'primeng/card';
 // import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 // import { Calendar } from 'primeng/calendar';
 import { InputText } from 'primeng/inputtext';
-import { DatePipe, NgForOf, NgIf, SlicePipe } from '@angular/common';
+import { DatePipe, SlicePipe } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Paginator } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
-import { Tag } from 'primeng/tag';
 import { Tooltip } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { Calendar } from 'primeng/calendar';

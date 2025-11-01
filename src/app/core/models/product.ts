@@ -21,7 +21,6 @@ export class Product {
     title: string | undefined;
     name: string | undefined;
     description: string | undefined;
-    category: string | undefined;
     price: number = 0;
     productNumber: string | undefined;
     makeFlag: boolean | undefined;
@@ -39,7 +38,6 @@ export class Product {
     productLine?: string | undefined;
     class?: string | undefined;
     style?: string | undefined;
-    productSubcategoryID?: number | undefined;
     productModelID?: number | undefined;
     sellStartDate: Date | undefined;
     sellEndDate?: Date | undefined;
@@ -49,14 +47,13 @@ export class Product {
     code: number | undefined;
     modifiedDate: Date | undefined;
     quantityInStock: number = 5;
-    rating: Rating | undefined;
+    rating?: Rating | undefined;
     originalPrice: number | undefined;
     discountPercentage: number | undefined;
     availableUntil: Date | undefined;
     isNew: boolean | undefined;
     unitMeasure?: UnitMeasure | undefined;
     unitMeasure1?: UnitMeasure | undefined;
-    productSubcategory?: ProductSubcategory | null;
     productModel?: ProductModel | undefined;
     billOfMaterials?: BillOfMaterials[] | undefined;
     billOfMaterials1?: BillOfMaterials[] | undefined;

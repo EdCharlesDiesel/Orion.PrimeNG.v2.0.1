@@ -141,7 +141,7 @@
                                 [value]="'Status: ' + statusFilter"
                                 severity="info"
                                 [style]="{'margin-right': '0.5rem'}"
-                                (onClose)="statusFilter = 'All'; applyFilters()">
+                            >
                             </p-tag>
                         }
                         @if (dateRange && dateRange[0] && dateRange[1]) {
@@ -149,7 +149,7 @@
                                 [value]="'Date: ' + (dateRange[0] | date:'shortDate') + ' - ' + (dateRange[1] | date:'shortDate')"
                                 severity="info"
                                 [style]="{'margin-right': '0.5rem'}"
-                                (onClose)="clearDateRange()">
+                            >
                             </p-tag>
                         }
                         @if (searchText) {
@@ -157,7 +157,7 @@
                                 [value]="'Search: ' + searchText"
                                 severity="info"
                                 [style]="{'margin-right': '0.5rem'}"
-                                (onClose)="clearSearch()">
+                            >
                             </p-tag>
                         }
                     </div>

@@ -28,7 +28,7 @@
             <div class="font-semibold text-xl mb-4">All Images</div>
             <div class="grid grid-cols-2 gap-4">
                 <div *ngFor="let image of images$ | async" class="relative">
-                    <img [src]="'http://localhost:3000/api/images/' + image.id"
+                    <img ngSrc="'http://localhost:3000/api/images/' + image.id"
                          [alt]="image.filename"
                          class="w-full h-48 object-cover rounded">
                     <button

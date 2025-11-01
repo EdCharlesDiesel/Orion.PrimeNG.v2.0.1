@@ -10,7 +10,6 @@ import { CartState } from '../../../store/cart/cart.state';
 import { selectCartState } from '../../../store/cart/cart.selectors';
 import { Card } from 'primeng/card';
 import { SharedModule } from 'primeng/api';
-import { IconField } from 'primeng/iconfield';
 import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';

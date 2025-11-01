@@ -7,21 +7,13 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
+import { MessagesModule } from 'primeng/messages';
 
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        CardModule,
-        InputTextModule,
-        ButtonModule,
-        MessageModule,
-        DividerModule,
-        AvatarModule
-    ],
-    templateUrl:'./settings.component.html',
+    imports: [CommonModule, ReactiveFormsModule, CardModule, InputTextModule, ButtonModule, MessageModule, DividerModule, AvatarModule, MessagesModule],
+    templateUrl: './settings.component.html',
     styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
@@ -72,7 +64,6 @@ export class SettingsComponent implements OnInit {
 
         this.errors.set(['Email is already taken', 'Username must be unique']);
         this.isSubmitting.set(false);
-
     }
 
     logout(): void {

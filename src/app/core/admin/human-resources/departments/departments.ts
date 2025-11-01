@@ -10,7 +10,7 @@ import { InputText } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { Toolbar } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Department } from './department.model';
+import { Department } from '../../models/department.model';
 import { DepartmentsService } from '../../services/departments.service';
 import { tap } from 'rxjs';
 

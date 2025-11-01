@@ -12,6 +12,7 @@ import { EmployeePayHistoryService } from './employee-pay-history.service';
 import { EmployeePayHistory } from '../../../models/employee-pay-history.model';
 import { tap } from 'rxjs/operators';
 import { Employee } from '../../../models/employee.model';
+import { InputText } from 'primeng/inputtext';
 
 
 interface Column {
@@ -29,8 +30,8 @@ interface ExportColumn {
     standalone: true,
     templateUrl: './employee-pay-history.component.html',
     styleUrls: ['./employee-pay-history.component.scss'],
-    imports: [Button, ReactiveFormsModule, Dialog, TableModule, Toolbar, IconField, InputIcon, FormsModule, NgIf],
-    providers: [MessageService,ConfirmationService,EmployeePayHistoryService]
+    imports: [Button, ReactiveFormsModule, Dialog, TableModule, Toolbar, IconField, InputIcon, FormsModule, NgIf, InputText, InputText, InputText],
+    providers: [MessageService, ConfirmationService, EmployeePayHistoryService]
 })
 export class EmployeePayHistoryComponent implements OnInit {
     employeePayHistoryDialog: boolean = false;

@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
-import {  CommonModule,   SlicePipe } from '@angular/common';
+import {  CommonModule, NgOptimizedImage,   SlicePipe } from '@angular/common';
 
 import { Button } from 'primeng/button';
 import { ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
@@ -13,16 +13,19 @@ import { Toast } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../../../core/models/product';
 import { MegaMenu } from 'primeng/megamenu';
+import { tap } from 'rxjs/operators';
+import { ProductService } from '../../../../../service/product.service';
 
 @Component({
     selector: 'app-products',
     standalone: true,
     templateUrl: 'products.component.html',
     styleUrls: ['products.component.scss'],
-    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule, MegaMenu],
+    imports: [Card, SlicePipe, CommonModule, Button, PrimeTemplate, ConfirmDialog, Dialog, GalleriaModule, Rating, Tag, Toast, FormsModule, MegaMenu, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage],
     providers: [ConfirmationService, MessageService]
 })
 class ProductsComponent implements OnInit {
+    products = signal<Product[]>([]);
     megaMenuItems = [
         {
             label: 'Fashion',
@@ -142,11 +145,22 @@ class ProductsComponent implements OnInit {
 
     constructor(
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private productService: ProductService
     ) {}
 
     ngOnInit() {
-        this.loadTodaysSpecials();
+        this.loadProductData();
+    }
+
+    loadProductData() {
+        this.productService
+            .getProducts()
+            .pipe(tap((p) => console.log(JSON.stringify(p))))
+            .subscribe((data: any) => {
+                this.products.set(data);
+                console.log(JSON.stringify(data));
+            });
     }
 
     loadTodaysSpecials() {
@@ -160,7 +174,6 @@ class ProductsComponent implements OnInit {
                 originalPrice: 299.99,
                 discountPrice: 199.99,
                 discountPercentage: 33,
-                category: 'Electronics',
                 imageUrl: 'assets/images/headphones.jpg',
                 isFeatured: true,
                 tags: ['Limited Time', 'Best Seller', 'Audio'],
@@ -193,7 +206,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 120.0,
                 discountPrice: 79.99,
                 discountPercentage: 33,
-                category: 'Beauty',
+
                 imageUrl: 'assets/images/skincare.jpg',
                 isFeatured: false,
                 tags: ['Organic', 'Bestseller', 'Skincare'],
@@ -226,7 +239,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 249.99,
                 discountPrice: 179.99,
                 discountPercentage: 28,
-                category: 'Sports',
+
                 imageUrl: 'assets/images/smartwatch.jpg',
                 isFeatured: false,
                 tags: ['Smart', 'Fitness', 'Tech'],
@@ -260,7 +273,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 189.99,
                 discountPrice: 129.99,
                 discountPercentage: 32,
-                category: 'Fashion',
+
                 imageUrl: 'assets/images/handbag.jpg',
                 isFeatured: false,
                 tags: ['Designer', 'Leather', 'Fashion'],
@@ -293,7 +306,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 159.99,
                 discountPrice: 99.99,
                 discountPercentage: 38,
-                category: 'Electronics',
+
                 imageUrl: 'assets/images/speaker.jpg',
                 isFeatured: false,
                 tags: ['Smart Home', 'Audio', 'Voice Control'],
@@ -327,7 +340,7 @@ class ProductsComponent implements OnInit {
                 originalPrice: 299.99,
                 discountPrice: 199.99,
                 discountPercentage: 33,
-                category: 'Home & Kitchen',
+
                 imageUrl: 'assets/images/cookware.jpg',
                 isFeatured: false,
                 tags: ['Kitchen', 'Professional', 'Non-Stick'],
@@ -367,7 +380,10 @@ class ProductsComponent implements OnInit {
             return products;
         }
 
-        return products.filter((product) => product.category === category);
+        return products.filter((product) => product.productLine === category);
+        // return products.filter((product) => product.category === category);
+
+
     });
 
     getTimeRemaining(endDate: Date): { days: number; hours: number; minutes: number } {

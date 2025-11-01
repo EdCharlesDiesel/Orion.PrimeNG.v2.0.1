@@ -3,7 +3,6 @@ import {ProductSubcategory} from "./product-subcategory.model";
 export class ProductCategory  {
   productCategoryID!: number;
   name!: string;
-  rowguid!: string;
   modifiedDate!: Date;
   productSubcategories?: ProductSubcategory[] | undefined;
 }
@@ -11,7 +10,6 @@ export class ProductCategory  {
 export interface IProductCategory {
   productCategoryID: number;
   name: string;
-  rowguid: string;
   modifiedDate: Date;
   productSubcategories?: ProductSubcategory[] | undefined;
 }

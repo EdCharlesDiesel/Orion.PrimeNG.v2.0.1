@@ -14,6 +14,7 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { ChartModule } from 'primeng/chart';
 import { TabsModule } from 'primeng/tabs';
+import { Tooltip } from 'primeng/tooltip';
 
 interface Report {
     id: number;
@@ -33,21 +34,7 @@ interface ChartData {
 @Component({
     selector: 'app-reports',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        Card,
-        Button,
-        TableModule,
-        Tag,
-        Select,
-        DatePicker,
-        IconField,
-        InputIcon,
-        InputText,
-        ChartModule,
-        TabsModule
-    ],
+    imports: [CommonModule, FormsModule, Card, Button, TableModule, Tag, Select, DatePicker, IconField, InputIcon, InputText, ChartModule, TabsModule, Tooltip, Tooltip, Tooltip],
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.scss']
 })
@@ -145,21 +132,18 @@ export class ReportsComponent implements OnInit {
 
         // Filter by search
         if (this.searchValue()) {
-            filtered = filtered.filter(report =>
-                report.name.toLowerCase().includes(this.searchValue().toLowerCase()) ||
-                report.generatedBy.toLowerCase().includes(this.searchValue().toLowerCase())
-            );
+            filtered = filtered.filter((report) => report.name.toLowerCase().includes(this.searchValue().toLowerCase()) || report.generatedBy.toLowerCase().includes(this.searchValue().toLowerCase()));
         }
 
         // Filter by type
         if (this.selectedType()) {
-            filtered = filtered.filter(report => report.type === this.selectedType());
+            filtered = filtered.filter((report) => report.type === this.selectedType());
         }
 
         // Filter by date range
         if (this.selectedDateRange() && this.selectedDateRange()!.length === 2) {
             const [start, end] = this.selectedDateRange()!;
-            filtered = filtered.filter(report => {
+            filtered = filtered.filter((report) => {
                 const reportDate = new Date(report.generatedDate);
                 return reportDate >= start && reportDate <= end;
             });
@@ -250,7 +234,7 @@ export class ReportsComponent implements OnInit {
 
     deleteReport(report: Report): void {
         console.log('Deleting report:', report.name);
-        this.reports.update(reports => reports.filter(r => r.id !== report.id));
+        this.reports.update((reports) => reports.filter((r) => r.id !== report.id));
     }
 
     generateNewReport(): void {
@@ -270,10 +254,10 @@ export class ReportsComponent implements OnInit {
     }
 
     getReportCountByType(type: string): number {
-        return this.reports().filter(r => r.type === type).length;
+        return this.reports().filter((r) => r.type === type).length;
     }
 
     getCompletedReportsCount(): number {
-        return this.reports().filter(r => r.status === 'completed').length;
+        return this.reports().filter((r) => r.status === 'completed').length;
     }
 }

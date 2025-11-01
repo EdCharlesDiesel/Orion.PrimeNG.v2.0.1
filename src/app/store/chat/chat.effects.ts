@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { map, catchError, switchMap, tap, mergeMap } from 'rxjs/operators';
 import * as ChatActions from './chat.actions';
 import { ChatService } from '../../service/chat.service';

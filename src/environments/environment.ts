@@ -6,5 +6,5 @@ export const environment = {
   salesBaseURL: "http://localhost:9006/api/",
   baseURL: "http://localhost:8080/",
   purchasingBaseURL: "http://localhost:9003/api/Auth",
-  productionBaseURL: "http://localhost:9009/api/Products"
+  productionBaseURL: "http://localhost:9009/api/"
 };

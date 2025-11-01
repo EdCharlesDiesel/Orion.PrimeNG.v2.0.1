@@ -83,8 +83,8 @@ export class JwtService {
             }
 
             const payload = parts[1];
-            const decoded = JSON.parse(this.base64UrlDecode(payload));
-            return decoded;
+
+            return JSON.parse(this.base64UrlDecode(payload));
         } catch (error) {
             console.error('Error decoding JWT token:', error);
             return null;

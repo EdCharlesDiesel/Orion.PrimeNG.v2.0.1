@@ -15,7 +15,7 @@
 
 <p-table
     #dt
-    [value]="allProducts()"
+    [value]="productsSignal()"
     [rows]="10"
     [columns]="cols"
     [paginator]="true"
@@ -51,9 +51,9 @@
                 Product Number
                 <p-sortIcon field="productNumber" />
             </th>
-            <th pSortableColumn="Product Subcategory" style="min-width:16rem">
-                Product Subcategory
-                <p-sortIcon field="productSubcategory" />
+            <th pSortableColumn="product Line" style="min-width:16rem">
+                Product Line
+                <p-sortIcon field="productLine" />
             </th>
             <th pSortableColumn="modifiedDate" style="min-width:16rem">
                 Modified Date
@@ -62,45 +62,36 @@
             <th style="min-width: 12rem"></th>
         </tr>
     </ng-template>
-    <ng-template #body let-product: this.product[]>
-
-
-
-        @for (product of allProducts(); track product.productID; let i = $index) {
-        <tr>
-            <td style="width: 3rem">
-                <p-tableCheckbox [value]="product" />
-            </td>
-            <td style="min-width: 12rem">{{ product.productID }}</td>
-            <td style="min-width: 16rem">{{ product.name }}</td>
-            <td style="min-width: 16rem">{{ product.productNumber }}</td>
-            <td style="min-width: 16rem">{{ product.productSubcategory }}</td>
-            <td style="min-width: 16rem">{{ product.modifiedDate }}</td>
-            <td>
-                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editProduct(product)" />
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProduct(product)" />
-            </td>
-        </tr>
-        }
-
-<!--        @else {-->
+    <ng-template >
+<!--        @if (!productsSignal() == null) {-->
+            @for (product of productsSignal(); track product.productID; ) {
+                <tr>
+                    <td style="width: 3rem">
+                        <p-tableCheckbox [value]="product" />
+                    </td>
+                    <td style="min-width: 12rem">{{ product.productID }}</td>
+                    <td style="min-width: 16rem">{{ product.name }}</td>
+                    <td style="min-width: 16rem">{{ product.productNumber }}</td>
+                    <td style="min-width: 16rem">{{ product.productLine }}</td>
+                    <td style="min-width: 16rem">{{ product.modifiedDate }}</td>
+                    <td>
+                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                  (click)="deleteProduct(product)" />
+                    </td>
+                </tr>
+            }
+<!--        }  @else {-->
 <!--        <div class="empty-state">-->
 <!--            <p-card>-->
 <!--                <div class="empty-content">-->
 <!--                    <i class="pi pi-search text-6xl text-gray-400"></i>-->
-<!--                    <h3>No special offers found</h3>-->
-<!--                    <p>Try selecting a different category</p>-->
-<!--                    <p-button-->
-<!--                        label="Show All"-->
-<!--                        icon="pi pi-refresh"-->
-<!--                        (click)="selectCategory('All')"-->
-<!--                        styleClass="p-button-outlined">-->
-<!--                    </p-button>-->
+<!--                    <h3>No products available</h3>-->
+
 <!--                </div>-->
 <!--            </p-card>-->
 <!--        </div>-->
-
+<!--        }-->
     </ng-template>
 </p-table>
 
-<p-confirmdialog [style]="{ width: '450px' }" />
+<p-confirmdialog [style]="{ width: '450px' }"></p-confirmdialog>

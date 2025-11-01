@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { CartService } from '../../service/cart.service';
 import { Observable } from 'rxjs';
 import { PanelMenu } from 'primeng/panelmenu';
-import { TieredMenu } from 'primeng/tieredmenu';
 import { Divider } from 'primeng/divider';
 
 @Component({
@@ -28,6 +27,230 @@ import { Divider } from 'primeng/divider';
 export class AppMenu {
     model: MenuItem[] = [];
     panelMenuItems = [
+        {
+            label: 'Admin',
+            icon: 'pi pi-fw pi-briefcase',
+            items: [
+                {
+                    label: 'Human Resources',
+                    icon: 'pi pi-fw pi-user-plus',
+                    items: [
+                        {
+                            label: 'Departments',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/departments']
+                        },
+                        {
+                            label: 'Employee Department History',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/employee-department-history']
+                        },
+                        {
+                            label: 'Employee Pay History',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/employee-pay-history']
+                        },
+                        {
+                            label: 'Internal Employees',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/internal-employees']
+                        },
+                        {
+                            label: 'External Employees',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/external-employees']
+                        },
+                        {
+                            label: 'Job-Candidates',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/job-candidate']
+                        },
+                        {
+                            label: 'Shifts',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/human-resources/shifts']
+                        }
+                    ]
+                },
+                {
+                    label: 'Person',
+                    icon: 'pi pi-fw pi-user',
+                    items: [
+                        {
+                            label: 'Addresses',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/addresses']
+                        },
+                        {
+                            label: 'Address Type',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/address-type']
+                        },
+                        {
+                            label: 'Business-Entity-Address',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/business-entity-address']
+                        },
+                        {
+                            label: 'Business-Entity-Contact',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/business-entity-contact']
+                        },
+                        {
+                            label: 'Contact-Type',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/contact-type']
+                        },
+                        {
+                            label: 'Country-Region',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/country-region']
+                        },
+                        {
+                            label: 'Email Address',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/email-address']
+                        },
+                        {
+                            label: 'Person',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/person']
+                        },
+                        {
+                            label: 'Person-Phone',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/person-phone']
+                        },
+                        {
+                            label: 'Phone-Number-Type',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/phone-number-type']
+                        },
+                        {
+                            label: 'State Province',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/person/state-province']
+                        }
+                    ]
+                },
+                {
+                    label: 'Production',
+                    icon: 'pi pi-fw pi-warehouse',
+                    items: [
+                        {
+                            label: 'Country Region Currency',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/country-region-currency']
+                        },
+                        {
+                            label: 'Credit Card',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/credit-card']
+                        },
+                        {
+                            label: 'Currencies',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/currency']
+                        },
+                        {
+                            label: 'Products',
+                            icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                {
+                                    label: 'View',
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['./production/admin-product-list']
+                                },
+                                {
+                                    label: 'New',
+                                    icon: 'pi pi-fw pi-user-plus',
+                                    routerLink: ['./production/admin-product-new']
+                                }
+                            ]
+                        },
+                        {
+                            label: 'Categories',
+                            icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                {
+                                    label: 'View',
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['./production/admin-product-category-list']
+                                },
+                                {
+                                    label: 'New',
+                                    icon: 'pi pi-fw pi-user-plus',
+                                    routerLink: ['./production/admin-product-category-new']
+                                }
+                            ]
+                        },
+                        {
+                            label: 'Sub Categories',
+                            icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                {
+                                    label: 'View',
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['./production/admin-product-sub-category-list']
+                                },
+                                {
+                                    label: 'New',
+                                    icon: 'pi pi-fw pi-user-plus',
+                                    routerLink: ['./production/admin-product-sub-category-new']
+                                }
+                            ]
+                        },
+                    ]
+                },
+                {
+                    label: 'Purchasing',
+                    icon: 'pi pi-fw pi-sync',
+                    items: [
+                        {
+                            label: 'Country Region Currency',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/country-region-currency']
+                        },
+                        {
+                            label: 'Credit Card',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/credit-card']
+                        },
+                        {
+                            label: 'Currencies',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/currency']
+                        }
+                    ]
+                },
+                {
+                    label: 'Sales',
+                    icon: 'pi pi-fw pi-qrcode',
+                    items: [
+                        {
+                            label: 'Country Region Currency',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/country-region-currency']
+                        },
+                        {
+                            label: 'Credit Card',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/credit-card']
+                        },
+                        {
+                            label: 'Currencies',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/currency']
+                        },
+                        {
+                            label: 'Currency Rate',
+                            icon: 'pi pi-fw pi-bookmark',
+                            routerLink: ['/sales/currency-rate']
+                        }
+                    ]
+                }
+            ]
+        },
         {
             label: 'Products',
             icon: 'pi pi-fw pi-table',
@@ -64,15 +287,18 @@ export class AppMenu {
             items: [
                 {
                     label: 'Tracker',
-                    icon: 'pi pi-fw pi-compass'
+                    icon: 'pi pi-fw pi-compass',
+                    routerLink: ['./production/admin-shipping-tracking']
                 },
                 {
                     label: 'Map',
-                    icon: 'pi pi-fw pi-map-marker'
+                    icon: 'pi pi-fw pi-map-marker',
+                    routerLink: ['./production/admin-order-tracking-map']
                 },
                 {
                     label: 'Manage',
-                    icon: 'pi pi-fw pi-pencil'
+                    icon: 'pi pi-fw pi-pencil',
+
                 }
             ]
         },
@@ -135,188 +361,7 @@ export class AppMenu {
                     }
                 ]
             },
-            {
-                label: 'Admin',
-                icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/human-resources'],
-                items: [
-                    {
-                        label: 'Human Resources',
-                        icon: 'pi pi-fw pi-user-plus',
-                        items: [
-                            {
-                                label: 'Departments',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/departments']
-                            },
-                            {
-                                label: 'Employee Department History',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/employee-department-history']
-                            },
-                            {
-                                label: 'Employee Pay History',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/employee-pay-history']
-                            },
-                            {
-                                label: 'Internal Employees',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/internal-employees']
-                            },
-                            {
-                                label: 'External Employees',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/external-employees']
-                            },
-                            {
-                                label: 'Job-Candidates',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/job-candidate']
-                            },
-                            {
-                                label: 'Shifts',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/human-resources/shifts']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Person',
-                        icon: 'pi pi-fw pi-user',
-                        items: [
-                            {
-                                label: 'Addresses',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/addresses']
-                            },
-                            {
-                                label: 'Address Type',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/address-type']
-                            },
-                            {
-                                label: 'Business-Entity-Address',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/business-entity-address']
-                            },
-                            {
-                                label: 'Business-Entity-Contact',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/business-entity-contact']
-                            },
-                            {
-                                label: 'Contact-Type',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/contact-type']
-                            },
-                            {
-                                label: 'Country-Region',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/country-region']
-                            },
-                            {
-                                label: 'Email Address',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/email-address']
-                            },
-                            {
-                                label: 'Person',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/person']
-                            },
-                            {
-                                label: 'Person-Phone',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/person-phone']
-                            },
-                            {
-                                label: 'Phone-Number-Type',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/phone-number-type']
-                            },
-                            {
-                                label: 'State Province',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/person/state-province']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Production',
-                        icon: 'pi pi-fw pi-warehouse',
-                        items: [
-                            {
-                                label: 'Country Region Currency',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/country-region-currency']
-                            },
-                            {
-                                label: 'Credit Card',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/credit-card']
-                            },
-                            {
-                                label: 'Currencies',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/currency']
-                            },
-                            {
-                                label: 'Products',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['production/admin-product']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Purchasing',
-                        icon: 'pi pi-fw pi-sync',
-                        items: [
-                            {
-                                label: 'Country Region Currency',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/country-region-currency']
-                            },
-                            {
-                                label: 'Credit Card',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/credit-card']
-                            },
-                            {
-                                label: 'Currencies',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/currency']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Sales',
-                        icon: 'pi pi-fw pi-qrcode',
-                        items: [
-                            {
-                                label: 'Country Region Currency',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/country-region-currency']
-                            },
-                            {
-                                label: 'Credit Card',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/credit-card']
-                            },
-                            {
-                                label: 'Currencies',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/currency']
-                            },
-                            {
-                                label: 'Currency Rate',
-                                icon: 'pi pi-fw pi-bookmark',
-                                routerLink: ['/sales/currency-rate']
-                            }
-                        ]
-                    }
-                ]
-            },
+
             {
                 label: 'Apps',
                 items: [

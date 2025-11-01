@@ -1,0 +1,265 @@
+<p-card>
+<div class="surface-ground max-lg:-h-screen p-4">
+    <div class=" mx-auto">
+        <div class="surface-card shadow-2 border-round p-4 mb-4">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <div class="flex align-items-center gap-3">
+                    <i class="pi pi-box text-5xl text-primary"></i>
+                    <div>
+                        <h1 class="text-4xl font-bold text-900 m-0">Shipment Tracking</h1>
+                        <p class="text-600 m-0 mt-1">Track your packages in real-time</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="col-12 lg:col-9">
+                    <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                  <i class="pi pi-search"></i>
+                </span>
+                        <input
+                            type="text"
+                            pInputText
+                            [(ngModel)]="trackingNumber"
+                            placeholder="Enter tracking number (e.g., TRK-2025-001234)"
+                            (keyup.enter)="trackShipment()"
+                            class="w-full"
+                        />
+                    </div>
+                </div>
+                <div class="col-12 lg:col-3">
+                    <button
+                        pButton
+                        label="Track Shipment"
+                        icon="pi pi-search"
+                        (click)="trackShipment()"
+                        [loading]="loading"
+                        class="w-full"
+                    ></button>
+                </div>
+            </div>
+
+            <div *ngIf="!shipment && !error && !loading" class="text-center mt-4">
+                <p class="text-600">Sample tracking numbers:</p>
+                <div class="flex flex-wrap gap-2 justify-content-center mt-2">
+                    <p-tag
+                        value="TRK-2025-001234"
+                        [style]="{'cursor': 'pointer'}"
+                        (click)="trackingNumber = 'TRK-2025-001234'; trackShipment()"
+                    ></p-tag>
+                    <p-tag
+                        value="TRK-2025-005678"
+                        severity="success"
+                        [style]="{'cursor': 'pointer'}"
+                        (click)="trackingNumber = 'TRK-2025-005678'; trackShipment()"
+                    ></p-tag>
+                    <p-tag
+                        value="TRK-2025-009012"
+                        severity="warning"
+                        [style]="{'cursor': 'pointer'}"
+                        (click)="trackingNumber = 'TRK-2025-009012'; trackShipment()"
+                    ></p-tag>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="loading" class="surface-card shadow-2 border-round p-6 text-center">
+            <p-progressSpinner></p-progressSpinner>
+            <p class="text-600 mt-3">Retrieving shipment information...</p>
+        </div>
+
+        <div *ngIf="error" class="surface-card shadow-2 border-round p-4">
+            <p-message severity="error" [text]="error" styleClass="w-full"></p-message>
+        </div>
+
+        <div *ngIf="shipment && !loading" class="grid">
+            <div class="col-12 lg:col-8">
+                <p-card header="Tracking Timeline" styleClass="mb-4">
+                    <div class="mb-4">
+                        <p-tag
+                            [value]="getStatusLabel(shipment.status)"
+                            [severity]="getStatusSeverity(shipment.status)"
+                            styleClass="text-lg px-3 py-2"
+                        ></p-tag>
+                    </div>
+
+                    <p-timeline
+                        [value]="shipment.events"
+                        align="left"
+                        styleClass="custom-timeline"
+                    >
+                        <ng-template pTemplate="marker" let-event>
+                  <span
+                      class="flex w-3rem h-3rem align-items-center justify-content-center text-white border-circle z-1 shadow-1"
+                      [ngClass]="{
+                      'bg-green-500': event.completed && event.icon === 'pi-check-circle',
+                      'bg-blue-500': event.completed && event.icon !== 'pi-check-circle',
+                      'bg-orange-500': !event.completed && shipment.events.indexOf(event) === getCurrentEventIndex(),
+                      'bg-gray-300': !event.completed && shipment.events.indexOf(event) !== getCurrentEventIndex()
+                    }"
+                  >
+                    <i [class]="'pi ' + event.icon + ' text-xl'"></i>
+                  </span>
+                        </ng-template>
+                        <ng-template pTemplate="content" let-event>
+                            <div class="ml-3">
+                                <h4 class="mt-0 mb-2 text-900" [class.text-500]="!event.completed">
+                                    {{ event.status }}
+                                </h4>
+                                <p class="text-600 mb-1 text-sm">{{ event.location }}</p>
+                                <p class="text-500 mb-1 text-sm">{{ event.description }}</p>
+                                <p class="text-400 text-xs">
+                                    {{ event.timestamp | date:'MMM d, y, h:mm a' }}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </p-timeline>
+                </p-card>
+
+                <p-card header="Package Items">
+                    <p-table
+                        [value]="shipment.items"
+                        [tableStyle]="{'min-width': '100%'}"
+                        styleClass="p-datatable-sm"
+                    >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>SKU</th>
+                                <th>Item Description</th>
+                                <th class="text-right">Qty</th>
+                                <th class="text-right">Weight</th>
+                                <th class="text-right">Value</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td><span class="font-semibold">{{ item.sku }}</span></td>
+                                <td>{{ item.name }}</td>
+                                <td class="text-right">{{ item.quantity }}</td>
+                                <td class="text-right">{{ item.weight }} kg</td>
+                                <td class="text-right">${{ item.price.toFixed(2) }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td colspan="4" class="text-right font-bold">Total Value:</td>
+                                <td class="text-right font-bold">${{ getTotalValue() }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+<br>
+            <div class="col-12 lg:col-4">
+                <p-card header="Shipment Details" styleClass="mb-4">
+                    <div class="flex flex-column gap-3">
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Tracking Number</label>
+                            <div class="flex align-items-center gap-2">
+                                <span class="text-900 font-bold">{{ shipment.trackingNumber }}</span>
+                                <i class="pi pi-copy text-primary cursor-pointer"
+                                   (click)="copyToClipboard(shipment.trackingNumber)"
+                                   pTooltip="Copy to clipboard"
+                                ></i>
+                            </div>
+                        </div>
+
+                        <p-divider></p-divider>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Carrier</label>
+                            <span class="text-900">{{ shipment.carrier }}</span>
+                        </div>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Service Type</label>
+                            <span class="text-900">{{ shipment.service }}</span>
+                        </div>
+
+                        <p-divider></p-divider>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Origin</label>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-map-marker text-primary"></i>
+                                <span class="text-900">{{ shipment.origin }}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Destination</label>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-map-marker text-red-500"></i>
+                                <span class="text-900">{{ shipment.destination }}</span>
+                            </div>
+                        </div>
+
+                        <p-divider></p-divider>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Shipped Date</label>
+                            <span class="text-900">{{ shipment.shippedDate | date:'MMM d, y' }}</span>
+                        </div>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Estimated Delivery</label>
+                            <span class="text-900 font-bold text-primary">
+                    {{ shipment.estimatedDelivery | date:'MMM d, y' }}
+                  </span>
+                        </div>
+
+                        <div *ngIf="shipment.actualDelivery">
+                            <label class="text-600 text-sm font-semibold block mb-1">Delivered On</label>
+                            <span class="text-900 text-green-600 font-bold">
+                    {{ shipment.actualDelivery | date:'MMM d, y, h:mm a' }}
+                  </span>
+                        </div>
+
+                        <p-divider></p-divider>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Package Weight</label>
+                            <span class="text-900">{{ shipment.weight }} kg</span>
+                        </div>
+
+                        <div>
+                            <label class="text-600 text-sm font-semibold block mb-1">Dimensions</label>
+                            <span class="text-900">{{ shipment.dimensions }}</span>
+                        </div>
+
+                        <div *ngIf="shipment.signature">
+                            <label class="text-600 text-sm font-semibold block mb-1">Signed By</label>
+                            <span class="text-900">{{ shipment.signature }}</span>
+                        </div>
+                    </div>
+                </p-card>
+
+                <p-card>
+                    <div class="flex flex-column gap-2">
+                        <button
+                            pButton
+                            label="Download POD"
+                            icon="pi pi-download"
+                            class="p-button-outlined w-full"
+                            [disabled]="shipment.status !== 'delivered'"
+                        ></button>
+                        <button
+                            pButton
+                            label="Report Issue"
+                            icon="pi pi-exclamation-triangle"
+                            class="p-button-outlined p-button-danger w-full"
+                        ></button>
+                        <button
+                            pButton
+                            label="Share Tracking"
+                            icon="pi pi-share-alt"
+                            class="p-button-outlined w-full"
+                        ></button>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>
+</p-card>

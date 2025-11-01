@@ -9,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Calendar } from 'primeng/calendar';
 
 interface EconomicEvent {
     country: string;
@@ -34,7 +35,8 @@ interface EconomicEvent {
         CardModule,
         ProgressSpinnerModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        Calendar
     ],
     templateUrl: './trading-economics-calendar.component.html',
     styleUrls: ['./trading-economics-calendar.component.scss']
@@ -79,24 +81,21 @@ export class TradingEconomicsCalendarComponent implements OnInit {
         let filtered = [...this.events()];
 
         if (this.selectedCountry) {
-            filtered = filtered.filter(e => e.country === this.selectedCountry);
+            filtered = filtered.filter((e) => e.country === this.selectedCountry);
         }
 
         if (this.selectedImportance) {
-            filtered = filtered.filter(e => e.importance.toLowerCase() === this.selectedImportance?.toLowerCase());
+            filtered = filtered.filter((e) => e.importance.toLowerCase() === this.selectedImportance?.toLowerCase());
         }
 
         if (this.searchTerm.trim()) {
             const term = this.searchTerm.toLowerCase();
-            filtered = filtered.filter(e =>
-                e.event.toLowerCase().includes(term) ||
-                e.category.toLowerCase().includes(term)
-            );
+            filtered = filtered.filter((e) => e.event.toLowerCase().includes(term) || e.category.toLowerCase().includes(term));
         }
 
         if (this.dateRange.length === 2) {
             const [start, end] = this.dateRange;
-            filtered = filtered.filter(e => {
+            filtered = filtered.filter((e) => {
                 const d = new Date(e.date);
                 return d >= start && d <= end;
             });
